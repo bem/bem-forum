@@ -1,5 +1,6 @@
 block('header').content()(function() {
-    var block = this.block;
+    var block = this.block,
+        i18n = this.require('i18n');
 
     return [
         {
@@ -14,7 +15,7 @@ block('header').content()(function() {
                 block: 'button',
                 mix: { block: block, elem: 'button' },
                 mods: { theme: 'islands', size: 'm', type: 'link' },
-                text: 'Выйти',
+                text: i18n(this.block, 'exit'),
                 url: '/logout'
             },
             {
@@ -24,13 +25,13 @@ block('header').content()(function() {
                     { block: block, elem: 'button' }
                 ],
                 mods: { theme: 'islands', size: 'm', view: 'action' },
-                text: 'Написать пост'
+                text: i18n(this.block, 'writePost')
             }
         ] : {
             block: 'button',
             mix: { block: block, elem: 'button' },
             mods: { theme: 'islands', size: 'm', view: 'action', type: 'link' },
-            text: 'Войти с помощью github',
+            text: i18n(this.block, 'loginWithGh'),
             url: '/auth/github'
         }
     ];
