@@ -2,7 +2,8 @@ var techs = {
         fileProvider: require('enb/techs/file-provider'),
         fileMerge: require('enb/techs/file-merge'),
         borschik: require('enb-borschik/techs/borschik'),
-        stylus: require('enb-stylus/techs/stylus'),
+        css: require('enb-css/techs/css'),
+        postcss: require('enb-bundle-postcss/techs/enb-bundle-postcss'),
         browserJs: require('enb-js/techs/browser-js'),
         bemtree: require('enb-bemxjst/techs/bemtree'),
         bemhtml: require('enb-bemxjst/techs/bemhtml')
@@ -32,12 +33,15 @@ module.exports = function(config) {
             [enbBemTechs.files],
 
             // css
-            [techs.stylus, {
-                target: '?.css',
-                sourcemap: false,
-                autoprefixer: {
-                    browsers: ['ie >= 10', 'last 2 versions', 'opera 12.1', '> 2%']
-                }
+            [techs.css, {
+                target: '?.pre.css',
+                // TODO: move to postcss
+                autoprefixer: { browsers: ['ie >= 10', 'last 2 versions', 'opera 12.1', '> 2%'] }
+            }],
+
+            [techs.postcss, {
+                source: '?.pre.css',
+                plugins: [require('rebem-css'), require('postcss-nested')]
             }],
 
             // bemtree

@@ -1,34 +1,29 @@
-.comment
-{
+:block(comment) {
     margin-top: 20px;
     margin-left: 65px;
     padding: 0 10px 5px;
-}
 
-.comment__date
-{
-    font-size: 12px;
+    &:elem(date) {
+        font-size: 12px;
 
-    display: inline-block;
+        display: inline-block;
 
-    padding: 22px 10px 10px;
+        padding: 22px 10px 10px;
 
-    color: #999;
-}
+        color: #999;
+    }
 
-.comment__content
-{
-    margin-left: 65px;
+    &:elem(content) {
+        margin-left: 65px;
 
-    border-bottom: 1px solid #e1e1e1;
-}
+        border-bottom: 1px solid #e1e1e1;
+    }
 
-.comment:last-child
-{
-    background-color: #fff;
-}
+    &:last-child {
+        background-color: #fff;
+    }
 
-.comment:last-child .comment__content
-{
-    border: 0;
+    &:last-child &:elem(content) {
+        border: 0;
+    }
 }
