@@ -6,11 +6,10 @@ var got = require('got'),
     marked = require('marked'),
 
     Render = require('../render'),
-    render = Render.render,
-    dropCache = Render.dropCache;
+    render = Render.render;
 
 
-function onError(err) {
+function onError(req, res, err) {
     logger.error(err);
     res.status(500);
     render(req, res, { data: '500' });
@@ -31,7 +30,9 @@ function getIssues(req, res) {
         res.send(render(req, res, {
             issues: issues
         }));
-    });
+    }).catch(function(err) {
+        onError(req, res, err);
+    })
 }
 
 function getIssue(req, res) {
@@ -57,7 +58,9 @@ function getIssue(req, res) {
                 issues: issues,
                 comments: comments
             }));
-    }).catch(onError);
+    }).catch(function(err) {
+        onError(req, res, err);
+    });
 }
 
 function getComments(req, res) {
@@ -106,8 +109,7 @@ function makeIssueRequest(issuesRequestUrl) {
                     issue.html = marked(issue.body);
                     return issue;
                 });
-        })
-        .catch(onError);
+        });
 }
 
 module.exports = {

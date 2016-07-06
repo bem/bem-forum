@@ -1,6 +1,7 @@
 var express = require('express'),
     router = express.Router(),
 
+    render = require('./render').render,
     controllers = require('./controllers');
 
 router

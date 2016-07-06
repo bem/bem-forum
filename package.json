@@ -37,6 +37,9 @@
     "enb-borschik": "^2.4.0",
     "enb-js": "^1.1.0",
     "enb-stylus": "^2.3.2",
+    "eslint": "^3.0.1",
+    "eslint-config-pedant": "^0.6.0",
+    "eslint-plugin-bem-xjst": "^1.0.2",
     "nodemon": "^1.9.2",
     "watch-run": "^1.2.4",
     "ym": "^0.1.2"
@@ -44,6 +47,8 @@
   "scripts": {
     "start": "node server",
     "postinstall": "npm run deps",
+    "test": "npm run lint",
+    "lint": "eslint .",
     "deps": "bower i",
     "make": "enb make",
     "watch": "watch-run -p '*.blocks/**' enb make"

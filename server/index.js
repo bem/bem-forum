@@ -13,7 +13,7 @@ var fs = require('fs'),
     slashes = require('connect-slashes'),
 
     passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,
+    // LocalStrategy = require('passport-local').Strategy,
 
     config = require('./config'),
     staticFolder = config.staticFolder,

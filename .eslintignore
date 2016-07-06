@@ -1,0 +1,5 @@
+node_modules
+libs
+*bundles/**
+static
+**/*.deps.js

@@ -1,5 +1,5 @@
 modules.define('issue', ['i-bem__dom', 'jquery', 'button'],
-    function(provide, BEMDOM, $, Button) {
+    function(provide, BEMDOM, $) {
 
 provide(BEMDOM.decl(this.name, {
     onSetMod: {

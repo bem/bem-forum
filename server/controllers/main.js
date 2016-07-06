@@ -1,6 +1,5 @@
 var Render = require('../render'),
-    render = Render.render,
-    dropCache = Render.dropCache;
+    render = Render.render;
 
 function main(req, res) {
     render(req, res, {
