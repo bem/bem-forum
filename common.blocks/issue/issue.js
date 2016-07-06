@@ -5,7 +5,7 @@ provide(BEMDOM.decl(this.name, {
     onSetMod: {
         js: {
             inited: function() {
-                var commentsButton = this.findBlockInside('comment-button', 'button');
+                var commentsButton = this.findBlockInside('comments-button', 'button');
 
                 commentsButton && commentsButton.bindTo('click', function(e) {
                     e.preventDefault();
