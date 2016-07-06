@@ -8,6 +8,7 @@ block('user').content()(function() {
         },
         {
             elem: 'login',
+            mix: { block: 'page', elem: 'link' },
             content: user.login
         }
     ];

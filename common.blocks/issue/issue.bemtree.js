@@ -4,6 +4,7 @@ block('issue').content()(function() {
     return [
         {
             block: 'user',
+            mix: { block: 'page', elem: 'link' },
             user: issue.user
         },
         {
@@ -14,6 +15,7 @@ block('issue').content()(function() {
             elem: 'title',
             content: {
                 block: 'link',
+                mix: { block: 'page', elem: 'link' },
                 url: '/' + issue.number + '/',
                 content: issue.title
             }
@@ -23,8 +25,10 @@ block('issue').content()(function() {
             content: issue.labels.map(function(label) {
                 return {
                     elem: 'label',
+                    attrs: { style: 'border: 1px solid #' + label.color },
                     content: {
                         block: 'link',
+                        mix: { block: 'page', elem: 'link' },
                         url: '/?labels=' + label.name,
                         attrs: { style: 'color: #' + label.color },
                         content: label.name

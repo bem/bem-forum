@@ -14,11 +14,12 @@ block('header').content()(function() {
             },
             {
                 block: 'button',
-                mods: { theme: 'islands', size: 'm', },
+                mods: { theme: 'islands', size: 'm' },
                 text: 'Выйти'
             }
         ] : {
             block: 'button',
+            mix: { block: 'header', elem: 'button' },
             mods: { theme: 'islands', size: 'm', view: 'action' },
             text: 'Войти с помощью github'
         }

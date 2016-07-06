@@ -7,7 +7,7 @@ provide(BEMDOM.decl(this.name, {
             inited: function() {
                 var commentsButton = this.findBlockInside('comment-button', 'button');
 
-                commentsButton.bindTo('click', function(e) {
+                commentsButton && commentsButton.bindTo('click', function(e) {
                     e.preventDefault();
 
                     $.get('/api/' + commentsButton.params.number + '/comments')
