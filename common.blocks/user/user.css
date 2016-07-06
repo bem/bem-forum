@@ -1,0 +1,7 @@
+.user__avatar {
+    max-width: 50px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    float: left;
+    margin-right: 12px;
+}
