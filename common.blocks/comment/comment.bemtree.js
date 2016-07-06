@@ -4,12 +4,16 @@ block('comment').content()(function() {
     return [
         {
             block: 'user',
+            mix: { block: 'page', elem: 'link' },
             user: comment.user
         },
         {
             elem: 'date',
             content: comment.created_from_now
         },
-        comment.html
+        {
+            elem: 'content',
+            content: comment.html
+        }
     ];
 });

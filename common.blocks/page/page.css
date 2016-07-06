@@ -1,4 +1,13 @@
-.page {
+.page
+{
     font-family: Arial, sans-serif;
+
     margin: 0;
+}
+
+.page__link
+{
+    text-decoration: none;
+
+    color: #000;
 }

@@ -1,0 +1,15 @@
+.header
+{
+    min-height: 40px;
+    padding: 5px 15px;
+
+    border-bottom: 1px solid #e1e1e1;
+    background-color: #fff;
+}
+
+.header__button.header__button
+{
+    float: right;
+
+    margin: 7px 0 0;
+}
