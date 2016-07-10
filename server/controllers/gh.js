@@ -27,7 +27,11 @@ function getIssues(req, res) {
     logger.log('getIssues');
 
     makeIssueRequest(issuesRequestUrl).then(function(issues) {
+        const passport = req.session.passport;
+        const user = passport && passport.user && JSON.parse(passport.user);
+
         res.send(render(req, res, {
+            user: user,
             issues: issues
         }));
     }).catch(function(err) {
@@ -52,12 +56,14 @@ function getIssue(req, res) {
         makeCommentsRequest(issuesRequestUrl)
     ]).then(function(responses) {
         var issues = responses[0],
-            comments = responses[1];
+            comments = responses[1],
+            user = req.session.passport && req.session.passport.user &&  JSON.parse(req.session.passport.user);
 
-            res.send(render(req, res, {
-                issues: issues,
-                comments: comments
-            }));
+        res.send(render(req, res, {
+            user: user,
+            issues: issues,
+            comments: comments
+        }));
     }).catch(function(err) {
         onError(req, res, err);
     });

@@ -8,13 +8,10 @@ var fs = require('fs'),
     favicon = require('serve-favicon'),
     morgan = require('morgan'),
     serveStatic = require('serve-static'),
-    cookieParser = require('cookie-parser'),
-    expressSession = require('express-session'),
+    cookieSession = require('cookie-session'),
     slashes = require('connect-slashes'),
 
     passport = require('passport'),
-    // LocalStrategy = require('passport-local').Strategy,
-
     config = require('./config'),
     staticFolder = config.staticFolder,
 
@@ -28,25 +25,13 @@ app
     .use(favicon(path.join(staticFolder, 'favicon.ico')))
     .use(serveStatic(staticFolder))
     .use(morgan('combined'))
-    .use(cookieParser())
-    .use(bodyParser.urlencoded({ extended: true }))
-    .use(expressSession({
-        resave: true,
-        saveUninitialized: true,
-        secret: config.sessionSecret
-    }))
+    .use(bodyParser.json())
+    .use(bodyParser.urlencoded({ extended: false }))
+    .use(cookieSession({ keys: [config.sessionSecret] }))
     .use(passport.initialize())
     .use(passport.session())
     .use(slashes());
-    // TODO: csrf, gzip
-
-passport.serializeUser(function(user, done) {
-    done(null, JSON.stringify(user));
-});
-
-passport.deserializeUser(function(user, done) {
-    done(null, JSON.parse(user));
-});
+// TODO: csrf, gzip
 
 app.use(router);
 
