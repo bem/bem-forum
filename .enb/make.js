@@ -4,6 +4,8 @@ var techs = {
         borschik: require('enb-borschik/techs/borschik'),
         css: require('enb-css/techs/css'),
         postcss: require('enb-bundle-postcss/techs/enb-bundle-postcss'),
+        i18NTech: require('enb-bem-i18n/techs/i18n'),
+        keysetsTech: require('enb-bem-i18n/techs/keysets'),
         browserJs: require('enb-js/techs/browser-js'),
         bemtree: require('enb-bemxjst/techs/bemtree'),
         bemhtml: require('enb-bemxjst/techs/bemhtml')
@@ -24,6 +26,8 @@ var isProd = process.env.YENV === 'production';
 isProd || levels.push('development.blocks');
 
 module.exports = function(config) {
+    config.setLanguages(['en', 'ru']);
+
     config.nodes('*.bundles/*', function(nodeConfig) {
         nodeConfig.addTechs([
             // essential
@@ -44,8 +48,27 @@ module.exports = function(config) {
                 plugins: [require('rebem-css'), require('postcss-nested')]
             }],
 
+
+            // Build keyset files for each lang
+            [techs.keysetsTech, { lang: '{lang}' }],
+
+            // Build i18n files for each lang
+            [techs.i18NTech, {
+                lang: '{lang}',
+                exports: { globals: 'force' }
+            }],
+
             // bemtree
-            [techs.bemtree, { sourceSuffixes: ['bemtree', 'bemtree.js'] }],
+            [techs.bemtree, {
+                sourceSuffixes: ['bemtree', 'bemtree.js'],
+                requires: { i18n: { globals: 'BEM.I18N' } }
+            }],
+
+            [techs.fileMerge, {
+                sources: ['?.lang.{lang}.js', '?.bemtree.js'],
+                target: '?.{lang}.bemtree.js',
+                lang: '{lang}'
+            }],
 
             // templates
             [techs.bemhtml, { sourceSuffixes: ['bemhtml', 'bemhtml.js'] }],
@@ -83,6 +106,6 @@ module.exports = function(config) {
             [techs.borschik, { source: '?.css', target: '?.min.css', minify: isProd }]
         ]);
 
-        nodeConfig.addTargets(['?.bemtree.js', '?.bemhtml.js', '?.min.css', '?.min.js']);
+        nodeConfig.addTargets(['?.{lang}.bemtree.js', '?.bemhtml.js', '?.min.css', '?.min.js']);
     });
 };
