@@ -6,8 +6,8 @@ var got = require('got'),
     marked = require('marked'),
 
     Render = require('../render'),
-    render = Render.render;
-
+    render = Render.render,
+    issuesRequestUrl = [config.ghAPI, 'repos', config.org, config.repo, 'issues'].join('/');
 
 function onError(req, res, err) {
     logger.error(err);
@@ -16,80 +16,54 @@ function onError(req, res, err) {
 }
 
 function getIssues(req, res) {
-    var issuesRequestUrl = [
-        config.ghAPI,
-        'repos',
-        config.org,
-        config.repo,
-        'issues'
-    ].join('/');
-
     logger.log('getIssues');
 
     makeIssueRequest(issuesRequestUrl).then(function(issues) {
-        const passport = req.session.passport;
-        const user = passport && passport.user && JSON.parse(passport.user);
-
-        res.send(render(req, res, {
-            user: user,
+        render(req, res, {
             issues: issues
-        }));
+        });
     }).catch(function(err) {
         onError(req, res, err);
     })
 }
 
 function getIssue(req, res) {
-    var issuesRequestUrl = [
-        config.ghAPI,
-        'repos',
-        config.org,
-        config.repo,
-        'issues',
-        req.params.id
-    ].join('/');
+    var issueRequestUrl = issuesRequestUrl + '/' + req.params.id;
 
     logger.log('getIssue', req.params.id);
 
     Promise.all([
-        makeIssueRequest(issuesRequestUrl),
-        makeCommentsRequest(issuesRequestUrl)
+        makeIssueRequest(issueRequestUrl),
+        makeCommentsRequest(issueRequestUrl)
     ]).then(function(responses) {
         var issues = responses[0],
-            comments = responses[1],
-            user = req.session.passport && req.session.passport.user &&  JSON.parse(req.session.passport.user);
+            comments = responses[1];
 
-        res.send(render(req, res, {
-            user: user,
+        render(req, res, {
             issues: issues,
             comments: comments
-        }));
+        });
     }).catch(function(err) {
         onError(req, res, err);
     });
 }
 
 function getComments(req, res) {
-    var issuesRequestUrl = [
-        config.ghAPI,
-        'repos',
-        config.org,
-        config.repo,
-        'issues',
-        req.params.id
-    ].join('/');
+    var issueRequestUrl = issuesRequestUrl + '/' + req.params.id;
 
-    makeCommentsRequest(issuesRequestUrl).then(function(comments) {
-        res.send(render(req, res, {
+    makeCommentsRequest(issueRequestUrl).then(function(comments) {
+        render(req, res, {
             comments: comments
         }, {
             block: 'comments'
-        }))
+        });
+    }).catch(function(err) {
+        onError(req, res, err);
     });
 }
 
-function makeCommentsRequest(issuesRequestUrl) {
-    return got(issuesRequestUrl + '/comments')
+function makeCommentsRequest(issueRequestUrl) {
+    return got(issueRequestUrl + '/comments')
         .then(function(commentsResponse) {
             return JSON.parse(commentsResponse.body)
                 .map(function(comment) {
@@ -100,11 +74,10 @@ function makeCommentsRequest(issuesRequestUrl) {
         });
 }
 
-function makeIssueRequest(issuesRequestUrl) {
+function makeIssueRequest(issueRequestUrl) {
+    logger.log('API request to', issueRequestUrl);
 
-    logger.log('API request to', issuesRequestUrl);
-
-    return got(issuesRequestUrl)
+    return got(issueRequestUrl)
         .then(function(data) {
             return [].concat(JSON.parse(data.body))
                 .filter(function(issue) {

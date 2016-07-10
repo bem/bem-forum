@@ -4,7 +4,7 @@ node_modules/
 .project
 .svn
 npm-debug.log
-config.json
+server/secret-config.js
 
 # bem
 .enb/tmp/

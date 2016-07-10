@@ -12,7 +12,8 @@ var path = require('path'),
 
 function render(req, res, data, context) {
     var query = req.query,
-        user = req.user,
+        passport = req.session.passport,
+        user = passport && passport.user && JSON.parse(passport.user),
         cacheKey = req.url + (context ? JSON.stringify(context) : '') + (user ? JSON.stringify(user) : ''),
         cached = cache[cacheKey];
 
@@ -27,6 +28,7 @@ function render(req, res, data, context) {
         context: context,
         // extend with data needed for all routes
         data: Object.assign({}, {
+            user: user,
             url: req._parsedUrl
         }, data)
     };
