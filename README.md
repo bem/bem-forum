@@ -18,10 +18,13 @@ module.exports = {
     }
 };
 ```
-Then just run `npm start` for production mode.
+
+You may get them on https://github.com/settings/applications/new
 
 **Note**: `server/secret-config.js` is not under version control.
 You may prefer ENV variables `BEM_FORUM_CLIENT_ID` and `BEM_FORUM_CLIENT_SECRET` instead.
+
+Then just run `npm start` for production mode.
 
 ## Configuration
 Edit `server/config.js` to provide your github repo info.
