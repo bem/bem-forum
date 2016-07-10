@@ -6,6 +6,8 @@ node_modules/
 npm-debug.log
 server/secret-config.js
 
+static/index.min.*
+
 # bem
 .enb/tmp/
 libs/

@@ -1,6 +1,7 @@
 var techs = {
         fileProvider: require('enb/techs/file-provider'),
         fileMerge: require('enb/techs/file-merge'),
+        fileCopy: require('enb/techs/file-copy'),
         borschik: require('enb-borschik/techs/borschik'),
         css: require('enb-css/techs/css'),
         postcss: require('enb-bundle-postcss/techs/enb-bundle-postcss'),
@@ -103,9 +104,12 @@ module.exports = function(config) {
 
             // borschik
             [techs.borschik, { source: '?.js', target: '?.min.js', minify: isProd }],
-            [techs.borschik, { source: '?.css', target: '?.min.css', minify: isProd }]
+            [techs.borschik, { source: '?.css', target: '?.min.css', minify: isProd }],
+
+            [techs.fileCopy, { source: '?.min.js', target: '../../static/?.min.js' }],
+            [techs.fileCopy, { source: '?.min.css', target: '../../static/?.min.css' }]
         ]);
 
-        nodeConfig.addTargets(['?.{lang}.bemtree.js', '?.bemhtml.js', '?.min.css', '?.min.js']);
+        nodeConfig.addTargets(['?.{lang}.bemtree.js', '?.bemhtml.js', '../../static/?.min.js', '../../static/?.min.css']);
     });
 };
