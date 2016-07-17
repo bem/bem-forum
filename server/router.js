@@ -29,10 +29,7 @@ router
         return render(req, res, { view: '401' });
     })
 
-    .get('*', function(req, res) {
-        res.status(404);
-        return render(req, res, { view: '404' });
-    });
+    .get('*', controllers.gh.get404 );
 
 function keepRetpath(req, res, next) {
     req.session.retpath = req.path;

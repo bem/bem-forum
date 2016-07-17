@@ -12,7 +12,7 @@ var got = require('got'),
 function onError(req, res, err) {
     logger.error(err);
     res.status(500);
-    render(req, res, { data: '500' });
+    render(req, res, { view: '500' });
 }
 
 function getIssues(req, res) {
@@ -62,6 +62,20 @@ function getComments(req, res) {
     });
 }
 
+function get404 (req, res) {
+    makeIssueRequest(issuesRequestUrl).then(function(issues) {
+        var latestIssues = issues.slice(0, 10);
+
+        res.status(404);
+        render(req, res, {
+            issues: latestIssues,
+            view: '404'
+        });
+    }).catch(function(err) {
+        onError(req, res, err);
+    });
+}
+
 function makeCommentsRequest(issueRequestUrl) {
     return got(issueRequestUrl + '/comments')
         .then(function(commentsResponse) {
@@ -94,5 +108,6 @@ function makeIssueRequest(issueRequestUrl) {
 module.exports = {
     getIssues,
     getIssue,
-    getComments
+    getComments,
+    get404
 };

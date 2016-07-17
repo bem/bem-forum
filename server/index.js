@@ -10,6 +10,7 @@ var fs = require('fs'),
     serveStatic = require('serve-static'),
     cookieSession = require('cookie-session'),
     slashes = require('connect-slashes'),
+    render = require('./render').render,
 
     passport = require('passport'),
     config = require('./config'),
@@ -42,6 +43,15 @@ if (isDev) {
 
     app.use(require('errorhandler')());
 }
+
+app.use(errorHandler);
+
+/*eslint-disable no-unused-vars */
+function errorHandler(err, req, res, next) {
+    res.status(500);
+    render(req, res, { view: '500' });
+}
+/*eslint-enable no-alert */
 
 isSocket && fs.existsSync(port) && fs.unlinkSync(port);
 

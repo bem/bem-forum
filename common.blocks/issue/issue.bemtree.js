@@ -40,7 +40,7 @@ block('issue').content()(function() {
             elem: 'content',
             content: issue.html
         },
-        this.data.url.pathname === '/' ? {
+        this.data.url.pathname === '/' || this.data.view === '404' ? {
             block: 'button',
             mods: { theme: 'islands', size: 'm', type: 'link', view: 'pseudo' },
             mix: { block: 'issue', elem: 'comments-button' },
@@ -48,7 +48,7 @@ block('issue').content()(function() {
             url: '/' + issue.number + '/',
             text: issue.comments ? 'Ответов: ' + issue.comments : 'Ответить'
         } : {
-            block: 'comments'
+           block: 'comments'
         }
     ];
 });
