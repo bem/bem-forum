@@ -1,0 +1,11 @@
+.content {
+  display: flex;
+
+  &__left {
+    width: 80%;
+  }
+
+  &__right {
+    width: 20%;
+  }
+}
