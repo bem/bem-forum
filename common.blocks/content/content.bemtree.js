@@ -7,9 +7,9 @@ block('content').content()(function() {
   {
     block: 'content',
     elem: 'right',
-    content: {
+    content: [{
       block: 'sorting',
-      content: 'Sorting'
-    }
+      js: true
+    }]
   }]
 });
