@@ -1,22 +1,26 @@
 block('sorting').content()(function() {
+    var block = this.block,
+        i18n = this.require('i18n');
+
     return [
-    {
-      elem: 'title',
-      content: 'Sort'
-    },
-    {
-      block : 'select',
-      mix: { block: 'sorting', elem: 'select'},
-      mods : { mode : 'radio', theme : 'islands', size : 'm', width: 'available' },
-      name : 'select1',
-      val : 0,
-      options : [
-          { val : 0, text : 'Newest' },
-          { val : 1, text : 'Oldest' },
-          { val : 2, text : 'Most commented' },
-          { val : 3, text : 'Least commented' },
-          { val : 4, text:  'Recently updated' },
-          { val : 5, text:  'Least recently updated' }
-      ]
-    }]
-  })
+        {
+            elem: 'title',
+            content: i18n(block, 'sort')
+        },
+        {
+            block : 'select',
+            mix: { block: 'sorting', elem: 'select'},
+            mods : { mode : 'radio', theme : 'islands', size : 'l', width: 'available' },
+            name : 'sorting',
+            val : 0,
+            options : [
+                { val: 'sort=created&direction=desc', text: i18n(block, 'newest') },
+                { val: 'sort=created&direction=asc', text: i18n(block, 'oldest') },
+                { val: 'sort=comments&direction=desc', text: i18n(block, 'mostCommented') },
+                { val: 'sort=comments&direction=asc', text: i18n(block, 'leastCommented') },
+                { val: 'sort=updated&direction=desc', text:  i18n(block, 'recentlyUpdated') },
+                { val: 'sort=updated&direction=asc', text:  i18n(block, 'leastRecentlyUpdated') }
+            ]
+        }
+    ];
+});

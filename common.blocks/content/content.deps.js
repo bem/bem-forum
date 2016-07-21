@@ -1,10 +1,10 @@
 ({
-  shouldDeps: ['issues', 'sorting', {
-    block: 'spin',
-    mods: {
-      theme: 'islands',
-      size: 'lg',
-      visible: false
-    }
-  }]
+    shouldDeps: ['issues', 'sorting', {
+        block: 'spin',
+        mods: {
+            theme: 'islands',
+            size: 'xl',
+            visible: false
+        }
+    }]
 })

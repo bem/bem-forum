@@ -1,1 +1,1 @@
-block('sorting').elem('title').tag()('h3')
+block('sorting').elem('title').tag()('h3');
