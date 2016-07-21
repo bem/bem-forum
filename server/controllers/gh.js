@@ -18,10 +18,12 @@ function onError(req, res, err) {
 function getIssues(req, res) {
     logger.log('getIssues');
 
-    makeIssueRequest(issuesRequestUrl).then(function(issues) {
+    makeIssueRequest(issuesRequestUrl, {
+      query: req.query || {}
+    }).then(function(issues) {
         render(req, res, {
             issues: issues
-        });
+        }, req.xhr ? { block: 'issues' } : '');
     }).catch(function(err) {
         onError(req, res, err);
     })
@@ -74,10 +76,11 @@ function makeCommentsRequest(issueRequestUrl) {
         });
 }
 
-function makeIssueRequest(issueRequestUrl) {
+function makeIssueRequest(issueRequestUrl, options) {
     logger.log('API request to', issueRequestUrl);
 
-    return got(issueRequestUrl)
+    console.log(options);
+    return got(issueRequestUrl, options)
         .then(function(data) {
             return [].concat(JSON.parse(data.body))
                 .filter(function(issue) {

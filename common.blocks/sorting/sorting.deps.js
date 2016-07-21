@@ -1,7 +1,7 @@
 ({
   shouldDeps: [{
     block: 'select',
-    mods : { mode : 'radio', theme : 'islands', size : 'm' }
+    mods : { mode : 'radio', theme : 'islands', size : 'lg' }
   }]
 })
 
