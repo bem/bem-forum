@@ -12,7 +12,7 @@ var got = require('got'),
 function onError(req, res, err) {
     logger.error(err);
     res.status(500);
-    render(req, res, { data: '500' });
+    render(req, res, { view: '500' });
 }
 
 function getIssues(req, res) {
@@ -27,11 +27,14 @@ function getIssues(req, res) {
     })
 }
 
-function getIssue(req, res) {
-    _getIssueBody(req, res);
-}
-
-function _getIssueBody (req, res, context) {
+/**
+ * @param {Object} req - express argument
+ * @param {Object} res - express argument
+ * @param {Object} context - object with BEM-context for render part of page
+ *  this parameter used only in XHR. Argument "next()" from express middleware
+ *  should be sent to blackhole
+ */
+function getIssue(req, res, context) {
     var issueRequestUrl = issuesRequestUrl + '/' + req.params.id;
     logger.log('getIssue', req.params.id);
 
@@ -45,7 +48,7 @@ function _getIssueBody (req, res, context) {
         render(req, res, {
             issues: issues,
             comments: comments
-        }, context);
+        }, req.xhr && context);
     }).catch(function(err) {
         onError(req, res, err);
     });
@@ -64,7 +67,7 @@ function setIssueState(req, res) {
             logger.log('Issue state has been changed to ' + newState);
             
             //Return HTML of page part
-            _getIssueBody(req, res, {block: 'issues'});
+            getIssue(req, res, {block: 'issues'});
         })
         .catch(function(err) {
             logger.error(err);
@@ -80,6 +83,20 @@ function getComments(req, res) {
             comments: comments
         }, {
             block: 'comments'
+        });
+    }).catch(function(err) {
+        onError(req, res, err);
+    });
+}
+
+function get404 (req, res) {
+    makeIssueRequest(issuesRequestUrl).then(function(issues) {
+        var latestIssues = issues.slice(0, 10);
+
+        res.status(404);
+        render(req, res, {
+            issues: latestIssues,
+            view: '404'
         });
     }).catch(function(err) {
         onError(req, res, err);
@@ -163,5 +180,6 @@ module.exports = {
     getIssues,
     getIssue,
     getComments,
-    setIssueState
+    setIssueState,
+    get404
 };

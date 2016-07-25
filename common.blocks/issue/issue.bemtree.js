@@ -3,9 +3,10 @@ block('issue').content()(function() {
         i18n = this.require('i18n'),
         data = this.data,
         //Check if user is logged and author of current task
-        isIssueAuthor = (typeof data.user !== 'undefined' && data.user.id === issue['user']['id']),
+        isIssueAuthor = data.user && data.user.id === issue.user.id,
         //Check if current page is page of one issue
-        isIssuePage = data.url.pathname !== '/',
+        //We realy need best idea to check "one issue page"
+        isIssuePage = data.url.pathname !== '/' && this.data.view !== '404',
         //Check if current issue is open
         isIssueOpen = issue['state'] === 'open';
 
@@ -68,7 +69,10 @@ block('issue').content()(function() {
             block: 'button',
             tag: 'div',
             mods: { theme: 'islands', size: 'm', type: 'submit', view: 'plain', disabled: true },
-            mix: { block: 'issue', elem: 'has-answer-label' },
+            mix: [
+                { block: 'issue', elem: 'has-answer-label' },
+                { block: 'issue', elem: 'middlerow-button' }
+            ],
             icon : {
                 block : 'icon',
                 tag: 'span',
@@ -83,14 +87,20 @@ block('issue').content()(function() {
         isIssueAuthor && isIssuePage ? {
             block: 'button',
             mods: { theme: 'islands', size: 'm', type: 'link', view: 'action' },
-            mix: { block: 'issue', elem: 'close-button' },
+            mix: [
+                { block: 'issue', elem: 'close-button' },
+                { block: 'issue', elem: 'middlerow-button' }
+            ],
             url: '/api/set_issue_state/' + issue.number + (isIssueOpen ? '/closed/' : '/open/'),
             text: i18n(this.block, isIssueOpen ? 'closeIssue' : 'reopenIssue')
         } : '',
         !isIssuePage ? {
             block: 'button',
             mods: { theme: 'islands', size: 'm', type: 'link', view: 'pseudo' },
-            mix: { block: 'issue', elem: 'comments-button' },
+            mix: [
+                { block: 'issue', elem: 'comments-button' },
+                { block: 'issue', elem: 'middlerow-button' }
+            ],
             js: { number: issue.number },
             url: '/' + issue.number + '/',
             text: issue.comments ? i18n(this.block, 'replies') + ': ' + issue.comments : i18n(this.block, 'reply')

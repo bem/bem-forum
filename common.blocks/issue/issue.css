@@ -52,7 +52,7 @@
     border-bottom: 1px solid #e1e1e1;
 }
 
-.issue .button__control {
+.issue .issue__middlerow-button {
     vertical-align: top;
     margin: 10px 5px;
 }

@@ -4,7 +4,7 @@ var express = require('express'),
     render = require('./render').render,
     controllers = require('./controllers'),
     passportGitHub = require('./auth'),
-
+    isDev = process.env.NODE_ENV === 'development',
     config = require('./config.js');
 
 router
@@ -29,14 +29,20 @@ router
         res.redirect('/');
     })
     .get('/error', function(req, res) {
+        // stub for unauthorized redirect
         res.status(401);
         return render(req, res, { view: '401' });
     })
 
-    .get('*', function(req, res) {
-        res.status(404);
-        return render(req, res, { view: '404' });
-    });
+    if (isDev) {
+        router.get('/err/', function() {
+            throw new Error('Uncaught exception from /error');
+        });
+
+        router.use(require('errorhandler')());
+    }
+
+    router.get('*', controllers.gh.get404 );
 
 function keepRetpath(req, res, next) {
     req.session.retpath = req.path;
