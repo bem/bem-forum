@@ -28,8 +28,11 @@ function getIssues(req, res) {
 }
 
 function getIssue(req, res) {
-    var issueRequestUrl = issuesRequestUrl + '/' + req.params.id;
+    _getIssueBody(req, res);
+}
 
+function _getIssueBody (req, res, context) {
+    var issueRequestUrl = issuesRequestUrl + '/' + req.params.id;
     logger.log('getIssue', req.params.id);
 
     Promise.all([
@@ -42,10 +45,36 @@ function getIssue(req, res) {
         render(req, res, {
             issues: issues,
             comments: comments
-        });
+        }, context);
     }).catch(function(err) {
         onError(req, res, err);
     });
+}
+
+function setIssueState(req, res) {
+    /**
+     * call from /api/set_issue_state/:id(\\d+)/:state((closed|open))     *
+     */
+    var requestUrl = issuesRequestUrl + '/' + req.params.id;
+
+    logger.log('Issue #' + req.params.id + ' must be ' + req.params.state);
+
+    makeChangeIssueStateRequest(requestUrl, req.user.token, req.params.state)
+        .then(function (newState) {
+            logger.log('Issue state has been changed to ' + newState);
+            
+            //Return HTML of page part
+            _getIssueBody(req, res, {block: 'issues'});
+        })
+        .catch(function(err) {
+            logger.error(err);
+
+            //Use commented line, if you want to throw error with real reason 
+            // to client-side:
+            
+            //res.status(500).send(err.toString());
+            onError(req, res, err);
+        });
 }
 
 function getComments(req, res) {
@@ -91,8 +120,56 @@ function makeIssueRequest(issueRequestUrl) {
         });
 }
 
+function makeChangeIssueStateRequest(issueRequestUrl, token, state) {
+    /**
+     * @param issueRequestUrl {String} required, url for API knocking
+     * @param token {String} required, token, generated in Passport to allow user change data
+     * @param state {String} default: 'closed', possible values 'closed' or 'open'
+     * 
+     * @return {Promise} resolve - new state of issue, reject - same error
+     */
+    
+    logger.log('API request to', issueRequestUrl);
+
+    var possibleStates = ['closed', 'open'];
+    state = state || 'closed';
+
+    if (typeof issueRequestUrl !== 'string' || typeof token !== 'string') {
+        return new Promise (function (res, rej) {
+            rej(new Error('Not enough required arguments'));
+        });
+    }
+
+    if (possibleStates.indexOf(state) === -1) {
+        return new Promise(function (res, rej) {
+            rej(new Error('Identifier "state" must be a string with value "closed" or "open"'));
+        });
+    }
+
+    return got(issueRequestUrl, {
+        method: 'PATCH',
+        json: true,
+        headers: {
+            'user-agent': 'bem-forum',
+            accept: 'application/vnd.github.v3.full+json',
+            authorization: 'token ' + token
+        },
+        body: JSON.stringify({
+            state: state
+        })
+    }).then(
+        function (response) {
+            return response.body.state;
+        },
+        function (err) {
+            throw new Error(err.response.statusCode + ': ' + err.response.body.message);
+        }
+    );
+}
+
 module.exports = {
     getIssues,
     getIssue,
-    getComments
+    getComments,
+    setIssueState
 };

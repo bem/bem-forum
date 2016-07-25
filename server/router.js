@@ -3,7 +3,9 @@ var express = require('express'),
 
     render = require('./render').render,
     controllers = require('./controllers'),
-    passportGitHub = require('./auth');
+    passportGitHub = require('./auth'),
+
+    config = require('./config.js');
 
 router
     .get('/ping/', function(req, res) {
@@ -15,8 +17,10 @@ router
 
     .get('/api/:id(\\d+)/comments', controllers.gh.getComments)
 
+    .get('/api/set_issue_state/:id(\\d+)/:state((closed|open))', controllers.gh.setIssueState)    
+
     // Auth routes
-    .get('/auth/github', passportGitHub.authenticate('github', { scope: ['user:email'] }))
+    .get('/auth/github', passportGitHub.authenticate('github', { scope: config.userRights.usual }))
     .get('/auth/github/callback', passportGitHub.authenticate('github', { failureRedirect: '/error' }), function(req, res) {
         res.redirect(req.session.retpath || '/');
     })
