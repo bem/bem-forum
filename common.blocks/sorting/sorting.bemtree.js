@@ -12,7 +12,7 @@ block('sorting').content()(function() {
             mix: { block: 'sorting', elem: 'select'},
             mods : { mode : 'radio', theme : 'islands', size : 'l', width: 'available' },
             name : 'sorting',
-            val : 0,
+            val : 'sort=created&direction=desc',
             options : [
                 { val: 'sort=created&direction=desc', text: i18n(block, 'newest') },
                 { val: 'sort=created&direction=asc', text: i18n(block, 'oldest') },
