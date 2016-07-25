@@ -10,6 +10,8 @@ provide(BEMDOM.decl(this.name, {
                     commentsButton = this.findBlockInside('comments-button', 'button'),
                     closeIssueButton = this.findBlockInside('close-button', 'button');
 
+                this._spinner = this.findBlockInside(this.elem('loader'), 'spin');
+
                 commentsButton && commentsButton.bindTo('click', function(e) {
                     e.preventDefault();
 
@@ -25,11 +27,11 @@ provide(BEMDOM.decl(this.name, {
 
                     $.get(closeIssueButton.domElem[0].attributes.href.value)
                         .then(
-                            function(res) {
+                            function(response) {
                                 issue._onUpdatedIssueState();
-                                BEMDOM.replace(issues.domElem, res);
+                                BEMDOM.replace(issues.domElem, response);
                             },
-                            function(err) {
+                            function() {
                                 issue._onUpdatedIssueState();
                                 alert('Oops, error!');
                             }
@@ -40,11 +42,11 @@ provide(BEMDOM.decl(this.name, {
     },
     _onUpdatingIssueState: function () {
         this.setMod('progress');
-        this.findBlockInside(this.elem('loader'), 'spin').setMod('visible');
+        this._spinner.setMod('visible');
     },
     _onUpdatedIssueState: function () {
         this.delMod('progress');
-        this.findBlockInside(this.elem('loader'), 'spin').delMod('visible');
+        this._spinner.delMod('visible');
     }
 }));
 

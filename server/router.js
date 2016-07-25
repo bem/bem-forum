@@ -18,7 +18,7 @@ router
 
     .get('/api/:id(\\d+)/comments', controllers.gh.getComments)
 
-    .get('/api/set_issue_state/:id(\\d+)/:state((closed|open))', controllers.gh.setIssueState)    
+    .get('/api/set_issue_state/:id(\\d+)/:state((closed|open))', controllers.gh.setIssueState)
 
     // Auth routes
     .get('/auth/github', passportGitHub.authenticate('github', { scope: config.userRights.usual }))
