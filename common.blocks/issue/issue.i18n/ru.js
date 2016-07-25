@@ -3,6 +3,8 @@ module.exports = {
         closeIssue: 'Закрыть таск',
         reopenIssue: 'Открыть таск снова',
         hasAnswer: 'Автор получил ответ',
-        iGotAnswer: 'Мне уже ответили'
+        iGotAnswer: 'Мне уже ответили',
+        reply: 'Ответить',
+        replies: 'Ответов'
     }
 };

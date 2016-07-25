@@ -1,11 +1,13 @@
 block('issue').content()(function() {
     var issue = this.ctx.issue,
-        i18n = this.require('i18n');
-
+        i18n = this.require('i18n'),
+        data = this.data,
         //Check if user is logged and author of current task
-    var isIssueAuthor = (typeof this.data.user !== 'undefined' && this.data.user.id === issue['user']['id']),
+        isIssueAuthor = (typeof data.user !== 'undefined' && data.user.id === issue['user']['id']),
         //Check if current page is page of one issue
-        isIssuePage = this.data.url.pathname !== '/';
+        isIssuePage = data.url.pathname !== '/',
+        //Check if current issue is open
+        isIssueOpen = issue['state'] === 'open';
 
     return [
         {
@@ -62,27 +64,36 @@ block('issue').content()(function() {
                 }
             ]
         },
-        (issue['state'] === 'closed') ? {
+        !isIssueOpen ? {
             block: 'button',
             tag: 'div',
-            mods: { theme: 'islands', size: 'm', type: 'submit', view: 'pseudo', disabled: true },
-            mix: { block: 'issue', elem: 'has_answer_label' },
-            text: (isIssueAuthor) ? i18n(this.block, 'iGotAnswer') : i18n(this.block, 'hasAnswer')
+            mods: { theme: 'islands', size: 'm', type: 'submit', view: 'plain', disabled: true },
+            mix: { block: 'issue', elem: 'has-answer-label' },
+            icon : {
+                block : 'icon',
+                tag: 'span',
+                content: {
+                    tag: 'svg',
+                    attrs: {xmlns: 'http://www.w3.org/2000/svg', width: 24, height: 24, viewBox: '-1 2 47 47'},
+                    content: '<path d="M33.5,20.9V13c0-6-4.9-11-11-11c-6,0-11,4.9-11,11v7.9H6.5V49h32.1V20.9H33.5z M17,13c0-3,2.5-5.5,5.5-5.5S28,9.9,28,13v7.9H17C17,20.9,17,13,17,13z M20.8,43.9l-10.2-7.2l3.2-6l7.3,6.1l10.5-10.3l2.8,4.8L20.8,43.9z"/>'
+                }
+            },
+            text: i18n(this.block, isIssueAuthor ? 'iGotAnswer' : 'hasAnswer')
         }: '',
-        (isIssueAuthor && isIssuePage) ? {
+        isIssueAuthor && isIssuePage ? {
             block: 'button',
             mods: { theme: 'islands', size: 'm', type: 'link', view: 'action' },
             mix: { block: 'issue', elem: 'close-button' },
-            url: '/api/set_issue_state/' + issue.number + ((issue['state'] === 'open') ? '/closed/' : '/open/'),
-            text: (issue['state'] === 'open') ? i18n(this.block, 'closeIssue') : i18n(this.block, 'reopenIssue')
+            url: '/api/set_issue_state/' + issue.number + (isIssueOpen ? '/closed/' : '/open/'),
+            text: i18n(this.block, isIssueOpen ? 'closeIssue' : 'reopenIssue')
         } : '',
-        (!isIssuePage) ? {
+        !isIssuePage ? {
             block: 'button',
             mods: { theme: 'islands', size: 'm', type: 'link', view: 'pseudo' },
             mix: { block: 'issue', elem: 'comments-button' },
             js: { number: issue.number },
             url: '/' + issue.number + '/',
-            text: issue.comments ? 'Ответов: ' + issue.comments : 'Ответить'
+            text: issue.comments ? i18n(this.block, 'replies') + ': ' + issue.comments : i18n(this.block, 'reply')
         } : {
             block: 'comments'
         }

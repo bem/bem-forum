@@ -68,11 +68,6 @@ function setIssueState(req, res) {
         })
         .catch(function(err) {
             logger.error(err);
-
-            //Use commented line, if you want to throw error with real reason 
-            // to client-side:
-            
-            //res.status(500).send(err.toString());
             onError(req, res, err);
         });
 }
@@ -120,30 +115,26 @@ function makeIssueRequest(issueRequestUrl) {
         });
 }
 
+
+/**
+ * @param {String} issueRequestUrl required, url for API knocking
+ * @param {String} token required, token, generated in Passport to allow user change data
+ * @param {String} state default: 'closed', possible values 'closed' or 'open'
+ *
+ * @return {Promise} resolve - new state of issue, reject - some error
+ */
 function makeChangeIssueStateRequest(issueRequestUrl, token, state) {
-    /**
-     * @param issueRequestUrl {String} required, url for API knocking
-     * @param token {String} required, token, generated in Passport to allow user change data
-     * @param state {String} default: 'closed', possible values 'closed' or 'open'
-     * 
-     * @return {Promise} resolve - new state of issue, reject - same error
-     */
-    
     logger.log('API request to', issueRequestUrl);
 
     var possibleStates = ['closed', 'open'];
-    state = state || 'closed';
+    state || (state = 'closed');
 
     if (typeof issueRequestUrl !== 'string' || typeof token !== 'string') {
-        return new Promise (function (res, rej) {
-            rej(new Error('Not enough required arguments'));
-        });
+        return Promise.reject(new Error('Not enough required arguments'));
     }
 
     if (possibleStates.indexOf(state) === -1) {
-        return new Promise(function (res, rej) {
-            rej(new Error('Identifier "state" must be a string with value "closed" or "open"'));
-        });
+        return Promise.reject(new Error('Identifier "state" must be a string with value "closed" or "open"'));
     }
 
     return got(issueRequestUrl, {
@@ -157,14 +148,15 @@ function makeChangeIssueStateRequest(issueRequestUrl, token, state) {
         body: JSON.stringify({
             state: state
         })
-    }).then(
+    })
+    .then(
         function (response) {
             return response.body.state;
-        },
-        function (err) {
-            throw new Error(err.response.statusCode + ': ' + err.response.body.message);
         }
-    );
+    )
+    .catch(function (err) {
+        throw new Error(err.response.statusCode + ': ' + err.response.body.message);
+    });
 }
 
 module.exports = {

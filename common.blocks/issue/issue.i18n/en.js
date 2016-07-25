@@ -3,6 +3,8 @@ module.exports = {
         closeIssue: 'Close issue',
         reopenIssue: 'Reopen issue',
         hasAnswer: 'This issue is closed',
-        iGotAnswer: 'I got the answer'
+        iGotAnswer: 'I got the answer',
+        reply: 'Reply',
+        replies: 'Replies'
     }
 };

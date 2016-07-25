@@ -57,15 +57,13 @@
     margin: 10px 5px;
 }
 
-.issue .issue__has_answer_label.button_disabled {
-    background: #5cb85c;
+.issue__has-answer-label {
     cursor: default;
 }
 
-.issue .issue__has_answer_label.button_disabled span {
-    color: #FFF;
+.issue__has-answer-label .icon {
+    margin-right: .5em;
 }
-
 
 .issue__container {
     position: relative;
