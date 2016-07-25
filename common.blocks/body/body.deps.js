@@ -1,3 +1,3 @@
 ({
-    shouldDeps: 'issues'
+    shouldDeps: 'content'
 })

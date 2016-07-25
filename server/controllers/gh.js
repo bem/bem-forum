@@ -18,10 +18,12 @@ function onError(req, res, err) {
 function getIssues(req, res) {
     logger.log('getIssues');
 
-    makeIssueRequest(issuesRequestUrl).then(function(issues) {
+    makeIssueRequest(issuesRequestUrl, {
+        query: req.query || {}
+    }).then(function(issues) {
         render(req, res, {
             issues: issues
-        });
+        }, req.xhr && { block: 'issues' });
     }).catch(function(err) {
         onError(req, res, err);
     })
@@ -35,17 +37,17 @@ function getIssue(req, res) {
     Promise.all([
         makeIssueRequest(issueRequestUrl),
         makeCommentsRequest(issueRequestUrl)
-    ]).then(function(responses) {
-        var issues = responses[0],
+        ]).then(function(responses) {
+            var issues = responses[0],
             comments = responses[1];
 
-        render(req, res, {
-            issues: issues,
-            comments: comments
+            render(req, res, {
+                issues: issues,
+                comments: comments
+            });
+        }).catch(function(err) {
+            onError(req, res, err);
         });
-    }).catch(function(err) {
-        onError(req, res, err);
-    });
 }
 
 function getComments(req, res) {
@@ -78,31 +80,31 @@ function get404 (req, res) {
 
 function makeCommentsRequest(issueRequestUrl) {
     return got(issueRequestUrl + '/comments')
-        .then(function(commentsResponse) {
-            return JSON.parse(commentsResponse.body)
-                .map(function(comment) {
-                    comment.created_from_now = moment(comment.created_at).fromNow();
-                    comment.html = marked(comment.body);
-                    return comment;
-                });
+    .then(function(commentsResponse) {
+        return JSON.parse(commentsResponse.body)
+        .map(function(comment) {
+            comment.created_from_now = moment(comment.created_at).fromNow();
+            comment.html = marked(comment.body);
+            return comment;
         });
+    });
 }
 
-function makeIssueRequest(issueRequestUrl) {
+function makeIssueRequest(issueRequestUrl, options) {
     logger.log('API request to', issueRequestUrl);
 
-    return got(issueRequestUrl)
-        .then(function(data) {
-            return [].concat(JSON.parse(data.body))
-                .filter(function(issue) {
-                    return !issue.pull_request;
-                })
-                .map(function(issue) {
-                    issue.created_from_now = moment(issue.created_at).fromNow();
-                    issue.html = marked(issue.body);
-                    return issue;
-                });
+    return got(issueRequestUrl, options)
+    .then(function(data) {
+        return [].concat(JSON.parse(data.body))
+        .filter(function(issue) {
+            return !issue.pull_request;
+        })
+        .map(function(issue) {
+            issue.created_from_now = moment(issue.created_at).fromNow();
+            issue.html = marked(issue.body);
+            return issue;
         });
+    });
 }
 
 module.exports = {
