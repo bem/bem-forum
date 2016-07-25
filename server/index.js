@@ -10,14 +10,14 @@ var fs = require('fs'),
     serveStatic = require('serve-static'),
     cookieSession = require('cookie-session'),
     slashes = require('connect-slashes'),
+    render = require('./render').render,
 
     passport = require('passport'),
     config = require('./config'),
     staticFolder = config.staticFolder,
 
     port = process.env.PORT || config.defaultPort,
-    isSocket = isNaN(port),
-    isDev = process.env.NODE_ENV === 'development';
+    isSocket = isNaN(port);
 
 app
     .disable('x-powered-by')
@@ -33,15 +33,16 @@ app
     .use(slashes());
 // TODO: csrf, gzip
 
-app.use(router);
+app
+    .use(router)
+    .use(errorHandler);
 
-if (isDev) {
-    app.get('/error/', function() {
-        throw new Error('Uncaught exception from /error');
-    });
-
-    app.use(require('errorhandler')());
+/*eslint-disable no-unused-vars */
+function errorHandler(err, req, res, next) {
+    res.status(500);
+    render(req, res, { view: '500' });
 }
+/*eslint-enable no-alert */
 
 isSocket && fs.existsSync(port) && fs.unlinkSync(port);
 
