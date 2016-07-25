@@ -9,5 +9,9 @@ module.exports = {
 
     ghAPI: 'https://api.github.com',
     org: 'bem',
-    repo: 'bem-forum-content-en'
+    repo: 'bem-forum-content-en',
+
+    userRights: {
+        usual: ['user:email', 'public_repo']
+    }
 };

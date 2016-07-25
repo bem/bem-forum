@@ -14,10 +14,12 @@ var clientID = env.BEM_FORUM_CLIENT_ID || config.clientID,
 
 function verify(req, accessToken, refreshToken, profile, done) {
     profile = JSON.parse(profile._raw);
-
+    console.log(profile);
     return done(null, {
         avatar: profile.avatar_url,
-        login: profile.login
+        login: profile.login,
+        id: profile.id,
+        token: accessToken
     });
 }
 

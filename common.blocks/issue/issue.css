@@ -1,5 +1,6 @@
 .issue
 {
+    position: relative;
     padding: 20px 15px;
 
     border-bottom: 1px solid #e1e1e1;
@@ -49,4 +50,46 @@
 .issue_counts .issue__content
 {
     border-bottom: 1px solid #e1e1e1;
+}
+
+.issue .button__control {
+    vertical-align: top;
+    margin: 10px 5px;
+}
+
+.issue .issue__has_answer_label.button_disabled {
+    background: #5cb85c;
+    cursor: default;
+}
+
+.issue .issue__has_answer_label.button_disabled span {
+    color: #FFF;
+}
+
+
+.issue__container {
+    position: relative;
+}
+
+.issue_progress .issue__spiner-overlay {
+    display: block;
+}
+
+.issue__spiner-overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, .7);
+    z-index: 1;
+}
+
+.issue__loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    z-index: 2;
 }
