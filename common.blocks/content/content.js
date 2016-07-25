@@ -4,6 +4,8 @@ modules.define('content', ['i-bem__dom'], function(provide, BEMDOM) {
             js: {
                 'inited': function() {
                     var selectSort = this.findBlockInside('sorting');
+                    this._spinBlock = this.findBlockInside(this.elem('spin'), 'spin');
+                    this._issuesBlock = this.findBlockInside('issues');
 
                     selectSort.on('issuesLoading', this._onIssuesLoading, this);
                     selectSort.on('issuesLoaded', this._onIssuesLoaded, this);
@@ -11,20 +13,16 @@ modules.define('content', ['i-bem__dom'], function(provide, BEMDOM) {
             }
         },
         _onIssuesLoading: function() {
-            var spinBlock = this.findBlockInside(this.elem('spin'), 'spin');
-            var issuesBlock = this.findBlockInside('issues');
-
-            spinBlock.setMod('visible');
-            issuesBlock.setMod('loading');
+            this._spinBlock.setMod('visible');
+            this._issuesBlock.setMod('loading');
         },
         _onIssuesLoaded: function(e, data) {
-            var spinBlock = this.findBlockInside(this.elem('spin'), 'spin');
-            var issuesBlock = this.findBlockInside('issues');
+            BEMDOM.replace(this._issuesBlock.domElem, data);
 
-            BEMDOM.replace(issuesBlock.domElem, data);
+            this._issuesBlock = this.findBlockInside('issues');
 
-            spinBlock.delMod('visible');
-            issuesBlock.delMod('loading');
+            this._spinBlock.delMod('visible');
+            this._issuesBlock.delMod('loading');
         }
-    }))
+    }));
 });

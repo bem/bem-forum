@@ -17,5 +17,5 @@ modules.define('sorting', ['i-bem__dom', 'select', 'jquery'], function(provide, 
                 this.emit('issuesLoaded', data);
             }).bind(this));
         }
-    }))
+    }));
 });
