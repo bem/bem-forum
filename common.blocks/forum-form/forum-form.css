@@ -1,0 +1,31 @@
+.forum-form__forum-create {
+    margin-left: 120px;
+}
+
+.forum-form .forum-form__view {
+    display: none;
+    width: 100%;
+    min-height: 150px;
+    margin-top: 10px;
+    resize: vertical;
+}
+
+.forum-form .forum-form__view_visible {
+    display: inline-block;
+}
+
+.forum-form__preview {
+    box-sizing: border-box;
+    border: 1px solid #e5e5e5;
+    background-color: #f5f5f5;
+    padding: 5px 20px;
+}
+
+.forum-form__body {
+    margin-top: 10px;
+}
+
+.forum-form__submit {
+    margin-left: 120px;
+    padding-top: 20px;
+}

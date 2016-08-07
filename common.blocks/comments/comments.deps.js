@@ -1,3 +1,3 @@
 ({
-    shouldDeps: 'comment'
+    shouldDeps: ['comment', 'forum-form']
 })

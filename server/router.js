@@ -16,6 +16,7 @@ router
     .get('/:id(\\d+)', keepRetpath, controllers.gh.getIssue)
 
     .get('/api/:id(\\d+)/comments', controllers.gh.getComments)
+    .post('/comment-preview', controllers.gh.getCommentPreview)
 
     // Auth routes
     .get('/auth/github', passportGitHub.authenticate('github', { scope: ['user:email'] }))

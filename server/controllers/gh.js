@@ -62,6 +62,12 @@ function getComments(req, res) {
     });
 }
 
+function getCommentPreview(req, res) {
+    var comment = req.body.data;
+
+    res.send(marked(comment));
+}
+
 function get404 (req, res) {
     makeIssueRequest(issuesRequestUrl).then(function(issues) {
         var latestIssues = issues.slice(0, 10);
@@ -109,5 +115,6 @@ module.exports = {
     getIssues,
     getIssue,
     getComments,
+    getCommentPreview,
     get404
 };
