@@ -1,22 +1,31 @@
-modules.define('issue', ['i-bem__dom', 'jquery', 'button'],
-    function(provide, BEMDOM, $) {
+modules.define('issue', ['i-bem-dom', 'jquery', 'button', 'functions'],
+    function(provide, bemDom, $, Button, Functions) {
 
-provide(BEMDOM.decl(this.name, {
+provide(bemDom.declBlock(this.name, {
     onSetMod: {
         js: {
             inited: function() {
-                var commentsButton = this.findBlockInside('comments-button', 'button');
+                var commentsButton = this.findChildElem('comments-button').findMixedBlock(Button);
 
-                commentsButton && commentsButton.bindTo('click', function(e) {
-                    e.preventDefault();
-
-                    $.get('/api/' + commentsButton.params.number + '/comments')
-                        .then(function(data) {
-                            BEMDOM.replace(commentsButton.domElem, data);
-                        });
-                });
+                this._events(commentsButton).on('click', this._onClickCommentsButton);
             }
         }
+    },
+
+    _onClickCommentsButton: function(event) {
+        var button = event.bemTarget;
+
+        event.preventDefault();
+        $.get('/api/' + button.params.number + '/comments')
+            .then(function(data) {
+                bemDom.replace(button.domElem, data);
+            });
+    }
+}, {
+    lazyInit: true,
+
+    onInit: function() {
+        this._events(Button).on({ modName: 'js', modVal: 'inited' }, Functions.noop);
     }
 }));
 

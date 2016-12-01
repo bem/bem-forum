@@ -1,5 +1,7 @@
 ({
+    mustDeps: 'i-bem-dom',
     shouldDeps: [
+        'functions',
         'user',
         'link',
         {

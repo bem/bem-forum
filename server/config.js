@@ -8,6 +8,6 @@ module.exports = {
     defaultLang: 'ru',
 
     ghAPI: 'https://api.github.com',
-    org: 'bem',
+    org: 'bem-site',
     repo: 'bem-forum-content-en'
 };
