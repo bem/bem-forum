@@ -3,8 +3,8 @@ var techs = {
         fileMerge: require('enb/techs/file-merge'),
         fileCopy: require('enb/techs/file-copy'),
         borschik: require('enb-borschik/techs/borschik'),
-        css: require('enb-css/techs/css'),
-        postcss: require('enb-bundle-postcss/techs/enb-bundle-postcss'),
+        // css: require('enb-css/techs/css'),
+        stylus: require('enb-stylus/techs/stylus'),
         i18NTech: require('enb-bem-i18n/techs/i18n'),
         keysetsTech: require('enb-bem-i18n/techs/keysets'),
         browserJs: require('enb-js/techs/browser-js'),
@@ -36,18 +36,12 @@ module.exports = function(config) {
             [enbBemTechs.deps],
             [enbBemTechs.files],
 
-            // css
-            [techs.css, {
-                target: '?.pre.css',
-                // TODO: move to postcss
-                autoprefixer: { browsers: ['ie >= 10', 'last 2 versions', 'opera 12.1', '> 2%'] }
+            [techs.stylus, {
+                target: '?.css',
+                autoprefixer: {
+                    browsers: ['ie >= 10', 'last 2 versions', 'opera 12.1', '> 2%']
+                }
             }],
-
-            [techs.postcss, {
-                source: '?.pre.css',
-                plugins: [require('rebem-css'), require('postcss-nested')]
-            }],
-
 
             // Build keyset files for each lang
             [techs.keysetsTech, { lang: '{lang}' }],

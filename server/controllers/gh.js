@@ -15,10 +15,10 @@ function onError(req, res, err) {
     render(req, res, { view: '500' });
 }
 
-function getIssues(req, res) {
+function getIssues(req, res, context) {
     logger.log('getIssues');
 
-    makeIssueRequest(issuesRequestUrl).then(function(issues) {
+    makeIssueRequest(issuesRequestUrl, req.get('User-Agent')).then(function(issues) {
         render(req, res, {
             issues: issues
         });
@@ -62,7 +62,7 @@ function getComments(req, res) {
     });
 }
 
-function get404 (req, res) {
+function get404(req, res) {
     makeIssueRequest(issuesRequestUrl).then(function(issues) {
         var latestIssues = issues.slice(0, 10);
 
@@ -88,10 +88,17 @@ function makeCommentsRequest(issueRequestUrl) {
         });
 }
 
-function makeIssueRequest(issueRequestUrl) {
+function makeIssueRequest(issueRequestUrl, userAgent) {
+    var options = {};
+
+    if (userAgent) {
+        options.headers = {};
+        options.headers['User-Agent'] = userAgent;
+    }
+
     logger.log('API request to', issueRequestUrl);
 
-    return got(issueRequestUrl)
+    return got(issueRequestUrl, options)
         .then(function(data) {
             return [].concat(JSON.parse(data.body))
                 .filter(function(issue) {
