@@ -42,10 +42,9 @@ block('issue').content()(function() {
         },
         this.data.url.pathname === '/' || this.data.view === '404' ? {
             block: 'button',
-            mods: { theme: 'islands', size: 'm', type: 'link', view: 'pseudo' },
+            mods: { theme: 'islands', size: 'm' },
             mix: { block: 'issue', elem: 'comments-button' },
             js: { number: issue.number },
-            url: '/' + issue.number + '/',
             text: issue.comments ? 'Ответов: ' + issue.comments : 'Ответить'
         } : {
            block: 'comments'
