@@ -47,18 +47,47 @@ self.addEventListener('fetch', function(e) {
                     console.log(e.request.url + ' was cached');
                     return cache.put(e.request, response);
                 });
-            })
-            // caches.open(cacheName).then(function(cache) {
-            //     return cache.add(e.request.url).then(function() {
-            //         console.log(e.request.url + ' was cached');
-            //     });
-            // })  
+            }) 
         );
     }
 
-    e.respondWith(
-        caches.match(e.request).then(function(response) {
-            return response || fetch(e.request);
-        })
-    );
+    if (avatarsCondition) {
+        e.respondWith(
+            getFromCache(e.request).catch(function() {
+                console.log('Fetching from the network ' + e.request.url);
+                return getFromNetwork(e.request);
+            })
+        );
+    } else {
+        e.respondWith(
+            getFromNetwork(e.request).catch(function() {
+                console.log('trying to get from cache' + e.request.url);
+                return getFromCache(e.request).catch(console.error);
+            })
+        );
+    }
 });
+
+function getFromNetwork(request, timeout) {
+    timeout || (timeout = 1000);
+
+    return new Promise(function(resolve, reject) {
+        var timeoutFn = setTimeout(function() { console.log('rejected'); reject(); }, timeout);
+
+        fetch(request).then(function(response) {
+            clearTimeout(timeoutFn);
+            resolve(response);
+        }, reject);
+    });
+}
+
+
+function getFromCache(request) {
+    return caches.open(cacheName)
+        .then(function(cache) {
+            return cache.match(request)
+                .then(function(response) {
+                    return response || Promise.reject('nothing found');
+                });
+        });
+}

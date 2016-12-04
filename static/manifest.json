@@ -1,13 +1,11 @@
 {
   "short_name": "BEM forum",
   "name": "BEM forum",
-  "icons": [
-    {
+  "icons": [{
       "src":"/home-icon_UNSIZED.png",
       "sizes": "192x192",
       "type": "image/png"
-    }
-  ],
+    }],
   "start_url": "/?utm_source=homescreen",
   "background_color": "#fff",
   "Theme_color": "#000",
