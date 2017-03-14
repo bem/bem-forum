@@ -1,9 +1,9 @@
-:block(comment) {
+.comment {
     margin-top: 20px;
     margin-left: 65px;
     padding: 0 10px 5px;
 
-    &:elem(date) {
+    &__date {
         font-size: 12px;
 
         display: inline-block;
@@ -13,7 +13,7 @@
         color: #999;
     }
 
-    &:elem(content) {
+    &__content {
         margin-left: 65px;
 
         border-bottom: 1px solid #e1e1e1;
@@ -23,7 +23,7 @@
         background-color: #fff;
     }
 
-    &:last-child &:elem(content) {
+    &:last-child &__content {
         border: 0;
     }
 }

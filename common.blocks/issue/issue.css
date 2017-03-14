@@ -1,17 +1,14 @@
-.issue
-{
+.issue {
     padding: 20px 15px;
 
     border-bottom: 1px solid #e1e1e1;
 }
 
-.issue:last-child
-{
+.issue:last-child {
     border: 0;
 }
 
-.issue__title
-{
+.issue__title {
     font-size: 22px;
     line-height: 1.4;
 
@@ -20,8 +17,7 @@
     vertical-align: middle;
 }
 
-.issue__date
-{
+.issue__date {
     font-size: 12px;
 
     display: inline-block;
@@ -31,8 +27,7 @@
     color: #999;
 }
 
-.issue__label
-{
+.issue__label {
     font-size: 12px;
 
     display: inline-block;
@@ -46,7 +41,6 @@
     border-radius: 3px;
 }
 
-.issue_counts .issue__content
-{
+.issue_counts .issue__content {
     border-bottom: 1px solid #e1e1e1;
 }

@@ -1,5 +1,4 @@
-.header
-{
+.header {
     min-height: 40px;
     padding: 5px 15px;
 
@@ -7,8 +6,7 @@
     background-color: #fff;
 }
 
-.header__button.header__button
-{
+.header__button.header__button {
     float: right;
 
     margin: 7px 5px;

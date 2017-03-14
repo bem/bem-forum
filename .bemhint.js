@@ -11,7 +11,7 @@ module.exports = {
         'bemhint-css-naming': {
             techs: {
                 styl: true,
-                'post.css': true,
+                'post.css': false,
                 css: true
             }
         },

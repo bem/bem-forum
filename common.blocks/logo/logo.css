@@ -1,12 +1,10 @@
-.logo
-{
+.logo {
     display: inline-block;
 
     width: 30px;
-    margin: 8px 0 0 0;
+    margin: 8px 0 0;
 }
 
-.logo__logo
-{
+.logo__logo {
     transition: fill .3s;
 }
