@@ -7,6 +7,7 @@ var got = require('got'),
 
     Render = require('../render'),
     render = Render.render,
+    dropCache = Render.dropCache, // eslint-disable-line no-unused-vars
     issuesRequestUrl = [config.ghAPI, 'repos', config.org, config.repo, 'issues'].join('/');
 
 function onError(req, res, err) {
@@ -20,6 +21,7 @@ function getIssues(req, res) {
 
     makeIssueRequest(issuesRequestUrl).then(function(issues) {
         render(req, res, {
+            view: 'page-index',
             issues: issues
         });
     }).catch(function(err) {
@@ -40,6 +42,7 @@ function getIssue(req, res) {
             comments = responses[1];
 
         render(req, res, {
+            view: 'page-index',
             issues: issues,
             comments: comments
         });
@@ -53,6 +56,7 @@ function getComments(req, res) {
 
     makeCommentsRequest(issueRequestUrl).then(function(comments) {
         render(req, res, {
+            view: 'page-index',
             comments: comments
         }, {
             block: 'comments'

@@ -3,8 +3,18 @@ var techs = {
         fileMerge: require('enb/techs/file-merge'),
         fileCopy: require('enb/techs/file-copy'),
         borschik: require('enb-borschik/techs/borschik'),
-        css: require('enb-css/techs/css'),
-        postcss: require('enb-bundle-postcss/techs/enb-bundle-postcss'),
+        postcss: require('enb-postcss/techs/enb-postcss'),
+        postcssPlugins: [
+            require('postcss-import')(),
+            require('postcss-each'),
+            require('postcss-for'),
+            require('postcss-simple-vars')(),
+            require('postcss-calc')(),
+            require('postcss-nested'),
+            require('rebem-css'),
+            require('postcss-url')({ url: 'inline' }),
+            require('autoprefixer')()
+        ],
         i18NTech: require('enb-bem-i18n/techs/i18n'),
         keysetsTech: require('enb-bem-i18n/techs/keysets'),
         browserJs: require('enb-js/techs/browser-js'),
@@ -13,12 +23,12 @@ var techs = {
     },
     enbBemTechs = require('enb-bem-techs'),
     levels = [
-        { path: 'libs/bem-core/common.blocks', check: false },
-        { path: 'libs/bem-core/desktop.blocks', check: false },
-        { path: 'libs/bem-components/common.blocks', check: false },
-        { path: 'libs/bem-components/desktop.blocks', check: false },
-        { path: 'libs/bem-components/design/common.blocks', check: false },
-        { path: 'libs/bem-components/design/desktop.blocks', check: false },
+        { path: 'node_modules/bem-core/common.blocks', check: false },
+        { path: 'node_modules/bem-core/desktop.blocks', check: false },
+        { path: 'node_modules/bem-components/common.blocks', check: false },
+        { path: 'node_modules/bem-components/desktop.blocks', check: false },
+        { path: 'node_modules/bem-components/design/common.blocks', check: false },
+        { path: 'node_modules/bem-components/design/desktop.blocks', check: false },
         'common.blocks'
     ];
 
@@ -37,17 +47,11 @@ module.exports = function(config) {
             [enbBemTechs.files],
 
             // css
-            [techs.css, {
-                target: '?.pre.css',
-                // TODO: move to postcss
-                autoprefixer: { browsers: ['ie >= 10', 'last 2 versions', 'opera 12.1', '> 2%'] }
-            }],
-
             [techs.postcss, {
-                source: '?.pre.css',
-                plugins: [require('rebem-css'), require('postcss-nested')]
+                target: '?.css',
+                oneOfSourceSuffixes: ['post.css', 'css'],
+                plugins: techs.postcssPlugins
             }],
-
 
             // Build keyset files for each lang
             [techs.keysetsTech, { lang: '{lang}' }],
@@ -71,7 +75,11 @@ module.exports = function(config) {
             }],
 
             // templates
-            [techs.bemhtml, { sourceSuffixes: ['bemhtml', 'bemhtml.js'] }],
+            [techs.bemhtml, {
+                sourceSuffixes: ['bemhtml', 'bemhtml.js'],
+                forceBaseTemplates: true,
+                engineOptions: { elemJsInstances: true }
+            }],
 
             // client templates
             [enbBemTechs.depsByTechToBemdecl, {
@@ -91,7 +99,8 @@ module.exports = function(config) {
             [techs.bemhtml, {
                 target: '?.browser.bemhtml.js',
                 filesTarget: '?.tmpl.files',
-                sourceSuffixes: ['bemhtml', 'bemhtml.js']
+                sourceSuffixes: ['bemhtml', 'bemhtml.js'],
+                engineOptions: { elemJsInstances: true }
             }],
 
             // js

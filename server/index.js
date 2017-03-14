@@ -8,41 +8,48 @@ var fs = require('fs'),
     favicon = require('serve-favicon'),
     morgan = require('morgan'),
     serveStatic = require('serve-static'),
+    cookieParser = require('cookie-parser'),
     cookieSession = require('cookie-session'),
     slashes = require('connect-slashes'),
-    render = require('./render').render,
-
     passport = require('passport'),
+    csrf = require('csurf'),
+    compression = require('compression'),
+
     config = require('./config'),
     staticFolder = config.staticFolder,
 
+    Render = require('./render'),
+    render = Render.render,
+    controllers = require('./controllers'),
+
     port = process.env.PORT || config.defaultPort,
-    isSocket = isNaN(port);
+    isSocket = isNaN(port),
+    isDev = process.env.NODE_ENV === 'development';
+
+require('debug-http')();
 
 app
     .disable('x-powered-by')
     .enable('trust proxy')
+    .use(compression())
     .use(favicon(path.join(staticFolder, 'favicon.ico')))
     .use(serveStatic(staticFolder))
     .use(morgan('combined'))
+    .use(cookieParser())
     .use(bodyParser.json())
-    .use(bodyParser.urlencoded({ extended: false }))
+    .use(bodyParser.urlencoded({ extended: true }))
     .use(cookieSession({ keys: [config.sessionSecret] }))
     .use(passport.initialize())
     .use(passport.session())
-    .use(slashes());
-// TODO: csrf, gzip
+    .use(csrf());
 
-app
-    .use(router)
-    .use(errorHandler);
+// NOTE: conflicts with livereload
+isDev || app.use(slashes());
 
-/*eslint-disable no-unused-vars */
-function errorHandler(err, req, res, next) {
-    res.status(500);
-    render(req, res, { view: '500' });
-}
-/*eslint-enable no-alert */
+app.use(router);
+
+isDev && require('./rebuild')(app);
+router.get('*', controllers.gh.get404 );
 
 isSocket && fs.existsSync(port) && fs.unlinkSync(port);
 

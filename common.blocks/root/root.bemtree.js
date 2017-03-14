@@ -4,7 +4,7 @@ block('root').replace()(function() {
         meta = data.meta || {},
         og = meta.og || {};
 
-    if (ctx.context) { return ctx.context; }
+    if (ctx.context) return ctx.context;
 
     return {
         block: 'page',

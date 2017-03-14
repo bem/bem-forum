@@ -30,7 +30,7 @@ router
         // stub for unauthorized redirect
         res.status(401);
         return render(req, res, { view: '401' });
-    })
+    });
 
     if (isDev) {
         router.get('/err/', function() {
@@ -39,8 +39,6 @@ router
 
         router.use(require('errorhandler')());
     }
-
-    router.get('*', controllers.gh.get404 );
 
 function keepRetpath(req, res, next) {
     req.session.retpath = req.path;

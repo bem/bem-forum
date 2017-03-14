@@ -15,4 +15,7 @@ globals:
   # YModules
   modules: false
 
+rules:
+  curly: [error, multi-line]
+
 extends: pedant
