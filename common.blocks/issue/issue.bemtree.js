@@ -1,5 +1,7 @@
 block('issue').content()(function() {
-    var issue = this.ctx.issue;
+    var issue = this.ctx.issue,
+        currentUser = this.data.user || {},
+        i18n = this.require('i18n');
 
     return [
         {
@@ -10,6 +12,51 @@ block('issue').content()(function() {
         {
             elem: 'date',
             content: issue.created_from_now
+        },
+        issue.user.login === currentUser.login && {
+            block: 'issue',
+            elem: 'issue-buttons',
+            content: [
+                {
+                    block: 'button',
+                    text: i18n(this.block, 'Delete'),
+                    mods: { theme: 'islands', size: 'm' },
+                    mix: { block: 'issue', elem: 'delete-button' }
+                },
+                {
+                    block: 'modal',
+                    mods: { theme: 'islands', autoclosable: true, visible: false },
+                    mix: { block: 'issue', elem: 'delete-confirm-modal' },
+                    content: [
+                        {
+                            block: 'issue',
+                            elem: 'delete-modal-body',
+                            elemMods: { visible: true },
+                            content: [
+                                i18n(this.block, 'DeleteAreYouSure'),
+                                {
+                                    block: 'button',
+                                    mods: { theme: 'islands', size: 'm', view: 'action' },
+                                    mix: { block: 'issue', elem: 'delete-modal-yes' },
+                                    text: i18n(this.block, 'DeleteYes'),
+                                    js: { number: issue.number }
+                                },
+                                {
+                                    block: 'button',
+                                    mods: { theme: 'islands', size: 'm' },
+                                    mix: { block: 'issue', elem: 'delete-modal-no' },
+                                    text: i18n(this.block, 'DeleteNo'),
+                                }
+                            ]
+                        },
+                        {
+                            block: 'spin',
+                            mods: { theme: 'islands', size: 'm', visible: false },
+                            mix: { block: 'issue', elem: 'delete-spin' }
+                        }
+                    ]
+                }
+            ]
         },
         {
             elem: 'title',
@@ -48,7 +95,7 @@ block('issue').content()(function() {
             url: '/' + issue.number + '/',
             text: issue.comments ? 'Ответов: ' + issue.comments : 'Ответить'
         } : {
-           block: 'comments'
+            block: 'comments'
         }
     ];
 });
