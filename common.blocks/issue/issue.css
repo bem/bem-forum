@@ -1,46 +1,88 @@
 .issue {
+    position: relative;
+
     padding: 20px 15px;
 
     border-bottom: 1px solid #e1e1e1;
-}
 
-.issue:last-child {
-    border: 0;
-}
+    &:last-child {
+        border: 0;
+    }
 
-.issue__title {
-    font-size: 22px;
-    line-height: 1.4;
+    &__mark-resolved {
+        position: absolute;
+        bottom: 20px;
+        right: 15px;
+    }
 
-    margin-right: 10px;
+    &__spinner {
+        margin-left: 15px;
+    }
 
-    vertical-align: middle;
-}
+    &__title {
+        font-size: 22px;
+        line-height: 1.4;
 
-.issue__date {
-    font-size: 12px;
+        margin-right: 10px;
 
-    display: inline-block;
+        vertical-align: middle;
+    }
 
-    padding: 22px 10px 10px;
+    &__date {
+        font-size: 12px;
 
-    color: #999;
-}
+        display: inline-block;
 
-.issue__label {
-    font-size: 12px;
+        padding: 22px 10px 10px;
 
-    display: inline-block;
+        color: #999;
+    }
 
-    margin-right: 10px;
-    margin-bottom: 5px;
-    padding: 0 5px;
+    &__label {
+        font-size: 12px;
 
-    vertical-align: middle;
+        display: inline-block;
 
-    border-radius: 3px;
-}
+        margin-right: 10px;
+        margin-bottom: 5px;
+        padding: 0 5px;
 
-.issue_counts .issue__content {
-    border-bottom: 1px solid #e1e1e1;
+        vertical-align: middle;
+
+        border-radius: 3px;
+    }
+
+    &_counts &__content {
+        border-bottom: 1px solid #e1e1e1;
+
+        margin-bottom: 15px;
+    }
+
+    &__title-icon {
+        width: 16px;
+
+        margin-right: 5px;
+    }
+
+    &_state {
+        &_closed {
+            .issue__icon-resolved {
+                display: inline-block;
+            }
+
+            .issue__icon-question {
+                display: none;
+            }
+        }
+
+        &_open {
+            .issue__icon-resolved {
+                display: none;
+            }
+
+            .issue__icon-question {
+                display: inline-block;
+            }
+        }
+    }
 }

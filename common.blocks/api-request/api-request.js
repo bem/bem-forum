@@ -13,15 +13,15 @@ modules.define('api-request', [
      * @returns {Request}
      */
     function request(apiPath, ajaxSettings, context) {
-        const settings = request._prepareSettings(ajaxSettings || {});
-        let url = request._basePath + apiPath;
+        var settings = request._prepareSettings(ajaxSettings || {});
+        var url = request._basePath + apiPath;
 
         if (context) {
             settings.context = context;
         }
 
         if (settings.query) {
-            const qs = Querystring.stringify(settings.query);
+            var qs = Querystring.stringify(settings.query);
 
             delete settings.query;
 
@@ -81,7 +81,7 @@ modules.define('api-request', [
      * @private
      */
     request._prepareSettings = function(settings = {}) {
-        const headers = settings.headers || {};
+        var headers = settings.headers || {};
 
         if (!headers['content-type'] && $.isPlainObject(settings.body)) {
             headers['content-type'] = 'application/json; charset=UTF-8';
@@ -124,7 +124,7 @@ modules.define('api-request', [
             return response;
         }
 
-        const error = new Error(response.statusText);
+        var error = new Error(response.statusText);
 
         error.response = response;
         throw error;

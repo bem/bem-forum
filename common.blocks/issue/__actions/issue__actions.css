@@ -1,0 +1,21 @@
+.issue__actions {
+    display: block;
+
+    position: absolute;
+    top: 20px;
+    right: 15px;
+
+    .icon {
+        opacity: 0.25;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    &_loading {
+        .issue__actions-controls {
+            display: none;
+        }
+    }
+}

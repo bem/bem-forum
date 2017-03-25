@@ -12,7 +12,7 @@ var techs = {
             require('postcss-calc')(),
             require('postcss-nested'),
             require('rebem-css'),
-            require('postcss-url')({ url: 'inline' }),
+            require('postcss-url')({ url: 'rebase' }),
             require('autoprefixer')()
         ],
         i18NTech: require('enb-bem-i18n/techs/i18n'),
@@ -29,6 +29,7 @@ var techs = {
         { path: 'node_modules/bem-components/desktop.blocks', check: false },
         { path: 'node_modules/bem-components/design/common.blocks', check: false },
         { path: 'node_modules/bem-components/design/desktop.blocks', check: false },
+        { path: 'node_modules/bem-font-awesome-icons', check: false },
         'common.blocks'
     ];
 

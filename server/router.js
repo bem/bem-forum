@@ -13,12 +13,14 @@ router
     })
     .get('/', keepRetpath, controllers.gh.getIssues)
 
+    // Issue routes
     .get('/:id(\\d+)', keepRetpath, controllers.gh.getIssue)
+    .patch('/api/:id(\\d+)', controllers.gh.updateIssue)
 
     .get('/api/:id(\\d+)/comments', controllers.gh.getComments)
 
     // Auth routes
-    .get('/auth/github', passportGitHub.authenticate('github', { scope: ['user:email'] }))
+    .get('/auth/github', passportGitHub.authenticate('github', { scope: ['public_repo'] }))
     .get('/auth/github/callback', passportGitHub.authenticate('github', { failureRedirect: '/error' }), function(req, res) {
         res.redirect(req.session.retpath || '/');
     })
