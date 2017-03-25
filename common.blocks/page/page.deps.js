@@ -5,6 +5,9 @@
         },
         'header',
         'body',
-        'footer'
+        'footer',
+
+        'page-index',
+        'page-issue'
     ]
 })

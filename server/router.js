@@ -14,6 +14,7 @@ router
     .get('/', keepRetpath, controllers.gh.getIssues)
 
     .get('/:id(\\d+)', keepRetpath, controllers.gh.getIssue)
+    .post('/api/:id(\\d+)/delete', controllers.gh.deleteIssue)
 
     .get('/api/:id(\\d+)/comments', controllers.gh.getComments)
 

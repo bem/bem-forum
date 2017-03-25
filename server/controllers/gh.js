@@ -16,6 +16,14 @@ function onError(req, res, err) {
     render(req, res, { view: '500' });
 }
 
+function applyToken(url, token) {
+    return url.concat(
+        url.indexOf('?') === -1 ? '?' : '&',
+        'access_token=',
+        token
+    );
+}
+
 function getIssues(req, res) {
     logger.log('getIssues');
 
@@ -38,14 +46,25 @@ function getIssue(req, res) {
         makeIssueRequest(issueRequestUrl),
         makeCommentsRequest(issueRequestUrl)
     ]).then(function(responses) {
-        var issues = responses[0],
+        var issue = responses[0].shift(),
             comments = responses[1];
 
         render(req, res, {
-            view: 'page-index',
-            issues: issues,
+            view: 'page-issue',
+            issue: issue,
             comments: comments
         });
+    }).catch(function(err) {
+        onError(req, res, err);
+    });
+}
+
+function deleteIssue(req, res) {
+    // deleting issue with 'removed' label
+    var issueAddLabelRequestUrl = applyToken(issuesRequestUrl + '/' + req.params.id + '/labels', req.body.token);
+
+    makeIssueRemoveRequest(issueAddLabelRequestUrl).then(function() {
+        res.send('ok');
     }).catch(function(err) {
         onError(req, res, err);
     });
@@ -109,9 +128,19 @@ function makeIssueRequest(issueRequestUrl) {
         });
 }
 
+function makeIssueRemoveRequest(requestUrl) {
+    logger.log('API request to', requestUrl);
+
+    return got(requestUrl, {
+        method: 'POST',
+        body: '["removed"]'
+    });
+}
+
 module.exports = {
     getIssues,
     getIssue,
+    deleteIssue,
     getComments,
     get404
 };

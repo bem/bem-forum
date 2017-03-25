@@ -44,3 +44,25 @@
 .issue_counts .issue__content {
     border-bottom: 1px solid #e1e1e1;
 }
+
+.issue__issue-buttons {
+    float: right;
+}
+
+.issue__delete-modal-body {
+    display: none;
+    padding: 5px;
+}
+
+.issue__delete-modal-body_visible {
+    display: block;
+}
+
+.issue__delete-modal-body .issue__delete-modal-yes,
+.issue__delete-modal-body .issue__delete-modal-no {
+    margin-left: 5px;
+}
+
+.issue__delete-spin {
+    margin: 5px;
+}
