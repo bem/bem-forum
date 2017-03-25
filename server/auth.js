@@ -1,16 +1,19 @@
 var passport = require('passport'),
     GitHubStrategy = require('passport-github2').Strategy,
     env = process.env,
-    config = {};
+    config;
 
 try {
     config = require('./secret-config').github;
+
+    Array.isArray(config) || (config = [config]);
 } catch(err) {
     //
 }
 
-var clientID = env.BEM_FORUM_CLIENT_ID || config.clientID,
-    clientSecret = env.BEM_FORUM_CLIENT_SECRET || config.clientSecret;
+var secretIndex = Math.ceil(Math.random() * config.length - 1); 
+var clientID = env.BEM_FORUM_CLIENT_ID || config[secretIndex].clientID,
+    clientSecret = env.BEM_FORUM_CLIENT_SECRET || config[secretIndex].clientSecret;
 
 function verify(req, accessToken, refreshToken, profile, done) {
     profile = JSON.parse(profile._raw);
