@@ -1,4 +1,4 @@
-var got = require('got'),
+var got = require('gh-got'),
     config = require('../config'),
     logger = require('../logger'),
 
@@ -51,6 +51,21 @@ function getIssue(req, res) {
     });
 }
 
+function updateIssue(req, res) {
+    var reqUrl = issuesRequestUrl + '/' + req.params.id;
+
+    logger.log('update issue', req.params.id, 'with data', req.body);
+
+    got.patch(reqUrl, {
+        body: req.body,
+        token: req.user.accessToken
+    }).then(function() {
+        res.status(204).send('ok');
+    }).catch(function(error) {
+        onError(req, res, error);
+    });
+}
+
 function getComments(req, res) {
     var issueRequestUrl = issuesRequestUrl + '/' + req.params.id;
 
@@ -83,7 +98,7 @@ function get404(req, res) {
 function makeCommentsRequest(issueRequestUrl) {
     return got(issueRequestUrl + '/comments')
         .then(function(commentsResponse) {
-            return JSON.parse(commentsResponse.body)
+            return commentsResponse.body
                 .map(function(comment) {
                     comment.created_from_now = moment(comment.created_at).fromNow();
                     comment.html = marked(comment.body);
@@ -95,9 +110,9 @@ function makeCommentsRequest(issueRequestUrl) {
 function makeIssueRequest(issueRequestUrl) {
     logger.log('API request to', issueRequestUrl);
 
-    return got(issueRequestUrl)
+    return got(issueRequestUrl, { query: { state: 'all' } })
         .then(function(data) {
-            return [].concat(JSON.parse(data.body))
+            return [].concat(data.body)
                 .filter(function(issue) {
                     return !issue.pull_request;
                 })
@@ -110,6 +125,7 @@ function makeIssueRequest(issueRequestUrl) {
 }
 
 module.exports = {
+    updateIssue,
     getIssues,
     getIssue,
     getComments,

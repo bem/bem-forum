@@ -1,7 +1,25 @@
 block('issue').content()(function() {
+    var block = this.block;
     var issue = this.ctx.issue;
+    var user = this.data.user || {};
 
     return [
+        // TODO: maybe better to avoid element for one
+        //       action and resolve it on actions level
+        issue.user.id === user.id && {
+            elem: 'actions',
+            content: [
+                 {
+                    block: block,
+                    elem: 'toggle-resolved',
+                    mix: { block: block, elem: 'actions-button' },
+                    issue: {
+                        number: issue.number,
+                        state: issue.state
+                    }
+                 }
+            ]
+        },
         {
             block: 'user',
             mix: { block: 'page', elem: 'link' },
@@ -13,12 +31,26 @@ block('issue').content()(function() {
         },
         {
             elem: 'title',
-            content: {
+            content: [{
+                block: 'icon',
+                mods: { bg: 'check-circle' },
+                mix: [
+                    { block: block, elem: 'icon-resolved' },
+                    { block: block, elem: 'title-icon' }
+                ]
+            }, {
+                block: 'icon',
+                mods: { bg: 'question-circle' },
+                mix: [
+                    { block: block, elem: 'icon-question' },
+                    { block: block, elem: 'title-icon' }
+                ]
+            }, {
                 block: 'link',
                 mix: { block: 'page', elem: 'link' },
                 url: '/' + issue.number + '/',
                 content: issue.title
-            }
+            }]
         },
         issue.labels.length ? {
             elem: 'labels',

@@ -19,8 +19,10 @@ function verify(req, accessToken, refreshToken, profile, done) {
     profile = JSON.parse(profile._raw);
 
     return done(null, {
+        id: profile.id,
         avatar: profile.avatar_url,
-        login: profile.login
+        login: profile.login,
+        accessToken: accessToken
     });
 }
 
