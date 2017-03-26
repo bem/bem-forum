@@ -1,4 +1,7 @@
 ({
     mustDeps: 'i18n',
-    shouldDeps: 'page'
+    shouldDeps: [
+        'page',
+        'store'
+    ]
 })
