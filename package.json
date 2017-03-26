@@ -24,6 +24,7 @@
     "csurf": "^1.9.0",
     "debug-http": "^1.1.0",
     "errorhandler": "^1.4.3",
+    "es6-promise": "^4.1.0",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "got": "^6.3.0",
@@ -73,7 +74,8 @@
     "stylelint": "^7.7.1",
     "stylelint-config-standard": "^15.0.1",
     "tiny-lr": "^1.0.3",
-    "ym": "^0.1.2"
+    "ym": "^0.1.2",
+    "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
     "start": "node server",
