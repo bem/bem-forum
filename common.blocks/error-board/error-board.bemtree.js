@@ -30,5 +30,5 @@ block('error-board').content()(function() {
         {
             block: 'issues'
         }
-    ]
+    ];
 });

@@ -1,5 +1,5 @@
-modules.define('issue', ['i-bem-dom', 'jquery', 'button', 'functions'],
-    function(provide, bemDom, $, Button, Functions) {
+modules.define('issue', ['i-bem-dom', 'jquery', 'button', 'functions', 'api-request'],
+    function(provide, bemDom, $, Button, Functions, request) {
 
 provide(bemDom.declBlock(this.name, {
     onSetMod: {
@@ -16,7 +16,9 @@ provide(bemDom.declBlock(this.name, {
         var button = event.bemTarget;
 
         event.preventDefault();
-        $.get('/api/' + button.params.number + '/comments')
+
+        request(button.params.number + '/comments')
+            .then(function(response) { return response.text(); })
             .then(function(data) {
                 bemDom.replace(button.domElem, data);
             });

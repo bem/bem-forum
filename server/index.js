@@ -49,14 +49,14 @@ isDev || app.use(slashes());
 app.use(router);
 
 isDev && require('./rebuild')(app);
-router.get('*', controllers.gh.get404 );
+router.get('*', controllers.gh.get404);
 
-/*eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars */
 app.use(function errorHandler(err, req, res, next) {
     res.status(500);
     render(req, res, { view: '500' });
 });
-/*eslint-enable no-alert */
+/* eslint-enable no-alert */
 
 isSocket && fs.existsSync(port) && fs.unlinkSync(port);
 
