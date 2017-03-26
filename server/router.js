@@ -32,13 +32,13 @@ router
         return render(req, res, { view: '401' });
     });
 
-    if (isDev) {
-        router.get('/err/', function() {
-            throw new Error('Uncaught exception from /error');
-        });
+if (isDev) {
+    router.get('/err/', function() {
+        throw new Error('Uncaught exception from /error');
+    });
 
-        router.use(require('errorhandler')());
-    }
+    router.use(require('errorhandler')());
+}
 
 function keepRetpath(req, res, next) {
     req.session.retpath = req.path;

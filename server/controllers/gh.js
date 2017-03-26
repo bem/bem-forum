@@ -26,7 +26,7 @@ function getIssues(req, res) {
         });
     }).catch(function(err) {
         onError(req, res, err);
-    })
+    });
 }
 
 function getIssue(req, res) {
@@ -66,7 +66,7 @@ function getComments(req, res) {
     });
 }
 
-function get404 (req, res) {
+function get404(req, res) {
     makeIssueRequest(issuesRequestUrl).then(function(issues) {
         var latestIssues = issues.slice(0, 10);
 

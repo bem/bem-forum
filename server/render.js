@@ -33,7 +33,9 @@ function render(req, res, data, context) {
         data: Object.assign({
             user: user,
             url: req._parsedUrl,
-            csrf: req.csrfToken()
+            store: {
+                csrf: req.csrfToken()
+            }
         }, data)
     };
 
@@ -41,7 +43,7 @@ function render(req, res, data, context) {
 
     try {
         var bemjson = templates.BEMTREE[lang].apply(bemtreeCtx);
-    } catch(err) {
+    } catch (err) {
         console.error('BEMTREE error', err.stack);
         console.trace('server stack');
         return res.sendStatus(500);
@@ -51,7 +53,7 @@ function render(req, res, data, context) {
 
     try {
         var html = templates.BEMHTML.apply(bemjson);
-    } catch(err) {
+    } catch (err) {
         console.error('BEMHTML error', err.stack);
         return res.sendStatus(500);
     }

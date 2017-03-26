@@ -5,7 +5,7 @@ block('page').mod('view', '500').content()(function() {
     return [
         {
             elem: 'wrapper',
-            attrs: { style: 'margin: 20px; font-family: Verdana, Arial;'},
+            attrs: { style: 'margin: 20px; font-family: Verdana, Arial;' },
             content: [
                 {
                     tag: 'h1',
