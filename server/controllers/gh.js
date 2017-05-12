@@ -16,6 +16,31 @@ function onError(req, res, err) {
     render(req, res, { view: '500' });
 }
 
+function createIssuePage(req, res) {
+    logger.log('createIssue page');
+
+    return render(req, res, {
+        view: 'page-create-post'
+    });
+}
+
+function createIssue(req, res) {
+    logger.log('createIssue api');
+    const commentData = req.body;
+
+    return got.post(issuesRequestUrl, {
+        body: {
+            body: commentData.text,
+            title: commentData.title
+        },
+        token: req.user.accessToken
+    })
+        .then(postData => {
+            res.status(200).send(postData.body);
+        })
+        .catch(err => onError(req, res, err));
+}
+
 function getIssues(req, res) {
     logger.log('getIssues');
 
@@ -70,15 +95,54 @@ function getComments(req, res) {
     var issueRequestUrl = issuesRequestUrl + '/' + req.params.id;
 
     makeCommentsRequest(issueRequestUrl).then(function(comments) {
-        render(req, res, {
+        return render(req, res, {
             view: 'page-index',
-            comments: comments
+            comments: comments,
+            issueId: req.params.id
         }, {
             block: 'comments'
         });
     }).catch(function(err) {
         onError(req, res, err);
     });
+}
+
+function addComment(req, res) {
+    var reqUrl = `${issuesRequestUrl}/${req.params.id}/comments`;
+    return got.post(reqUrl, { body: { body: req.body.text }, token: req.user.accessToken })
+        .then(function(response) {
+            res.status(201).json(response.body);
+        })
+        .catch(function(error) {
+            onError(req, res, error);
+        });
+}
+
+// из закрытого issue нельзя доставать один комментарий :-(
+function _getComment(req, res, id) {
+    const commentId = id || req.params.commentId;
+
+    var reqUrl = `${issuesRequestUrl}/comments/${commentId}`;
+    return got(reqUrl);
+}
+
+function _formatComment(comment) {
+    var result = comment;
+    result.created_from_now = moment(comment.created_at).fromNow();
+    result.html = marked(comment.body || '');
+    return result;
+}
+
+function renderComment(req, res) {
+    _getComment(req, res, req.params.commentId)
+        .then(comment => {
+            return render(req, res, {
+                comment: _formatComment(comment.body)
+            }, {
+                block: 'comment'
+            });
+        })
+        .catch(error => onError(req, res, error));
 }
 
 function get404(req, res) {
@@ -98,12 +162,7 @@ function get404(req, res) {
 function makeCommentsRequest(issueRequestUrl) {
     return got(issueRequestUrl + '/comments')
         .then(function(commentsResponse) {
-            return commentsResponse.body
-                .map(function(comment) {
-                    comment.created_from_now = moment(comment.created_at).fromNow();
-                    comment.html = marked(comment.body);
-                    return comment;
-                });
+            return commentsResponse.body.map(_formatComment);
         });
 }
 
@@ -118,16 +177,20 @@ function makeIssueRequest(issueRequestUrl) {
                 })
                 .map(function(issue) {
                     issue.created_from_now = moment(issue.created_at).fromNow();
-                    issue.html = marked(issue.body);
+                    issue.html = marked(issue.body || '');
                     return issue;
                 });
         });
 }
 
 module.exports = {
+    createIssuePage,
+    createIssue,
     updateIssue,
     getIssues,
     getIssue,
     getComments,
+    renderComment,
+    addComment,
     get404
 };

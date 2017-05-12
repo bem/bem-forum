@@ -14,10 +14,16 @@ router
     .get('/', keepRetpath, controllers.gh.getIssues)
 
     // Issue routes
+    .get('/create', keepRetpath, controllers.gh.createIssuePage)
     .get('/:id(\\d+)', keepRetpath, controllers.gh.getIssue)
     .patch('/api/:id(\\d+)', controllers.gh.updateIssue)
 
     .get('/api/:id(\\d+)/comments', controllers.gh.getComments)
+    .post('/api/:id(\\d+)/comments', controllers.gh.addComment)
+    .post('/api/create', controllers.gh.createIssue)
+
+    // comments
+    .get('/api/comments/:commentId(\\d+)', controllers.gh.renderComment)
 
     // Auth routes
     .get('/auth/github', passportGitHub.authenticate('github', { scope: ['public_repo'] }))
