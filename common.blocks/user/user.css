@@ -1,7 +1,16 @@
 .user__avatar {
     float: left;
 
-    max-width: 50px;
+    &_size {
+        &_m {
+            max-width: 40px;
+        }
+
+        &_l {
+            max-width: 50px;
+        }
+    }
+
     margin-right: 12px;
 
     border: 2px solid #fff;
