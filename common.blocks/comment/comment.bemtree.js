@@ -1,5 +1,5 @@
 block('comment').content()(function() {
-    var comment = this.ctx.comment;
+    var comment = this.data.comment || this.ctx.comment;
 
     return [
         {

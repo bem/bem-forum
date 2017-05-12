@@ -1,6 +1,5 @@
 .comment {
     margin-top: 20px;
-    margin-left: 65px;
     padding: 0 10px 5px;
 
     &__date {
@@ -8,13 +7,13 @@
 
         display: inline-block;
 
-        padding: 22px 10px 10px;
+        padding: 16px 10px 10px;
 
         color: #999;
     }
 
     &__content {
-        margin-left: 65px;
+        margin-left: 55px;
 
         border-bottom: 1px solid #e1e1e1;
     }
