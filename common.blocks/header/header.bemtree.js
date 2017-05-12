@@ -24,8 +24,9 @@ block('header').content()(function() {
                     { block: block, elem: 'post' },
                     { block: block, elem: 'button' }
                 ],
-                mods: { theme: 'islands', size: 'm', view: 'action' },
-                text: i18n(this.block, 'writePost')
+                mods: { theme: 'islands', size: 'm', view: 'action', type: 'link' },
+                text: i18n(this.block, 'writePost'),
+                url: '/create'
             }
         ] : {
             block: 'button',

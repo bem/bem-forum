@@ -4,6 +4,7 @@ block('user').content()(function() {
     return [
         {
             elem: 'avatar',
+            elemMods: { size: this.mods.size || 'm' },
             url: user.avatar_url
         },
         {

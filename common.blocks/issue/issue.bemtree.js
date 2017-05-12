@@ -22,6 +22,7 @@ block('issue').content()(function() {
         },
         {
             block: 'user',
+            mods: { size: 'l' },
             mix: { block: 'page', elem: 'link' },
             user: issue.user
         },
@@ -79,7 +80,8 @@ block('issue').content()(function() {
             js: { number: issue.number },
             text: issue.comments ? 'Ответов: ' + issue.comments : 'Ответить'
         } : {
-            block: 'comments'
+            block: 'comments',
+            issueId: issue.number
         }
     ];
 });

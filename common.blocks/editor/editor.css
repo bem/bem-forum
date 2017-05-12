@@ -1,0 +1,13 @@
+.editor__preview {
+    background-color: #fafafa;
+
+    blockquote {
+        margin: 0;
+
+        padding: 0 5px;
+
+        color: #6a737d;
+
+        border-left: 3px solid #dfe2e5;
+    }
+}

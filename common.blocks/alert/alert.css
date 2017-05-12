@@ -1,0 +1,37 @@
+.alert {
+    display: flex;
+
+    padding: 15px;
+
+    margin-bottom: 20px;
+
+    border: 1px solid transparent;
+
+    &_hidden {
+        display: none;
+    }
+
+    &__icon {
+        margin-right: 10px;
+    }
+
+    &_type {
+        &_error {
+            background-color: #ffdad1;
+
+            color: #ff5858;
+        }
+
+        &_notice {
+            background-color: #d1e0ff;
+
+            color: #0b3cbd;
+        }
+
+        &_success {
+            background-color: #cbffc0;
+
+            color: #7ed321;
+        }
+    }
+}

@@ -1,21 +1,32 @@
 .comments {
-    position: relative;
-
     margin-top: 20px;
-}
 
-.comments::before {
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    bottom: 0;
-    left: 100px;
+    &__list {
+        position: relative;
 
-    display: block;
+        &::before {
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            bottom: 0;
+            left: 31px;
 
-    width: 1px;
+            display: block;
 
-    content: '';
+            width: 1px;
 
-    background-color: #e1e1e1;
+            content: '';
+
+            background-color: #e1e1e1;
+        }
+    }
+
+    &__add-comment-form {
+        margin-left: 10px;
+
+        /* TODO: fix inside editor? */
+        .textarea {
+            height: 150px;
+        }
+    }
 }
