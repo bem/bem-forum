@@ -1,0 +1,8 @@
+.page-create-post {
+    padding: 20px 15px;
+
+    /* TODO: fix inside editor? */
+    .textarea {
+        height: 250px;
+    }
+}
