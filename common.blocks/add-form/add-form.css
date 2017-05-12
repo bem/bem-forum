@@ -1,0 +1,9 @@
+.add-form {
+    &__actions {
+        padding-top: 10px;
+    }
+
+    &__field {
+        margin: 10px 0;
+    }
+}

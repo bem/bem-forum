@@ -41,9 +41,10 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.6.1",
-    "bem-components": "^5.0.0",
-    "bem-core": "^4.1.1",
+    "bem-components": "^5.1.0",
+    "bem-core": "^4.2.0",
     "bem-font-awesome-icons": "^1.0.2",
+    "bem-textarea-editor": "^1.0.1",
     "bemhint": "^0.7.0",
     "bemhint-css-naming": "^1.0.1",
     "bemhint-deps-specification": "^1.0.0",
