@@ -1,4 +1,6 @@
-modules.define('comments', ['i-bem-dom', 'add-form', 'api-request'], function(provide, bemDom, AddForm, request) {
+modules.define('comments', [
+    'i-bem-dom', 'BEMHTML', 'add-form', 'api-request'
+], function(provide, bemDom, BEMHTML, AddForm, request) {
     var Comments = bemDom.declBlock(this.name, {
         onSetMod: {
             js: {
@@ -6,11 +8,6 @@ modules.define('comments', ['i-bem-dom', 'add-form', 'api-request'], function(pr
                     this._form = this._elem('add-comment-form').findMixedBlock(AddForm);
                 }
             }
-        },
-
-        _getRenderedComment: function(commentData) {
-            return request(`comments/${commentData.id}`)
-                .then(function(response) { return response.text(); });
         },
 
         /**
@@ -21,21 +18,19 @@ modules.define('comments', ['i-bem-dom', 'add-form', 'api-request'], function(pr
         _onSubmitForm: function(event, commentData) {
             this._form.setMod('loading');
             request.post(`${this.params.issueId}/comments`, { text: commentData.text })
-                .then(function(response) {
-                    return response.json();
-                })
-                // ловим ошибку только здесь, потому что комментарий уже будет добавлен
-                // и если вдруг мы просто неподгрузим новый и покажем ошибку ->
-                // введем пользователя в заблуждение
+                .then(function() {
+                    bemDom.append(this._elem('list').domElem, BEMHTML.apply({
+                        block: 'comment',
+                        user: Object.assign({ html_url: 'https://github.com/' + this.params.user.login }, this.params.user),
+                        created_from_now: 'Только что', // TODO: i18n
+                        html: this._form.getRenderedContent()
+                    }));
+                    this._form
+                        .delMod('loading')
+                        .clear();
+                }.bind(this))
                 .catch(function() {
-                    this._form.showErrorMessage('Что-то пошло не так').delMod('loading');
-                }.bind(this))
-                .then(function(response) {
-                    this._form.showSuccessMessage('Комментарий успешно добавлен').delMod('loading');
-                    return this._getRenderedComment(response);
-                }.bind(this))
-                .then(function(renderedComment) {
-                    bemDom.append(this._elem('list').domElem, renderedComment);
+                    this._form.showErrorMessage('Что-то пошло не так :(').delMod('loading');
                 }.bind(this));
         },
 

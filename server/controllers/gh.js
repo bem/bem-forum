@@ -1,4 +1,5 @@
-var got = require('gh-got'),
+var url = require('url'),
+    got = require('gh-got'),
     config = require('../config'),
     logger = require('../logger'),
 
@@ -33,7 +34,7 @@ function createIssue(req, res) {
             body: commentData.text,
             title: commentData.title
         },
-        token: req.user.accessToken
+        token: req.user && req.user.accessToken
     })
         .then(postData => {
             res.status(200).send(postData.body);
@@ -44,10 +45,13 @@ function createIssue(req, res) {
 function getIssues(req, res) {
     logger.log('getIssues');
 
-    makeIssueRequest(issuesRequestUrl).then(function(issues) {
+    const token = req.user && req.user.accessToken;
+
+    makeIssueRequest(issuesRequestUrl, { token, query: req.query }).then(function(issuesData) {
         render(req, res, {
             view: 'page-index',
-            issues: issues
+            issues: issuesData.issues,
+            pagination: issuesData.pagination
         });
     }).catch(function(err) {
         onError(req, res, err);
@@ -55,20 +59,22 @@ function getIssues(req, res) {
 }
 
 function getIssue(req, res) {
-    var issueRequestUrl = issuesRequestUrl + '/' + req.params.id;
-
     logger.log('getIssue', req.params.id);
 
+    const token = req.user && req.user.accessToken;
+    const issueRequestUrl = `${issuesRequestUrl}/${req.params.id}`;
+
     Promise.all([
-        makeIssueRequest(issueRequestUrl),
-        makeCommentsRequest(issueRequestUrl)
+        makeIssueRequest(issueRequestUrl, { token }),
+        makeCommentsRequest(issueRequestUrl, { token })
     ]).then(function(responses) {
-        var issues = responses[0],
+        var issuesData = responses[0],
             comments = responses[1];
 
         render(req, res, {
             view: 'page-index',
-            issues: issues,
+            issues: issuesData.issues,
+            pagination: issuesData.pagination,
             comments: comments
         });
     }).catch(function(err) {
@@ -83,7 +89,7 @@ function updateIssue(req, res) {
 
     got.patch(reqUrl, {
         body: req.body,
-        token: req.user.accessToken
+        token: req.user && req.user.accessToken
     }).then(function() {
         res.status(204).send('ok');
     }).catch(function(error) {
@@ -94,7 +100,7 @@ function updateIssue(req, res) {
 function getComments(req, res) {
     var issueRequestUrl = issuesRequestUrl + '/' + req.params.id;
 
-    makeCommentsRequest(issueRequestUrl).then(function(comments) {
+    makeCommentsRequest(issueRequestUrl, { token: req.user && req.user.accessToken }).then(function(comments) {
         return render(req, res, {
             view: 'page-index',
             comments: comments,
@@ -109,7 +115,7 @@ function getComments(req, res) {
 
 function addComment(req, res) {
     var reqUrl = `${issuesRequestUrl}/${req.params.id}/comments`;
-    return got.post(reqUrl, { body: { body: req.body.text }, token: req.user.accessToken })
+    return got.post(reqUrl, { body: { body: req.body.text }, token: req.user && req.user.accessToken })
         .then(function(response) {
             res.status(201).json(response.body);
         })
@@ -118,36 +124,11 @@ function addComment(req, res) {
         });
 }
 
-// из закрытого issue нельзя доставать один комментарий :-(
-function _getComment(req, res, id) {
-    const commentId = id || req.params.commentId;
-
-    var reqUrl = `${issuesRequestUrl}/comments/${commentId}`;
-    return got(reqUrl);
-}
-
-function _formatComment(comment) {
-    var result = comment;
-    result.created_from_now = moment(comment.created_at).fromNow();
-    result.html = marked(comment.body || '');
-    return result;
-}
-
-function renderComment(req, res) {
-    _getComment(req, res, req.params.commentId)
-        .then(comment => {
-            return render(req, res, {
-                comment: _formatComment(comment.body)
-            }, {
-                block: 'comment'
-            });
-        })
-        .catch(error => onError(req, res, error));
-}
-
 function get404(req, res) {
-    makeIssueRequest(issuesRequestUrl).then(function(issues) {
-        var latestIssues = issues.slice(0, 10);
+    logger.error('404', req.url);
+
+    makeIssueRequest(issuesRequestUrl, { token: req.user && req.user.accessToken }).then(function(issuesData) {
+        var latestIssues = issuesData.issues.slice(0, 10);
 
         res.status(404);
         render(req, res, {
@@ -159,27 +140,51 @@ function get404(req, res) {
     });
 }
 
-function makeCommentsRequest(issueRequestUrl) {
-    return got(issueRequestUrl + '/comments')
+function makeCommentsRequest(issueRequestUrl, opts) {
+    return got(issueRequestUrl + '/comments', opts)
         .then(function(commentsResponse) {
-            return commentsResponse.body.map(_formatComment);
+            return commentsResponse.body
+                .map(function(comment) {
+                    comment.created_from_now = moment(comment.created_at).fromNow();
+                    comment.html = marked(comment.body);
+                    return comment;
+                });
         });
 }
 
-function makeIssueRequest(issueRequestUrl) {
+function makeIssueRequest(issueRequestUrl, opts) {
     logger.log('API request to', issueRequestUrl);
 
-    return got(issueRequestUrl, { query: { state: 'all' } })
+    return got(issueRequestUrl, {
+        query: Object.assign({ state: 'all' }, opts.query),
+        token: opts.token
+    })
         .then(function(data) {
-            return [].concat(data.body)
-                .filter(function(issue) {
-                    return !issue.pull_request;
-                })
-                .map(function(issue) {
-                    issue.created_from_now = moment(issue.created_at).fromNow();
-                    issue.html = marked(issue.body || '');
-                    return issue;
-                });
+            // E.g. '<https://api.github.com/repositories/14397309/issues?state=all&page=2>; rel="next", <https://api.github.com/repositories/14397309/issues?state=all&page=46>; rel="last"'
+            const paginationString = data.headers.link || '';
+
+            // E.g. { next: 'url-query-page-value', last: 'some-url-query-page-value', first: 'some-url-query-page-value', prev: 'some-url-query-page-value' }
+            const pagination = paginationString.split(', ').reduce((acc, str) => {
+                const match = /<(.*?)>; rel="(.*?)"/.exec(str);
+                if (match) {
+                    acc[match[2]] = '?' + url.parse(match[1]).query;
+                }
+
+                return acc;
+            }, {});
+
+            return {
+                pagination,
+                issues: [].concat(data.body)
+                    .filter(function(issue) {
+                        return !issue.pull_request;
+                    })
+                    .map(function(issue) {
+                        issue.created_from_now = moment(issue.created_at).fromNow();
+                        issue.html = marked(issue.body || '');
+                        return issue;
+                    })
+            };
         });
 }
 
@@ -190,7 +195,6 @@ module.exports = {
     getIssues,
     getIssue,
     getComments,
-    renderComment,
     addComment,
     get404
 };

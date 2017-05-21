@@ -6,6 +6,21 @@ block('user')(
             target: '_blank'
         };
     }),
+    content()(function() {
+        var user = this.ctx.user;
+
+        return [
+            {
+                elem: 'avatar',
+                elemMods: { size: this.mods.size || 'm' },
+                url: user.avatar_url
+            },
+            {
+                elem: 'login',
+                content: user.login
+            }
+        ];
+    }),
     elem('avatar')(
         tag()('img'),
         attrs()(function() {

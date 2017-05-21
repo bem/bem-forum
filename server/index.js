@@ -49,7 +49,7 @@ isDev || app.use(slashes());
 app.use(router);
 
 isDev && require('./rebuild')(app);
-router.get('*', controllers.gh.get404);
+app.use(controllers.gh.get404);
 
 /* eslint-disable no-unused-vars */
 app.use(function errorHandler(err, req, res, next) {

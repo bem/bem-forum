@@ -23,7 +23,6 @@ block('issue').content()(function() {
         {
             block: 'user',
             mods: { size: 'l' },
-            mix: { block: 'page', elem: 'link' },
             user: issue.user
         },
         {
@@ -48,7 +47,6 @@ block('issue').content()(function() {
                 ]
             }, {
                 block: 'link',
-                mix: { block: 'page', elem: 'link' },
                 url: '/' + issue.number + '/',
                 content: issue.title
             }]
@@ -57,15 +55,16 @@ block('issue').content()(function() {
             elem: 'labels',
             content: issue.labels.map(function(label) {
                 return {
-                    elem: 'label',
-                    attrs: { style: 'border: 1px solid #' + label.color },
-                    content: {
-                        block: 'link',
-                        mix: { block: 'page', elem: 'link' },
-                        url: '/?labels=' + label.name,
-                        attrs: { style: 'color: #' + label.color },
-                        content: label.name
-                    }
+                    block: 'link',
+                    mix: { block: 'issue', elem: 'label' },
+                    url: '/?labels=' + label.name,
+                    attrs: {
+                        style: [
+                            'color: #' + label.color,
+                            'border: 1px solid #' + label.color
+                        ].join(';')
+                    },
+                    content: label.name
                 };
             })
         } : '',

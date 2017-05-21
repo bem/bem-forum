@@ -1,10 +1,12 @@
 block('header').content()(function() {
     var block = this.block,
-        i18n = this.require('i18n');
+        i18n = this.require('i18n'),
+        pathname = this.data.url.pathname;
 
     return [
         {
-            block: 'logo'
+            block: 'logo',
+            url: pathname !== '/' && '/'
         },
         this.data.user ? [
             {
