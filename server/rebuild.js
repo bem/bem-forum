@@ -60,9 +60,9 @@ process.env.NO_LIVERELOAD || watch([
 });
 
 module.exports = function(app) {
-    if (!app) return;
+    if (!app || process.env.NO_LIVERELOAD) return;
 
     // livereload middleware
     // serves the script injected by development.blocks/livereload template
-    app.use(tinyLr.middleware({ app: app, dashboard: true }));
+    app.use(tinyLr.middleware({ app, dashboard: true }));
 };

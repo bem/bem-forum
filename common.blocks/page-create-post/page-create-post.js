@@ -1,17 +1,24 @@
-modules.define('page-create-post', ['i-bem-dom', 'add-form', 'api-request'], function(provide, bemDom, AddForm, request) {
+modules.define('page-create-post', [
+    'i-bem-dom', 'add-form', 'api-request'
+], function(provide, bemDom, AddForm, request) {
     const PageCreatePost = bemDom.declBlock(this.name, {
         _onFormSubmit: function(e, postData) {
             this._getForm().setMod('loading');
+
+            var _this = this;
+
             request.post('create', postData)
                 .then(function(response) {
                     return response.json();
-                }.bind(this))
+                })
                 .then(function(post) {
                     window.location = '/' + post.number;
-                }.bind(this))
+                })
                 .catch(function() {
-                    this._getForm().delMod('loading').showErrorMessage('Что-то пошло не так, попробуй позже');
-                }.bind(this));
+                    _this._getForm()
+                        .delMod('loading')
+                        .showErrorMessage('Что-то пошло не так, попробуй позже');
+                });
         },
 
         _onEmptyData: function() {

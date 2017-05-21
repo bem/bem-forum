@@ -22,9 +22,6 @@ router
     .post('/api/:id(\\d+)/comments', controllers.gh.addComment)
     .post('/api/create', controllers.gh.createIssue)
 
-    // comments
-    .get('/api/comments/:commentId(\\d+)', controllers.gh.renderComment)
-
     // Auth routes
     .get('/auth/github', passportGitHub.authenticate('github', { scope: ['public_repo'] }))
     .get('/auth/github/callback', passportGitHub.authenticate('github', { failureRedirect: '/error' }), function(req, res) {

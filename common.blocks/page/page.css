@@ -1,12 +1,5 @@
 .page {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
+    font: 14px Arial, sans-serif;
 
     margin: 0;
-}
-
-.page__link {
-    text-decoration: none;
-
-    color: #000;
 }

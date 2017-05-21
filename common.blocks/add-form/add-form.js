@@ -37,6 +37,16 @@ modules.define('add-form', [
             return this;
         },
 
+        getRenderedContent: function() {
+            return this._editor.render();
+        },
+
+        clear: function() {
+            this._editor.setVal('');
+
+            return this;
+        },
+
         _gatherData: function() {
             return {
                 text: this._editor.getVal()
