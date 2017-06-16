@@ -1,3 +1,9 @@
 ({
-    shouldDeps: ['pager']
+    shouldDeps: [
+        'pager',
+        'sidebar',
+        'content',
+        'sorting',
+        'labels'
+    ]
 });

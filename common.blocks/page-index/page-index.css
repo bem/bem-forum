@@ -1,0 +1,17 @@
+.page-index {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &__sidebar {
+        padding: 20px;
+        width: 180px;
+        background-color: #f3f1ed;
+    }
+
+    &__content {
+        flex-grow: 1;
+        background-color: #fff;
+        border-right: 1px solid rgba(0, 0, 0, .1);
+    }
+}

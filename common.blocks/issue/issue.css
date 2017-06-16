@@ -3,6 +3,8 @@
 
     padding: 20px 15px;
 
+    overflow: hidden;
+
     border-bottom: 1px solid #e1e1e1;
 
     &:last-child {

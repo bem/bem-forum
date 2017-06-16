@@ -9,7 +9,9 @@ var url = require('url'),
     Render = require('../render'),
     render = Render.render,
     dropCache = Render.dropCache, // eslint-disable-line no-unused-vars
-    issuesRequestUrl = [config.ghAPI, 'repos', config.org, config.repo, 'issues'].join('/');
+    requestUrl = [config.ghAPI, 'repos', config.org, config.repo].join('/'),
+    issuesRequestUrl = [requestUrl, 'issues'].join('/'),
+    labelsRequestUrl = [requestUrl, 'labels'].join('/');
 
 function onError(req, res, err) {
     logger.error(err);
@@ -47,11 +49,15 @@ function getIssues(req, res) {
 
     const token = req.user && req.user.accessToken;
 
-    makeIssueRequest(issuesRequestUrl, { token, query: req.query }).then(function(issuesData) {
+    Promise.all([
+        makeLabelsRequest(labelsRequestUrl, { token }),
+        makeIssueRequest(issuesRequestUrl, { token, query: req.query })
+    ]).then((data) => {
         render(req, res, {
             view: 'page-index',
-            issues: issuesData.issues,
-            pagination: issuesData.pagination
+            issues: data[1].issues,
+            pagination: data[1].pagination,
+            labels: data[0]
         });
     }).catch(function(err) {
         onError(req, res, err);
@@ -150,6 +156,11 @@ function makeCommentsRequest(issueRequestUrl, opts) {
                     return comment;
                 });
         });
+}
+
+function makeLabelsRequest(labelrequestUrl, opts) {
+    return got(labelrequestUrl, opts)
+        .then(labels => labels.body);
 }
 
 function makeIssueRequest(issueRequestUrl, opts) {

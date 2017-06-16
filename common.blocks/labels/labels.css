@@ -1,0 +1,23 @@
+.labels {
+    margin-bottom: 36px;
+
+    &__header {
+        margin-bottom: 16px;
+        font-size: 14px;
+        color: rgba(0, 0, 0, .5);
+    }
+
+    &__item {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    &__label {
+        display: inline-block;
+        padding: 8px 12px;
+
+        font-size: 12px;
+        color: rgba(0, 0, 0, .6);
+        border-radius: 3px;
+    }
+}

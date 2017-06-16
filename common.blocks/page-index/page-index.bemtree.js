@@ -3,8 +3,19 @@ block('page-index').content()(function() {
         issues = data.issues;
 
     return [
-        issues && issues.length ? {
-            block: 'issues'
-        } : ''
+        {
+            elem: 'content',
+            content: [
+                issues && issues.length ? {
+                    block: 'issues'
+                } : ''
+            ]
+        },
+        {
+            elem: 'sidebar',
+            content: [
+                { block: 'labels' }
+            ]
+        }
     ];
 });
