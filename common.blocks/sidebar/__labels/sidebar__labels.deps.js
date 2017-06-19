@@ -1,5 +1,5 @@
 ({
     shouldDeps: [
-        'issues'
+        'labels-list'
     ]
-})
+});

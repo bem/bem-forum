@@ -1,0 +1,16 @@
+.page-index {
+    display: flex;
+
+    &__sidebar {
+        padding: 20px;
+        width: 180px;
+        background-color: #f3f1ed;
+        border-left: 1px solid rgba(0, 0, 0, .1);
+    }
+
+    &__content {
+        flex-grow: 1;
+        padding-bottom: 20px;
+        overflow: auto;
+    }
+}

@@ -9,7 +9,9 @@ var url = require('url'),
     Render = require('../render'),
     render = Render.render,
     dropCache = Render.dropCache, // eslint-disable-line no-unused-vars
-    issuesRequestUrl = [config.ghAPI, 'repos', config.org, config.repo, 'issues'].join('/');
+    requestUrl = [config.ghAPI, 'repos', config.org, config.repo].join('/'),
+    issuesRequestUrl = [requestUrl, 'issues'].join('/'),
+    labelsRequestUrl = [requestUrl, 'labels'].join('/');
 
 function onError(req, res, err) {
     logger.error(err);
@@ -47,11 +49,18 @@ function getIssues(req, res) {
 
     const token = req.user && req.user.accessToken;
 
-    makeIssueRequest(issuesRequestUrl, { token, query: req.query }).then(function(issuesData) {
+    Promise.all([
+        makeIssueRequest(issuesRequestUrl, { token, query: req.query }),
+        makeLabelsRequest(labelsRequestUrl, { token })
+    ]).then(function(responses) {
+        const issuesData = responses[0];
+        const labelsData = responses[1];
+
         render(req, res, {
             view: 'page-index',
             issues: issuesData.issues,
-            pagination: issuesData.pagination
+            pagination: issuesData.pagination,
+            labels: labelsData
         });
     }).catch(function(err) {
         onError(req, res, err);
@@ -68,14 +77,13 @@ function getIssue(req, res) {
         makeIssueRequest(issueRequestUrl, { token }),
         makeCommentsRequest(issueRequestUrl, { token })
     ]).then(function(responses) {
-        var issuesData = responses[0],
-            comments = responses[1];
+        const issue = responses[0].issues[0];
+        const comments = responses[1];
 
         render(req, res, {
-            view: 'page-index',
-            issues: issuesData.issues,
-            pagination: issuesData.pagination,
-            comments: comments
+            view: 'page-post',
+            issue,
+            comments
         });
     }).catch(function(err) {
         onError(req, res, err);
@@ -102,7 +110,7 @@ function getComments(req, res) {
 
     makeCommentsRequest(issueRequestUrl, { token: req.user && req.user.accessToken }).then(function(comments) {
         return render(req, res, {
-            view: 'page-index',
+            view: 'page-post',
             comments: comments,
             issueId: req.params.id
         }, {
@@ -186,6 +194,11 @@ function makeIssueRequest(issueRequestUrl, opts) {
                     })
             };
         });
+}
+
+function makeLabelsRequest(labelRequestUrl, opts) {
+    return got(labelRequestUrl, opts)
+        .then(labels => labels.body);
 }
 
 module.exports = {
