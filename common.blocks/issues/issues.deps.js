@@ -1,3 +1,6 @@
 ({
-    shouldDeps: 'issue'
+    shouldDeps: [
+        'issue',
+        'pager'
+    ]
 })

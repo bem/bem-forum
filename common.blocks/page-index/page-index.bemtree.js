@@ -1,10 +1,17 @@
 block('page-index').content()(function() {
-    var data = this.data,
-        issues = data.issues;
+    const { block, data } = this;
+    const issues = data.issues;
 
     return [
-        issues && issues.length ? {
-            block: 'issues'
-        } : ''
+        {
+            elem: 'content',
+            content: issues && issues.length ? {
+                block: 'issues'
+            } : ''
+        },
+        {
+            block: 'sidebar',
+            mix: { block, elem: 'sidebar' }
+        }
     ];
 });

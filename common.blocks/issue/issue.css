@@ -1,12 +1,17 @@
 .issue {
     position: relative;
 
-    padding: 20px 15px;
+    padding: 48px 15px;
 
     border-bottom: 1px solid #e1e1e1;
 
     &:last-child {
         border: 0;
+    }
+
+    &__content {
+        margin: 0 auto;
+        max-width: 900px;
     }
 
     &__mark-resolved {

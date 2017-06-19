@@ -1,3 +1,5 @@
 ({
-    shouldDeps: ['pager']
+    shouldDeps: [
+        'sidebar'
+    ]
 });
