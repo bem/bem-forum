@@ -10,10 +10,8 @@
             block: 'icon',
             mods: { bg: ['check-circle', 'question-circle'] }
         },
-        {
-            block: 'button',
-            mods: { theme: 'islands', size: 'm' }
-        },
-        'comments'
+        'comments',
+        'md-body',
+        'button'
     ]
 })

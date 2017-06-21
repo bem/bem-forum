@@ -1,18 +1,17 @@
-.user__avatar {
-    float: left;
-
-    &_size {
-        &_m {
-            max-width: 40px;
-        }
-
-        &_l {
-            max-width: 50px;
-        }
+.user {
+    &__link {
+        display: inline-block;
     }
 
-    margin-right: 12px;
+    &__avatar {
+        display: inline-block;
+        margin-right: 16px;
+        vertical-align: middle;
+    }
 
-    border: 2px solid #fff;
-    border-radius: 50%;
+    &__username {
+        position: relative;
+        top: 3px;
+        font-size: 24px;
+    }
 }

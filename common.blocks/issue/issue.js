@@ -33,13 +33,15 @@ provide(bemDom.declBlock(this.name, {
 
     _onClickCommentsButton: function(event) {
         var button = event.bemTarget;
+        var footer = this._elem('footer');
 
         event.preventDefault();
+        button.setMod('disabled');
 
         request(button.params.number + '/comments')
             .then(function(response) { return response.text(); })
             .then(function(data) {
-                bemDom.replace(button.domElem, data);
+                bemDom.append(footer.domElem, data);
             });
     }
 }, {

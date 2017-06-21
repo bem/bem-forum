@@ -5,13 +5,12 @@ block('issues').content()(function() {
     return [
         {
             elem: 'content',
-            content: this.data.issues.map(function(issue) {
-                return {
-                    block: 'issue',
-                    mods: { state: issue.state, counts: this.data.issues.length === 1 },
-                    issue: issue
-                };
-            }, this)
+            content: data.issues.map(issue => ({
+                block: 'issue',
+                mix: { block, elem: 'issue' },
+                mods: { state: issue.state, counts: this.data.issues.length === 1 },
+                issue: issue
+            }))
         },
         (pagination.next || pagination.prev) && {
             block: 'pager',

@@ -1,3 +1,7 @@
 .issues__pager {
     margin-left: 15px;
 }
+
+.issues__issue {
+    padding-top: 50px;
+}

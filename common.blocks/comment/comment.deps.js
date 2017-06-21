@@ -1,3 +1,3 @@
 ({
-    shouldDeps: ['user']
+    shouldDeps: ['user', 'md-body']
 });
