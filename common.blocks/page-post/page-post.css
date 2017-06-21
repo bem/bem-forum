@@ -1,0 +1,10 @@
+.page-post__header {
+    margin: auto;
+    padding-top: 47px;
+    padding-bottom: 51px;
+
+    max-width: 900px;
+
+    font-size: 48px;
+    line-height: 60px;
+}

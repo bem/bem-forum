@@ -23,6 +23,7 @@ block('comments')(
                 content: this.data.comments.map(function(comment) {
                     return {
                         block: 'comment',
+                        mix: { block, elem: 'comment' },
                         user: comment.user,
                         created_from_now: comment.created_from_now,
                         html: comment.html
@@ -31,7 +32,7 @@ block('comments')(
             },
             this.data.user ? {
                 block: 'add-form',
-                mix: { block: block, elem: 'add-comment-form' }
+                mix: { block, elem: 'add-comment-form' }
             } : 'Чтобы оставлять комментарии, небоходимо авторизоваться.'
         ];
     })

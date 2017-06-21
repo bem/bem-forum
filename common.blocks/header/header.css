@@ -4,6 +4,14 @@
 
     border-bottom: 1px solid #e1e1e1;
     background-color: #fff;
+
+    .avatar {
+        float: right;
+        margin-left: 10px;
+
+        height: 40px;
+        width: 40px;
+    }
 }
 
 .header__button.header__button {

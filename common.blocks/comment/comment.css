@@ -1,28 +1,16 @@
 .comment {
-    margin-top: 20px;
-    padding: 0 10px 5px;
-
     &__date {
-        font-size: 12px;
-
-        display: inline-block;
-
-        padding: 16px 10px 10px;
-
-        color: #999;
+        font-size: 14px;
+        line-height: 24px;
+        color: rgba(0, 0, 0, .6);
+        margin-bottom: 5px;
     }
 
-    &__content {
-        margin-left: 55px;
-
-        border-bottom: 1px solid #e1e1e1;
+    &__user {
+        margin-bottom: 16px;
     }
 
-    &:last-child {
-        background-color: #fff;
-    }
-
-    &:last-child &__content {
-        border: 0;
+    .comment__content pre {
+        background-color: #e2e1de;
     }
 }

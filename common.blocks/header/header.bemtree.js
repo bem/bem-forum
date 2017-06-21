@@ -11,6 +11,7 @@ block('header').content()(function() {
         this.data.user ? [
             {
                 block: 'avatar',
+                mix: { block, elem: 'avatar' },
                 url: this.data.user.avatar
             },
             {
