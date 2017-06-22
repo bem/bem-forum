@@ -1,6 +1,5 @@
-block('error-board').content()(function() {
-    var block = this.block,
-        i18n = this.require('i18n');
+block('error-board').content()(node => {
+    const { block, i18n } = node;
 
     return [
         {
@@ -13,11 +12,11 @@ block('error-board').content()(function() {
                 {
                     elem: 'proposition',
                     content: [
-                        i18n(this.block, 'youCanGo'),
+                        i18n(block, 'youCanGo'),
                         {
                             block: 'link',
                             url: '/',
-                            content: i18n(this.block, 'homePage')
+                            content: i18n(block, 'homePage')
                         }
                     ]
                 }
@@ -25,7 +24,7 @@ block('error-board').content()(function() {
         },
         {
             elem: 'title-issues',
-            content: i18n(this.block, 'latestIssues')
+            content: i18n(block, 'latestIssues')
         },
         {
             block: 'issues'

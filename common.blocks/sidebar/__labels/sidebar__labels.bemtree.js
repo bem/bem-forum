@@ -1,6 +1,5 @@
-block('sidebar').elem('labels').replace()(function() {
-    const { block, data } = this;
-    const i18n = this.require('i18n');
+block('sidebar').elem('labels').replace()(node => {
+    const { block, data, i18n } = node;
 
     return {
         block: 'labels',
