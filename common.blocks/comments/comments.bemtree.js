@@ -13,14 +13,14 @@ block('comments')(
         return applyNext();
     }),
 
-    content()(function() {
-        const block = this.block;
+    content()(node => {
+        const { block, i18n, data } = node;
 
         return [
             {
                 block: block,
                 elem: 'list',
-                content: this.data.comments.map(function(comment) {
+                content: data.comments.map(function(comment) {
                     return {
                         block: 'comment',
                         mix: { block, elem: 'comment' },
@@ -30,10 +30,10 @@ block('comments')(
                     };
                 })
             },
-            this.data.user ? {
+            data.user ? {
                 block: 'add-form',
                 mix: { block, elem: 'add-comment-form' }
-            } : 'Чтобы оставлять комментарии, небоходимо авторизоваться.'
+            } : i18n(block, 'loginWarning')
         ];
     })
 );

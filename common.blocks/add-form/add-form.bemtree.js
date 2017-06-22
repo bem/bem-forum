@@ -1,6 +1,6 @@
 block('add-form')(
-    content()(function() {
-        const block = this.block;
+    content()(node => {
+        const { block, i18n } = node;
 
         return [
             {
@@ -39,7 +39,7 @@ block('add-form')(
                             size: 'm',
                             view: 'action'
                         },
-                        text: 'Отправить'
+                        text: i18n(block, 'send')
                     },
                     {
                         block: 'spin',

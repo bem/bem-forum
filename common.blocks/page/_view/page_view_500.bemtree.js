@@ -1,6 +1,5 @@
-block('page').mod('view', '500').content()(function() {
-    var block = this.block,
-    i18n = this.require('i18n');
+block('page').mod('view', '500').content()(node => {
+    const { block, i18n } = node;
 
     return [
         {
