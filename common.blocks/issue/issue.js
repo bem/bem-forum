@@ -1,5 +1,5 @@
-modules.define('issue', ['i-bem-dom', 'jquery', 'button', 'functions', 'api-request'],
-    function(provide, bemDom, $, Button, Functions, request) {
+modules.define('issue', ['i-bem-dom', 'jquery', 'button', 'comments', 'functions', 'api-request'],
+    function(provide, bemDom, $, Button, Comments, Functions, request) {
 
 provide(bemDom.declBlock(this.name, {
     onSetMod: {
@@ -34,15 +34,16 @@ provide(bemDom.declBlock(this.name, {
     _onClickCommentsButton: function(event) {
         var button = event.bemTarget;
         var footer = this._elem('footer');
+        var comments = this.findChildBlock(Comments);
 
         event.preventDefault();
-        button.setMod('disabled');
 
-        request(button.params.number + '/comments')
-            .then(function(response) { return response.text(); })
-            .then(function(data) {
-                bemDom.append(footer.domElem, data);
-            });
+        comments ? comments.toggleMod('hidden') :
+            request(button.params.number + '/comments')
+                .then(function(response) { return response.text(); })
+                .then(function(data) {
+                    bemDom.append(footer.domElem, data);
+                });
     }
 }, {
     lazyInit: true,
