@@ -1,5 +1,5 @@
 block('add-form').mod('type', 'post').elem('fields').content()(node => {
-    const block = node.block;
+    const { block, i18n } = node;
 
     return [{
         block: 'input',
@@ -12,6 +12,6 @@ block('add-form').mod('type', 'post').elem('fields').content()(node => {
             size: 'm',
             width: 'available'
         },
-        placeholder: 'Заголовок поста'
+        placeholder: i18n(block, 'postTitle')
     }].concat(applyNext());
 });
