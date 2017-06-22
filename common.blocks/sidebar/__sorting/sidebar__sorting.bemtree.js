@@ -1,6 +1,5 @@
-block('sidebar').elem('sorting').content()(function() {
-    const { block } = this;
-    const i18n = this.require('i18n');
+block('sidebar').elem('sorting').content()(node => {
+    const { block, i18n } = node;
 
     return [
         {

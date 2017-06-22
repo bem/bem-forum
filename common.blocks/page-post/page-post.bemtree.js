@@ -1,7 +1,6 @@
-block('page-post').content()(function() {
-    const { block, data } = this;
+block('page-post').content()(node => {
+    const { block, data, i18n } = node;
     const issue = data.issue;
-    const i18n = this.require('i18n');
 
     return [
         {
@@ -10,7 +9,7 @@ block('page-post').content()(function() {
                 {
                     block: 'link',
                     mix: { block, elem: 'link' },
-                    content: i18n('page-post', 'blog'),
+                    content: i18n(block, 'blog'),
                     url: '/'
                 },
                 '&nbsp;/'

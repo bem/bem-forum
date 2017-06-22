@@ -16,9 +16,9 @@ var techs = {
             require('autoprefixer')()
         ],
         i18NTech: require('enb-bem-i18n/techs/i18n'),
+        bemtreeI18N: require('enb-bemxjst-i18n/techs/bemtree-i18n'),
         keysetsTech: require('enb-bem-i18n/techs/keysets'),
         browserJs: require('enb-js/techs/browser-js'),
-        bemtree: require('enb-bemxjst/techs/bemtree'),
         bemhtml: require('enb-bemxjst/techs/bemhtml')
     },
     enbBemTechs = require('enb-bem-techs'),
@@ -62,19 +62,15 @@ module.exports = function(config) {
             // Build i18n files for each lang
             [techs.i18NTech, {
                 lang: '{lang}',
-                exports: { globals: 'force' }
+                exports: { ym: true, commonJS: true }
             }],
 
             // bemtree
-            [techs.bemtree, {
-                sourceSuffixes: ['bemtree', 'bemtree.js'],
-                requires: { i18n: { globals: 'BEM.I18N' } }
-            }],
-
-            [techs.fileMerge, {
-                sources: ['?.lang.{lang}.js', '?.bemtree.js'],
+            [techs.bemtreeI18N, {
                 target: '?.{lang}.bemtree.js',
-                lang: '{lang}'
+                sourceSuffixes: ['bemtree.js'],
+                lang: '{lang}',
+                requires: {}
             }],
 
             // templates

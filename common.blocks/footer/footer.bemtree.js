@@ -1,6 +1,5 @@
-block('footer').content()(function() {
-    const { block } = this;
-    const i18n = this.require('i18n');
+block('footer').content()(node => {
+    const { block, i18n } = node;
 
     return {
         elem: 'links',
