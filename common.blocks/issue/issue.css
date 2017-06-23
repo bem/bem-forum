@@ -90,12 +90,6 @@
         border-radius: 3px;
     }
 
-    &_counts &__content {
-        border-bottom: 1px solid #e1e1e1;
-
-        margin-bottom: 15px;
-    }
-
     &__title-icon {
         width: 16px;
 

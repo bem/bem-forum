@@ -10,7 +10,6 @@
 
     &__content {
         flex-grow: 1;
-        padding-bottom: 20px;
         overflow: auto;
     }
 }
