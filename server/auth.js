@@ -1,19 +1,10 @@
-var passport = require('passport'),
-    GitHubStrategy = require('passport-github2').Strategy,
-    env = process.env,
-    config;
+const passport = require('passport');
+const GitHubStrategy = require('passport-github2').Strategy;
+const githubConfig = require('./config').github;
+const env = process.env;
 
-try {
-    config = require('./secret-config').github;
-
-    Array.isArray(config) || (config = [config]);
-} catch (err) {
-    //
-}
-
-var secretIndex = Math.ceil(Math.random() * config.length - 1);
-var clientID = env.BEM_FORUM_CLIENT_ID || config[secretIndex].clientID,
-    clientSecret = env.BEM_FORUM_CLIENT_SECRET || config[secretIndex].clientSecret;
+const clientID = env.BEM_FORUM_CLIENT_ID || githubConfig.clientID;
+const clientSecret = env.BEM_FORUM_CLIENT_SECRET || githubConfig.clientSecret;
 
 function verify(req, accessToken, refreshToken, profile, done) {
     profile = JSON.parse(profile._raw);
@@ -22,18 +13,16 @@ function verify(req, accessToken, refreshToken, profile, done) {
         id: profile.id,
         avatar: profile.avatar_url,
         login: profile.login,
-        accessToken: accessToken
+        accessToken
     });
 }
 
-module.exports = passport;
-
 // serialize user into the session
-passport.serializeUser(function(user, done) {
+passport.serializeUser((user, done) => {
     done(null, JSON.stringify(user));
 });
 
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser((user, done) => {
     done(null, JSON.parse(user));
 });
 
@@ -43,8 +32,10 @@ if (!clientID || !clientSecret) {
 }
 
 passport.use(new GitHubStrategy({
-    clientID: clientID,
-    clientSecret: clientSecret,
+    clientID,
+    clientSecret,
     callbackURL: '/auth/github/callback',
     passReqToCallback: true
 }, verify));
+
+module.exports = passport;

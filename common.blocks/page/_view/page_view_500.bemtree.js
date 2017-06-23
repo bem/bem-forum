@@ -1,24 +1,21 @@
 block('page').mod('view', '500').content()(node => {
     const { block, i18n } = node;
 
+    const error = {
+        header: i18n(block, 'serverErrorHeader'),
+        text: i18n(block, 'serverErrorContent')
+    };
+
     return [
+        { block: 'header' },
         {
-            elem: 'wrapper',
-            attrs: { style: 'margin: 20px; font-family: Verdana, Arial;' },
-            content: [
-                {
-                    tag: 'h1',
-                    content: i18n(block, 'internalServerError')
-                },
-                {
-                    tag: 'p',
-                    content: i18n(block, 'sorrySomthingWrong')
-                },
-                {
-                    tag: 'p',
-                    content: i18n(block, 'tryLater')
-                }
-            ]
-        }
+            elem: 'content',
+            content: {
+                block: 'error-board',
+                mix: { block, elem: 'error-board' },
+                error
+            }
+        },
+        { block: 'footer' }
     ];
 });
