@@ -142,9 +142,10 @@ function makeCommentsRequest(issueRequestUrl, opts) {
 function makeIssueRequest(issueRequestUrl, opts) {
     logger.log('API request to', issueRequestUrl);
 
-    return got(issueRequestUrl, {
-        query: Object.assign({ state: 'all' }, opts.query)
-    }).then(data => {
+    return got(issueRequestUrl, Object.assign(
+        opts,
+        { query: Object.assign({ state: 'all' }, opts.query) }
+    )).then(data => {
         // E.g. '<https://api.github.com/repositories/14397309/issues?state=all&page=2>; rel="next", <https://api.github.com/repositories/14397309/issues?state=all&page=46>; rel="last"'
         const paginationString = data.headers.link || '';
 
