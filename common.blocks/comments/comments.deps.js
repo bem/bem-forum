@@ -4,7 +4,8 @@
         shouldDeps: [
             'api-request',
             'comment',
-            'add-form'
+            'add-form',
+            'link'
         ]
     },
     {
