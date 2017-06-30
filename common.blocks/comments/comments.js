@@ -5,7 +5,9 @@ modules.define('comments', [
         onSetMod: {
             js: {
                 inited: function() {
-                    this._form = this._elem('add-comment-form').findMixedBlock(AddForm);
+                    if (this.params.user) {
+                        this._form = this._elem('add-comment-form').findMixedBlock(AddForm);
+                    }
                 }
             }
         },
