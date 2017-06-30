@@ -13,6 +13,11 @@ Please provide your github OAuth credentials in `server/secret-config.js` like t
 ```js
 module.exports = {
     github: {
+        tokens: [
+            'GENERATED_TOKEN_1',
+            'GENERATED_TOKEN_2',
+            'GENERATED_TOKEN_3'
+        ],
         clientID: 'YOUR_CLIENT_ID',
         clientSecret: 'YOUR_CLIENT_SECRET'
     }

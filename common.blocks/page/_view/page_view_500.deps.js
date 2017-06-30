@@ -1,6 +1,5 @@
 ({
     shouldDeps: [
-        'issues',
         'error-board'
     ]
 })

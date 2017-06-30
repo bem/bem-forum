@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
     staticFolder: 'static',
     defaultPort: 3000,
     cacheTTL: 30000,
@@ -11,3 +11,13 @@ module.exports = {
     org: 'bem-site',
     repo: 'bem-forum-content-en'
 };
+
+let secretConfig;
+
+try {
+    secretConfig = require('./secret-config');
+} catch (err) {
+    console.error('No "secret-config.js" file found...');
+}
+
+module.exports = Object.assign({}, secretConfig, config);

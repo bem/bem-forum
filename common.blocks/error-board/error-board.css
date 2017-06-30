@@ -1,7 +1,11 @@
 .error-board {
-    margin: 15px;
-}
+    &__title {
+        margin: 0 0 20px;
 
-.error-board__title-issues {
-    margin-top: 80px;
+        font-size: 36px;
+    }
+
+    &__text {
+        font-size: 18px;
+    }
 }

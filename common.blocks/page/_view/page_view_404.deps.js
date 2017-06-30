@@ -1,3 +1,6 @@
 ({
-    shouldDeps: ['error-board']
+    shouldDeps: [
+        'error-board',
+        'last-issues'
+    ]
 })

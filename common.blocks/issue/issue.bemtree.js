@@ -2,7 +2,7 @@ block('issue').content()((node, ctx) => {
     const { block, i18n, data } = node;
     const issue = ctx.issue;
     const user = data.user || {};
-    const isPostPage = !(data.url.pathname === '/' || data.view === '404');
+    const isPostPage = data.url.pathname.match(/\/\d+/);
 
     return [
         {
