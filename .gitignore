@@ -14,3 +14,5 @@ static/index.min.*
 !*bundles*/*/*.bemdecl.js
 *bundles*/*/*.tmpl.bemdecl.js
 !*bundles*/.bem/*
+common.tmpl-specs*/*/*.*
+coverage/
