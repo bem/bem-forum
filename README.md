@@ -5,6 +5,7 @@
 ```
 git clone https://github.com/tadatuta/bem-forum.git
 cd bem-forum
+npm i
 YENV=production npm run make
 echo "module.exports = {};" > server/secret-config.js
 ```
