@@ -1,3 +1,5 @@
 **/*.deps.js
 *bundles/**
+common.tmpl-specs/**
+coverage/**
 static

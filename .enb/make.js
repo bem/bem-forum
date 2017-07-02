@@ -38,8 +38,35 @@ var techs = {
 var isProd = process.env.YENV === 'production';
 isProd || levels.push('development.blocks');
 
+var bemhtmlOptions = {
+    sourceSuffixes: ['bemhtml', 'bemhtml.js'],
+    forceBaseTemplates: true,
+    engineOptions: { elemJsInstances: true }
+};
+
 module.exports = function(config) {
     config.setLanguages(['en', 'ru']);
+
+    config.includeConfig('enb-bem-tmpl-specs'); // Подключаем `enb-bem-tmpl-specs` модуль.
+
+    var examples = config.module('enb-bem-tmpl-specs') // Создаём конфигуратор сетов
+        .createConfigurator('tmpl-specs', {            // в рамках таска `specs`.
+            coverage: {                                // Определяем общие опции для всех уровней-сетов.
+                engines: ['bemhtml']
+            }
+        });
+
+    examples.configure({
+        destPath: 'common.tmpl-specs',
+        levels: ['common.blocks'],
+        sourceLevels: levels,
+        engines: {
+            'bemhtml': {
+                tech: 'enb-bemxjst/techs/bemhtml',
+                options: bemhtmlOptions
+            }
+        }
+    });
 
     config.nodes('*.bundles/*', function(nodeConfig) {
         nodeConfig.addTechs([
@@ -74,11 +101,7 @@ module.exports = function(config) {
             }],
 
             // templates
-            [techs.bemhtml, {
-                sourceSuffixes: ['bemhtml', 'bemhtml.js'],
-                forceBaseTemplates: true,
-                engineOptions: { elemJsInstances: true }
-            }],
+            [techs.bemhtml, bemhtmlOptions],
 
             // client templates
             [enbBemTechs.depsByTechToBemdecl, {
