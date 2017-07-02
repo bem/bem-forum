@@ -1,0 +1,9 @@
+*
+!.enb
+!*.blocks
+!*.bundles
+!server
+!package.json
+!package-lock.json
+!favicon.ico
+!static
