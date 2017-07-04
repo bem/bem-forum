@@ -117,4 +117,8 @@
             }
         }
     }
+
+    &__send-form {
+        display: none;
+    }
 }

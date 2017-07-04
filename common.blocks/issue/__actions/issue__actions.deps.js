@@ -4,7 +4,7 @@
         'functions',
         {
             block: 'spin',
-            mods: { theme: 'islands', size: 'm' } 
+            mods: { theme: 'islands', size: 'm' }
         }
     ]
 });

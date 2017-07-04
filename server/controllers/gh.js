@@ -9,7 +9,7 @@ const marked = require('marked');
 const Render = require('../render');
 const render = Render.render;
 const dropCache = Render.dropCache; // eslint-disable-line no-unused-vars
-const tokens = config.github.tokens;
+const tokens = config.github.tokens || [];
 const requestUrl = [config.ghAPI, 'repos', config.org, config.repo].join('/');
 const issuesRequestUrl = [requestUrl, 'issues'].join('/');
 const labelsRequestUrl = [requestUrl, 'labels'].join('/');
@@ -37,7 +37,7 @@ function createIssue(req, res) {
     return got.post(issuesRequestUrl, {
         body: {
             title: commentData.title,
-            body: commentData.text
+            body: commentData.body
         },
         token: getToken(req.user)
     }).then(postData => res.status(200).send(postData.body))
@@ -65,8 +65,8 @@ function getIssues(req, res) {
     }).catch(err => onError(req, res, err));
 }
 
-function getIssue(req, res) {
-    logger.log('getIssue', req.params.id);
+function getComplexIssue(req, res) {
+    logger.log('getComplexIssue', req.params.id);
 
     const issueRequestUrl = `${issuesRequestUrl}/${req.params.id}`;
     const token = getToken(req.user);
@@ -86,6 +86,16 @@ function getIssue(req, res) {
     }).catch(err => onError(req, res, err));
 }
 
+function updateComment(req, res) {
+    logger.log('update comment', req.params.id, 'with data', req.body);
+
+    got.patch(`${issuesRequestUrl}/comments/${req.params.id}`, {
+        body: req.body,
+        token: getToken(req.user)
+    }).then(() => res.status(204).send('ok'))
+        .catch(error => onError(req, res, error));
+}
+
 function updateIssue(req, res) {
     logger.log('update issue', req.params.id, 'with data', req.body);
 
@@ -100,7 +110,7 @@ function getComments(req, res) {
     makeCommentsRequest(`${issuesRequestUrl}/${req.params.id}`, { token: getToken(req.user) })
         .then(comments => render(req, res, {
             view: 'page-post',
-            comments: comments,
+            comments,
             issueId: req.params.id
         }, {
             block: 'comments'
@@ -108,11 +118,48 @@ function getComments(req, res) {
         .catch(err => onError(req, res, err));
 }
 
+function getComment(req, res) {
+    _getData(req, res, 'comment', '/comments');
+}
+
+function getIssue(req, res) {
+    _getData(req, res, 'issue', '');
+}
+
+function _getData(req, res, dataType, urlPart) {
+    logger.log('get' + dataType, req.params.id);
+
+    const requestPath = `${issuesRequestUrl}${urlPart}/${req.params.id}`;
+    const token = getToken(req.user);
+    const type = req.query.type;
+
+    return (dataType === 'issue' ?
+        makeIssueRequest(requestPath, { token }) :
+        makeCommentRequest(requestPath, { token })
+    )
+        .then(response => {
+        const data = dataType === 'issue' ? response.issues[0] : response;
+
+        type === 'form' ?
+            render(req, res, {
+                view: 'page-post'
+            },
+            Object.assign({
+                block: 'send-form',
+                mix: { block: dataType, elem: 'send-form' },
+                formType: dataType,
+                reqType: 'edit'
+            }, dataType === 'issue' ? { issue: data } : { comment: data })) :
+            res.json(data);
+    }).catch(err => onError(req, res, err));
+}
+
 function addComment(req, res) {
+
     return got.post(`${issuesRequestUrl}/${req.params.id}/comments`, {
         body: { body: req.body.text },
         token: getToken(req.user)
-    }).then(response => res.status(201).json(response.body))
+    }).then(response => res.json(response.body.id))
         .catch(error => onError(req, res, error));
 }
 
@@ -128,6 +175,15 @@ function get404(req, res) {
             });
         })
         .catch(err => onError(req, res, err));
+}
+
+function makeCommentRequest(commentRequestUrl, opts) {
+    logger.log('API request to', commentRequestUrl);
+
+    return got(commentRequestUrl, Object.assign(
+        opts,
+        { query: Object.assign({ state: 'all' }, opts.query) }
+    )).then(data => data.body);
 }
 
 function makeCommentsRequest(issueRequestUrl, opts) {
@@ -183,7 +239,10 @@ module.exports = {
     updateIssue,
     getIssues,
     getIssue,
+    getComplexIssue,
     getComments,
+    getComment,
     addComment,
+    updateComment,
     get404
 };

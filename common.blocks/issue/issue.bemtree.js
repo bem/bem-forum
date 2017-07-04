@@ -14,6 +14,14 @@ block('issue').content()((node, ctx) => {
                     elem: 'actions',
                     content: [
                         {
+                            block: 'button',
+                            text: 'edit',
+                            mix: { block, elem: 'edit-button' },
+                            js: {
+                                issueId: issue.number
+                            }
+                        },
+                        {
                             block,
                             elem: 'toggle-resolved',
                             mix: { block: block, elem: 'actions-button' },
@@ -57,7 +65,8 @@ block('issue').content()((node, ctx) => {
             content: [
                 {
                     block: 'md-body',
-                    content: issue.html
+                    content: issue.html,
+                    mix: { block, elem: 'content-body' }
                 },
                 {
                     block: 'button',

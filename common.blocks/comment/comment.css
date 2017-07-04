@@ -10,6 +10,10 @@
         margin-bottom: 16px;
     }
 
+    &__send-form {
+        display: none;
+    }
+
     .comment__content pre {
         background-color: #e2e1de;
     }

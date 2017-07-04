@@ -7,7 +7,16 @@ block('issues').content()(function() {
             elem: 'content',
             content: data.issues.length ? data.issues.map(issue => ({
                 block: 'issue',
-                mix: { block, elem: 'issue' },
+                mix: [
+                    { block, elem: 'issue' },
+                    {
+                        block: 'editing',
+                        js: {
+                            formType: 'issue',
+                            entityId: issue.number
+                        }
+                    }
+                ],
                 mods: { state: issue.state, counts: this.data.issues.length === 1 },
                 issue: issue,
                 userLogin: data.userLogin

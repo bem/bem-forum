@@ -1,6 +1,7 @@
 ({
     shouldDeps: [
         'issue',
-        'pager'
+        'pager',
+        'editing'
     ]
 })

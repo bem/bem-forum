@@ -5,4 +5,8 @@
     .textarea {
         height: 250px;
     }
+
+    .send-form {
+        display: block;
+    }
 }

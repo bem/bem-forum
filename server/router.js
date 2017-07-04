@@ -18,13 +18,15 @@ router
 
     // Issue routes
     .get('/create', checkAuth, keepRetpath, controllers.gh.createIssuePage)
-    .get('/:id(\\d+)', keepRetpath, controllers.gh.getIssue)
+    .get('/:id(\\d+)', keepRetpath, controllers.gh.getComplexIssue)
+    .get('/api/form/:id(\\d+)', keepRetpath, controllers.gh.getIssue)
     .patch('/api/:id(\\d+)', checkAuth, controllers.gh.updateIssue)
+    .patch('/api/issues/comments/:id(\\d+)', checkAuth, controllers.gh.updateComment)
 
     .get('/api/:id(\\d+)/comments', controllers.gh.getComments)
+    .get('/api/issues/comments/:id(\\d+)', controllers.gh.getComment)
     .post('/api/:id(\\d+)/comments', checkAuth, controllers.gh.addComment)
     .post('/api/create', checkAuth, controllers.gh.createIssue)
-
     // Auth routes
     .get('/auth/github', passportGitHub.authenticate('github', { scope: ['public_repo'] }))
     .get('/auth/github/callback', passportGitHub.authenticate('github', { failureRedirect: '/error' }), function(req, res) {

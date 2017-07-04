@@ -10,9 +10,23 @@ modules.define('api-request', [
      * @param {String} apiPath - API path whithout '/'
      * @param {Object} ajaxSettings - fetch AjaxSettings
      * @param {*} context - execution context
-     * @returns {Request}
+     * @returns {Promise<string>} - response text
      */
     function request(apiPath, ajaxSettings, context) {
+        return request.raw(apiPath, ajaxSettings, context)
+            .then(function(response) {
+                return response.text();
+            });
+    }
+
+    /**
+     * Make raw fetch request to the API
+     * @param {String} apiPath - API path whithout '/'
+     * @param {Object} ajaxSettings - fetch AjaxSettings
+     * @param {*} context - execution context
+     * @returns {Request}
+     */
+    request.raw = function(apiPath, ajaxSettings, context) {
         var settings = request._prepareSettings(ajaxSettings || {});
         var url = request._basePath + apiPath;
 
@@ -29,7 +43,7 @@ modules.define('api-request', [
         }
 
         return fetch(url, settings).then(checkStatus);
-    }
+    };
 
     /**
      * POST request sugar
@@ -41,6 +55,13 @@ modules.define('api-request', [
     request.post = function(apiPath, data, context) {
         return request(apiPath, {
             method: 'POST',
+            body: data
+        }, context);
+    };
+
+    request.patch = function(apiPath, data, context) {
+        return request(apiPath, {
+            method: 'PATCH',
             body: data
         }, context);
     };

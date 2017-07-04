@@ -1,3 +1,8 @@
 ({
-    shouldDeps: ['user', 'md-body']
+    shouldDeps: [
+        'user',
+        'button',
+        'send-form',
+        'editing'
+    ]
 });

@@ -1,6 +1,6 @@
-modules.define('add-form__submit-btn', ['i-bem-dom', 'button'], function(provide, bemDom, Button) {
+modules.define('send-form__submit-btn', ['i-bem-dom', 'button'], function(provide, bemDom, Button) {
 
-    var SubmitBtn = bemDom.declElem('add-form', 'submit-btn', {
+    var SubmitBtn = bemDom.declElem('send-form', 'submit-btn', {
         _onButtonClick: function() {
             this._emit('submit');
         }

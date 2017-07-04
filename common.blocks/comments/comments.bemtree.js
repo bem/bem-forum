@@ -21,15 +21,38 @@ block('comments')(
                 elem: 'list',
                 content: data.comments.map(comment => ({
                     block: 'comment',
-                    mix: { block, elem: 'comment' },
+                    mix: [
+                        { block, elem: 'comment' },
+                        {
+                            block: 'editing',
+                            js: {
+                                formType: 'comment',
+                                entityId: comment.id
+                            }
+                        }],
                     user: comment.user,
                     created_from_now: comment.created_from_now,
-                    html: comment.html
+                    html: comment.html,
+                    js: {
+                        commentId: comment.id
+                    }
                 }))
             },
             data.user ? {
-                block: 'add-form',
-                mix: { block, elem: 'add-comment-form' }
+                block: 'editing',
+                js: {
+                    formType: 'comment',
+                    entityId: node.ctx.js.issueId
+                },
+                content: {
+                    block: 'send-form',
+                    formType: 'comment',
+                    reqType: 'post',
+                    js: {
+                        user: node.data.user,
+                        issueId: node.ctx.js.issueId
+                    }
+                }
             } : {
                 elem: 'auth-suggest',
                 content: [
