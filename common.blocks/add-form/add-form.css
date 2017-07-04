@@ -1,9 +1,14 @@
 .add-form {
     &__actions {
         padding-top: 10px;
+        display: flex;
     }
 
     &__field {
         margin: 10px 0;
+    }
+
+    &__spinner {
+        margin-left: 10px;
     }
 }
