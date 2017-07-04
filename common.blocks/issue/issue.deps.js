@@ -1,7 +1,6 @@
 ({
     mustDeps: 'i-bem-dom',
     shouldDeps: [
-        { elem: ['toggle-resolved', 'actions'] },
         'functions',
         'user',
         'link',
@@ -12,6 +11,10 @@
         },
         'comments',
         'md-body',
-        'button'
+        'button',
+        'send-form',
+        'input',
+        'editor',
+        'editing'
     ]
 })

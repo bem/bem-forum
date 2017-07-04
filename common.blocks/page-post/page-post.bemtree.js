@@ -1,7 +1,6 @@
 block('page-post').content()(node => {
     const { block, data, i18n } = node;
     const issue = data.issue;
-
     return [
         {
             elem: 'header',
@@ -17,6 +16,16 @@ block('page-post').content()(node => {
         },
         {
             block: 'issue',
+            mix: [
+                { block, elem: 'issue' },
+                {
+                    block: 'editing',
+                    js: {
+                        formType: 'issue',
+                        entityId: issue.number
+                    }
+                }
+            ],
             mods: { state: issue.state },
             issue
         }

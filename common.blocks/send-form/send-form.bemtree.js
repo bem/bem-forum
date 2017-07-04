@@ -1,8 +1,23 @@
-block('add-form')(
+block('send-form')(
     content()(node => {
-        const { block, i18n } = node;
+        const { block, i18n, ctx } = node;
+        const data = ctx.issue || ctx.comment;
 
         return [
+            ctx.formType === 'issue' ? {
+                block: 'input',
+                mix: [
+                    { block: block, elem: 'title' },
+                    { block: block, elem: 'field' }
+                ],
+                mods: {
+                    theme: 'islands',
+                    size: 'm',
+                    width: 'available'
+                },
+                placeholder: i18n(block, 'postTitle'),
+                val: data ? data.title : ''
+            } : '',
             {
                 block: 'alert',
                 mods: { hidden: true },
@@ -24,7 +39,8 @@ block('add-form')(
                         width: 'available',
                         'has-actions': true,
                         'has-preview': true
-                    }
+                    },
+                    val: data ? data.body : ''
                 }
             },
             {
@@ -33,12 +49,20 @@ block('add-form')(
                 content: [
                     {
                         block: 'button',
-                        mix: { block: block, elem: 'submit-btn', js: true },
+                        mix: {
+                            block,
+                            elem: 'submit-btn',
+                            js: {
+                                formType: ctx.formType,
+                                reqType: ctx.reqType
+                            }
+                        },
                         mods: {
                             theme: 'islands',
                             size: 'm',
                             view: 'action'
                         },
+
                         text: i18n(block, 'send')
                     },
                     {

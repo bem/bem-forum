@@ -1,0 +1,29 @@
+.editing {
+    &_state {
+        &_opened {
+            .issue {
+                &__title {
+                    display: none;
+                }
+
+                &__content {
+                    display: none;
+                }
+
+                &__user {
+                    display: none;
+                }
+            }
+
+            .comment {
+                &__content {
+                    display: none;
+                }
+            }
+
+            .send-form {
+                display: block;
+            }
+        }
+    }
+}

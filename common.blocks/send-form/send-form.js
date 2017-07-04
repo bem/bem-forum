@@ -1,12 +1,13 @@
-modules.define('add-form', [
-    'i-bem-dom', 'button', 'spin', 'editor', 'alert'
-], function(provide, bemDom, Button, Spin, Editor, Alert) {
-    var AddForm = bemDom.declBlock(this.name, {
+modules.define('send-form', [
+    'i-bem-dom', 'button', 'spin', 'editor', 'input', 'alert'
+], function(provide, bemDom, Button, Spin, Editor, Input, Alert) {
+    var SendForm = bemDom.declBlock(this.name, {
         onSetMod: {
             js: {
                 inited: function() {
                     this._editor = this._elem('editor').findMixedBlock(Editor);
                     this._alert = this._elem('alert').findMixedBlock(Alert);
+                    this._title = this._elem('title') && this._elem('title').findMixedBlock(Input);
                 }
             },
 
@@ -14,6 +15,17 @@ modules.define('add-form', [
                 this._elem('editor').findMixedBlock(Editor).setMod('disabled', modVal);
                 this._elem('submit-btn').findMixedBlock(Button).setMod('disabled', modVal);
                 this._elem('spinner').findMixedBlock(Spin).setMod('visible', modVal);
+            }
+        },
+
+        info: {
+            issue: {
+                fields: ['title', 'body'],
+                errorMessage: 'Заполните все поля'
+            },
+            comment: {
+                fields: ['body'],
+                errorMessage: 'Сначала надо что-нибудь написать'
             }
         },
 
@@ -47,35 +59,53 @@ modules.define('add-form', [
             return this;
         },
 
+        fillForm: function(data) {
+            this._editor.setVal(data.body);
+
+            if (this._title) {
+                this._title.setVal(data.title);
+            }
+        },
+
         _gatherData: function() {
             return {
-                text: this._editor.getVal()
+                body: this._editor.getVal(),
+                title: this._elem('title') ? this._elem('title').findMixedBlock(Input).getVal() : ' ',
+                rawBody: this._getBodyPreview()
             };
         },
 
-        _onSubmit: function() {
+        _getBodyPreview: function() {
+            this._editor._updatePreview();
+
+            return this._editor._elem('preview').domElem.html();
+        },
+
+        _onSubmit: function(event) {
+            var formType = event.bemTarget.params.formType;
             var gatheredData = this._gatherData();
             var emptyFields = [];
 
-            Object.keys(gatheredData).forEach(function(key) {
+            this.info[formType].fields.forEach(function(key) {
                 if (gatheredData[key].trim().length === 0) {
                     emptyFields.push(key);
                 }
             });
 
             if (emptyFields.length) {
-                this._emit('empty-data', emptyFields);
+                this.showErrorMessage(this.info[formType].errorMessage);
                 return;
             }
 
-            this._emit('submit', gatheredData);
+            this._emit('submit', Object.assign(gatheredData, { reqType: event.bemTarget.params.reqType }));
         }
     }, {
         lazyInit: true,
         onInit: function() {
-            this._events('submit-btn').on('submit', this.prototype._onSubmit);
+            this._events('submit-btn')
+                .on('submit', this.prototype._onSubmit);
         }
     });
 
-    provide(AddForm);
+    provide(SendForm);
 });

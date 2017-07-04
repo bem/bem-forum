@@ -1,38 +1,18 @@
 modules.define('page-create-post', [
-    'i-bem-dom', 'add-form', 'api-request'
-], function(provide, bemDom, AddForm, request) {
+    'i-bem-dom', 'send-form'
+], function(provide, bemDom, SendForm) {
     const PageCreatePost = bemDom.declBlock(this.name, {
-        _onFormSubmit: function(e, postData) {
-            this._getForm().setMod('loading');
-
-            var _this = this;
-
-            request.post('create', postData)
-                .then(function(response) {
-                    return response.json();
-                })
-                .then(function(post) {
-                    window.location = '/' + post.number;
-                })
-                .catch(function() {
-                    _this._getForm()
-                        .delMod('loading')
-                        .showErrorMessage('Что-то пошло не так, попробуй позже');
-                });
-        },
-
         _onEmptyData: function() {
             this._getForm().showErrorMessage('Сначала нужно заполнить все поля');
         },
 
         _getForm: function() {
-            return this._addForm || (this._addForm = this.findChildBlock(AddForm));
+            return this._sendForm || (this._sendForm = this.findChildBlock(SendForm));
         }
     }, {
         lazyInit: true,
         onInit: function() {
-            this._events(AddForm)
-                .on('submit', this.prototype._onFormSubmit)
+            this._events(SendForm)
                 .on('empty-data', this.prototype._onEmptyData);
         }
     });

@@ -1,5 +1,6 @@
-({
-    mustDeps: ['i-bem-dom'],
+([
+    {
+    mustDeps: ['i-bem-dom', 'i18n'],
     shouldDeps: [
         'form',
         { elem: 'submit-btn' },
@@ -36,6 +37,21 @@
                 size: 'm',
                 visible: true
             }
+        },
+        {
+            block: 'input',
+            mods: {
+                theme: 'islands',
+                size: 'm',
+                width: 'available'
+            }
         }
     ]
-});
+},
+{
+    tech: 'js',
+    mustDeps: [
+        { tech: 'i18n' },
+        { tech: 'i18n', block: 'i18n' }
+    ]
+}]);
