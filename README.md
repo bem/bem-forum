@@ -1,5 +1,8 @@
 # bem-forum
 
+Source code of https://bem.info/forum.
+Uses github.com issues API as backend.
+
 ## Installation
 
 ```
