@@ -1,6 +1,7 @@
 block('page-post').content()(node => {
     const { block, data, i18n } = node;
     const issue = data.issue;
+
     return [
         {
             elem: 'header',

@@ -1,5 +1,5 @@
-block('page-index').content()(function() {
-    const { block, data } = this;
+block('page-index').content()(node => {
+    const { block, data } = node;
 
     return [
         {

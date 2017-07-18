@@ -67,6 +67,20 @@ modules.define('api-request', [
     };
 
     /**
+     * PATCH request sugar
+     * @param {String} apiPath - API path without '/'
+     * @param {Object} data - JSON-serializable object, for transfering to server
+     * @param {*} [context] - execution context
+     * @returns {Request}
+     */
+    request.patch = function(apiPath, data, context) {
+        return request(apiPath, {
+            method: 'PATCH',
+            body: data
+        }, context);
+    };
+
+    /**
      * POST request sugar
      * @param {String} apiPath - API path without '/'
      * @param {Object} data - JSON-serializable object, for transfering to server
