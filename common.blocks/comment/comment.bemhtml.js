@@ -1,14 +1,21 @@
 block('comment')(
     js()(true),
-    content()((node, ctx) => {
-        const { block } = node;
 
+    content()(node => {
+        const { block, ctx } = node;
         return [
-            {
-                block: 'button',
-                text: 'edit',
-                mix: { block, elem: 'edit-button' }
-            },
+            ctx.userProfileId === ctx.user.id && [
+                {
+                    block: 'button',
+                    mix: { block, elem: 'edit-button' },
+                    text: 'edit'
+                },
+                {
+                    block: 'button',
+                    mix: { block, elem: 'remove-button' },
+                    text: 'remove'
+                }
+            ],
             {
                 elem: 'date',
                 content: ctx.created_from_now

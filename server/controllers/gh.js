@@ -163,6 +163,15 @@ function addComment(req, res) {
         .catch(error => onError(req, res, error));
 }
 
+function deleteComment(req, res) {
+    logger.log('deleteComment', req.params.id);
+
+    got.delete(`${issuesRequestUrl}/comments/${req.params.id}`, {
+        token: getToken(req.user)
+    }).then(() => res.status(204).send('ok'))
+        .catch(error => onError(req, res, error));
+}
+
 function get404(req, res) {
     logger.error('404', req.url);
 
@@ -243,6 +252,7 @@ module.exports = {
     getComments,
     getComment,
     addComment,
+    deleteComment,
     updateComment,
     get404
 };

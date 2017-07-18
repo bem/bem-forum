@@ -15,6 +15,8 @@ block('comments')(
     content()(node => {
         const { block, i18n, data } = node;
 
+        const userProfileId = data.user.id;
+
         return [
             {
                 block: block,
@@ -35,7 +37,8 @@ block('comments')(
                     html: comment.html,
                     js: {
                         commentId: comment.id
-                    }
+                    },
+                    userProfileId: userProfileId
                 }))
             },
             data.user ? {
