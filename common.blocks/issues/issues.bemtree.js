@@ -1,5 +1,5 @@
 block('issues').content()(function() {
-    const { data, block } = this;
+    const { data, block, i18n } = this;
     const pagination = data.pagination || {};
 
     return [
@@ -14,7 +14,7 @@ block('issues').content()(function() {
             })) : {
                 block: 'message',
                 mix: { block, elem: 'message' },
-                content: 'No posts found'
+                content: i18n(block, 'noPosts')
             }
         },
         (pagination.next || pagination.prev) && {

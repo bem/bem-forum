@@ -1,0 +1,7 @@
+.editor {
+    &__toolbar&__toolbar {
+        .icon_bg_columns {
+            width: 19px;
+        }
+    }
+}

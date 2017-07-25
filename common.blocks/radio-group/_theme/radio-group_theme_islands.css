@@ -1,9 +1,0 @@
-.radio-group {
-    .radio {
-        &:nth-child(3) {
-            .icon {
-                width: 19px;
-            }
-        }
-    }
-}
