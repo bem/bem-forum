@@ -9,12 +9,11 @@ const marked = require('marked');
 const Render = require('../render');
 const render = Render.render;
 const dropCache = Render.dropCache; // eslint-disable-line no-unused-vars
-const tokens = config.github.tokens;
 const requestUrl = [config.ghAPI, 'repos', config.org, config.repo].join('/');
 const issuesRequestUrl = [requestUrl, 'issues'].join('/');
 const labelsRequestUrl = [requestUrl, 'labels'].join('/');
 
-const getToken = user => user ? user.accessToken : tokens[Math.ceil(Math.random() * tokens.length - 1)];
+const getToken = user => user ? user.accessToken : null;
 
 function onError(req, res, err) {
     logger.error(err);
