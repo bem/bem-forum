@@ -1,10 +1,20 @@
-.issues__pager {
-    margin: auto;
-    padding: 20px 0;
+.issues {
+    &__pager {
+        margin: auto;
+        padding: 20px 0;
 
-    max-width: 900px;
-}
+        max-width: 900px;
+    }
 
-.issues__issue {
-    padding-top: 50px;
+    &__issue {
+        padding-top: 50px;
+    }
+
+    &__message {
+        max-width: 900px;
+        margin: auto;
+        padding-top: 30px;
+        font-weight: bold;
+        font-size: 24px;
+    }
 }

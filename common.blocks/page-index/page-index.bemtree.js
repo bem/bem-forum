@@ -1,13 +1,13 @@
 block('page-index').content()(function() {
     const { block, data } = this;
-    const issues = data.issues;
 
     return [
         {
             elem: 'content',
-            content: issues && issues.length ? {
-                block: 'issues'
-            } : ''
+            content: {
+                block: 'issues',
+                user: data.userLogin
+            }
         },
         {
             block: 'sidebar',
