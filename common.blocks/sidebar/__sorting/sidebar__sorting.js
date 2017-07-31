@@ -28,7 +28,7 @@ modules.define(
             return Object.assign(
                 Location.getUri().queryParams,
                 { sort, direction },
-                { pagination: undefined }
+                { page: '1' }
             );
         }
 

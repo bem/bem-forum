@@ -56,11 +56,26 @@ function getIndex(req, res) {
         const issuesData = responses[0];
         const labelsData = responses[1];
 
+        const querystring = require('querystring');
+
+        const pageCount = issuesData.pagination.last ?
+            querystring.parse(issuesData.pagination.last).page :
+            parseInt(querystring.parse(issuesData.pagination.prev).page) + 1;
+
+        var exceptPagUrl = querystring.parse(issuesData.pagination.last || issuesData.pagination.prev);
+        delete exceptPagUrl.page;
+
+        exceptPagUrl = Object.keys(exceptPagUrl).reduce((resStr, key) => {
+            return (resStr += '&' + key + '=' + exceptPagUrl[key]);
+        }, '').substr(1);
+
         render(req, res, {
             view: 'page-index',
             issues: issuesData.issues,
             pagination: issuesData.pagination,
-            labels: labelsData
+            labels: labelsData,
+            pageCount,
+            exceptPagUrl
         });
     }).catch(err => onError(req, res, err));
 }
