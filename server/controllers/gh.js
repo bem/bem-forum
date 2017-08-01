@@ -44,8 +44,8 @@ function createIssue(req, res) {
         .catch(err => onError(req, res, err));
 }
 
-function getIssues(req, res) {
-    logger.log('getIssues');
+function getIndex(req, res) {
+    logger.log('getIndex');
 
     const token = getToken(req.user);
 
@@ -63,6 +63,20 @@ function getIssues(req, res) {
             labels: labelsData
         });
     }).catch(err => onError(req, res, err));
+}
+
+function getIssues(req, res) {
+    logger.log('getIssues');
+
+    makeIssueRequest(issuesRequestUrl, { query: req.query, token: getToken(req.user) })
+        .then(issuesData => render(req, res, {
+            view: 'page-index',
+            issues: issuesData.issues,
+            pagination: issuesData.pagination
+        }, {
+            block: 'issues'
+        }))
+        .catch(err => onError(req, res, err));
 }
 
 function getComplexIssue(req, res) {
@@ -243,6 +257,7 @@ function makeLabelsRequest(labelRequestUrl, opts) {
 }
 
 module.exports = {
+    getIndex,
     createIssuePage,
     createIssue,
     updateIssue,

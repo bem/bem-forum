@@ -22,7 +22,6 @@ modules.define(
             }
 
             Location.change({ params: this._getParams(sortType, direction) });
-            window.location.reload();
         },
 
         _getParams: function(sort, direction) {

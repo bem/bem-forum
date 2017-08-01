@@ -14,7 +14,7 @@ const keepRetpath = (req, res, next) => {
 
 router
     .get('/ping/', (req, res) => res.send('ok'))
-    .get('/', keepRetpath, controllers.gh.getIssues)
+    .get('/', keepRetpath, controllers.gh.getIndex)
 
     // Issue routes
     .get('/create', checkAuth, keepRetpath, controllers.gh.createIssuePage)
@@ -24,6 +24,7 @@ router
     .patch('/api/issues/comments/:id(\\d+)', checkAuth, controllers.gh.updateComment)
     .delete('/api/issues/comments/:id(\\d+)', checkAuth, controllers.gh.deleteComment)
 
+    .get('/api/issues', keepRetpath, controllers.gh.getIssues)
     .get('/api/:id(\\d+)/comments', controllers.gh.getComments)
     .get('/api/issues/comments/:id(\\d+)', controllers.gh.getComment)
     .post('/api/:id(\\d+)/comments', checkAuth, controllers.gh.addComment)
