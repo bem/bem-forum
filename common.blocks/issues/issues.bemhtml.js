@@ -1,0 +1,1 @@
+block('issues').js()(true);
