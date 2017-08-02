@@ -1,40 +1,42 @@
 modules.define(
     'labels-list__label',
-    ['i-bem-dom', 'location', 'link', 'labels-list'],
-    function(provide, bemDom, Location, Link, LabelsList) {
+    ['i-bem-dom', 'location', 'link'],
+    function(provide, bemDom, Location, Link) {
 
     var Label = bemDom.declElem('labels-list', 'label', {
         onSetMod: {
-            js: {
-                inited: function() {
-                    this._link = this.findChildBlock(Link);
+            active: function(modName, modVal) {
+                var link = this.findChildBlock(Link);
 
-                    this._events(this._link).on('click', this._onLabelClick);
-                }
+                link.domElem[0].style['background-color'] = link.params[modVal ? 'activeColor' : 'usualColor'];
             }
         },
 
-        _onLabelClick: function(e) {
-            e.preventDefault();
+        _onLabelClick: function(event) {
+            event.preventDefault();
 
-            if (this._link.hasMod('active')) {
-                this._link.delMod('active');
-                this._link.domElem[0].style['background-color'] = this._link.params.usualColor;
+            this.toggleMod('active');
 
-                Location.change({});
-            } else {
-                // Remove all active states from labels
-                var activeLabels = this.findParentBlock(LabelsList).findChildBlocks({ block: Link, modName: 'active', modVal: true });
-                activeLabels.delMod('active');
-                activeLabels.forEach(function(label) {
-                    label.domElem[0].style['background-color'] = label.params.usualColor;
-                });
+            var queryLabels = Location.getUri().queryParams.labels;
+            var activeLabels = (queryLabels && queryLabels[0]) ? queryLabels[0].split(',') : [];
 
-                this._link.setMod('active');
-                this._link.domElem[0].style['background-color'] = this._link.params.activeColor;
+            var labelName = this.params.name;
 
-                Location.change({ params: { labels: this._link.params.label } });
-            }
+            activeLabels.indexOf(labelName) === -1 ?
+                activeLabels.push(labelName) :
+                activeLabels.splice(activeLabels.indexOf(labelName), 1);
+
+            Location.change(
+                activeLabels.length ?
+                    { params: { labels: activeLabels.join(','), state: 'all', page: '1' } } :
+                    {}
+            );
+        }
+    }, {
+        lazyInit: true,
+
+        onInit: function() {
+            this._events(Link).on('click', this.prototype._onLabelClick);
         }
     });
 

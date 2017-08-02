@@ -3,6 +3,7 @@ block('labels-list').content()(function() {
         block: this.block,
         elem: 'label',
         name: label.name,
-        color: label.color
+        color: label.color,
+        js: { name: label.name }
     }));
 });
