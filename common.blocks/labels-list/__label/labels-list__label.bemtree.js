@@ -15,9 +15,14 @@ block('labels-list').elem('label').content()(function() {
         url: '/?labels=' + name,
         attrs: {
             style: [
-                `background-color: ${calcBrightness(color, 80)}`,
+                `background-color: ${calcBrightness(color, 95)}`,
                 `border-color: #${color}`
             ].join(';')
+        },
+        js: {
+            label: name,
+            usualColor: calcBrightness(color, 95),
+            activeColor: calcBrightness(color, 40)
         },
         content: name
     };
