@@ -2,6 +2,11 @@ block('labels-list').elem('label').content()(function() {
     const { ctx, block } = this;
     const { name, color } = ctx;
 
+    const brightness = {
+        active: 95,
+        usual: 40
+    };
+
     function calcBrightness(hex, percent) {
         const calcChannelBrightness = channel =>
             ((0 | (1 << 8) + channel + (256 - channel) * percent / 100).toString(16)).substr(1);
@@ -15,9 +20,14 @@ block('labels-list').elem('label').content()(function() {
         url: '/?labels=' + name,
         attrs: {
             style: [
-                `background-color: ${calcBrightness(color, 80)}`,
+                `background-color: ${calcBrightness(color, brightness.active)}`,
                 `border-color: #${color}`
             ].join(';')
+        },
+        js: {
+            name,
+            usualColor: calcBrightness(color, brightness.active),
+            activeColor: calcBrightness(color, brightness.usual)
         },
         content: name
     };
