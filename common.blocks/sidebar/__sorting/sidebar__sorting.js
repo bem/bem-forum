@@ -25,7 +25,6 @@ modules.define(
             delete params.page;
 
             Location.change({ params: params });
-            window.location.reload();
         },
 
         _getParams: function(sort, direction) {
