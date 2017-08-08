@@ -56,26 +56,15 @@ function getIndex(req, res) {
         const issuesData = responses[0];
         const labelsData = responses[1];
 
-        const querystring = require('querystring');
-
-        const pageCount = issuesData.pagination.last ?
-            querystring.parse(issuesData.pagination.last).page :
-            parseInt(querystring.parse(issuesData.pagination.prev).page) + 1;
-
-        var exceptPagUrl = querystring.parse(issuesData.pagination.last || issuesData.pagination.prev);
-        delete exceptPagUrl.page;
-
-        exceptPagUrl = Object.keys(exceptPagUrl).reduce((resStr, key) => {
-            return (resStr += '&' + key + '=' + exceptPagUrl[key]);
-        }, '').substr(1);
+        const paginationData = getPaginationData(issuesData.pagination);
 
         render(req, res, {
             view: 'page-index',
             issues: issuesData.issues,
             pagination: issuesData.pagination,
             labels: labelsData,
-            pageCount,
-            exceptPagUrl
+            pageCount: paginationData.pageCount,
+            exceptPagUrl: paginationData.exceptPagUrl
         });
     }).catch(err => onError(req, res, err));
 }
@@ -84,14 +73,42 @@ function getIssues(req, res) {
     logger.log('getIssues');
 
     makeIssueRequest(issuesRequestUrl, { query: req.query, token: getToken(req.user) })
-        .then(issuesData => render(req, res, {
-            view: 'page-index',
-            issues: issuesData.issues,
-            pagination: issuesData.pagination
-        }, {
-            block: 'issues'
-        }))
+        .then(issuesData => {
+            const paginationData = getPaginationData(issuesData.pagination);
+
+            render(req, res,
+                {
+                    view: 'page-index',
+                    issues: issuesData.issues,
+                    pagination: issuesData.pagination,
+                    pageCount: paginationData.pageCount,
+                    exceptPagUrl: paginationData.exceptPagUrl
+                }, {
+                    block: 'issues'
+                }
+            );
+        })
         .catch(err => onError(req, res, err));
+}
+
+function getPaginationData(issuesPag) {
+    const querystring = require('querystring');
+
+    const pageCount = issuesPag.last ?
+        querystring.parse(issuesPag.last).page :
+        parseInt(querystring.parse(issuesPag.prev).page) + 1;
+
+    let exceptPagUrl = querystring.parse(issuesPag.last || issuesPag.prev);
+    delete exceptPagUrl.page;
+
+    exceptPagUrl = Object.keys(exceptPagUrl).reduce((resStr, key) => {
+        return (resStr += '&' + key + '=' + exceptPagUrl[key]);
+    }, '').substr(1);
+
+    return {
+        exceptPagUrl: exceptPagUrl,
+        pageCount: pageCount
+    };
 }
 
 function getComplexIssue(req, res) {
@@ -142,8 +159,8 @@ function getComments(req, res) {
             comments,
             issueId: req.params.id
         }, {
-            block: 'comments'
-        }))
+                block: 'comments'
+            }))
         .catch(err => onError(req, res, err));
 }
 
@@ -167,20 +184,20 @@ function _getData(req, res, dataType, urlPart) {
         makeCommentRequest(requestPath, { token })
     )
         .then(response => {
-        const data = dataType === 'issue' ? response.issues[0] : response;
+            const data = dataType === 'issue' ? response.issues[0] : response;
 
-        type === 'form' ?
-            render(req, res, {
-                view: 'page-post'
-            },
-            Object.assign({
-                block: 'send-form',
-                mix: { block: dataType, elem: 'send-form' },
-                formType: dataType,
-                reqType: 'edit'
-            }, dataType === 'issue' ? { issue: data } : { comment: data })) :
-            res.json(data);
-    }).catch(err => onError(req, res, err));
+            type === 'form' ?
+                render(req, res, {
+                    view: 'page-post'
+                },
+                    Object.assign({
+                        block: 'send-form',
+                        mix: { block: dataType, elem: 'send-form' },
+                        formType: dataType,
+                        reqType: 'edit'
+                    }, dataType === 'issue' ? { issue: data } : { comment: data })) :
+                res.json(data);
+        }).catch(err => onError(req, res, err));
 }
 
 function addComment(req, res) {

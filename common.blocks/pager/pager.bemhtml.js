@@ -1,6 +1,6 @@
 block('pager')
 .elem('item')
-.match(node => { return node.ctx.url !== true; })
+.match(node => node.ctx.url !== true)
 .replace()(node => {
     const type2caption = {
         first: '<<',

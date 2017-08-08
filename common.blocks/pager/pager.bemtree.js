@@ -1,6 +1,6 @@
 block('pager').content()(node => {
     const { data } = node;
-    const pagination = Object.assign({ current: true }, data.pagination);
+    const pagination = data.pagination;
     const result = [];
 
     const createItem = (type, index) => {
@@ -17,7 +17,7 @@ block('pager').content()(node => {
         result.push(createItem('number', i));
     }
 
-    // собираем последовательность из стрелок начала, цифер  и стрелок конца
+    // gather arrows and numbers correct way
     return [
         ['first', 'prev'].reduce((acc, type, index) => {
             pagination[type] && acc.push(createItem(type, index));

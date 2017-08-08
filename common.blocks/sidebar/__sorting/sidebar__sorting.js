@@ -30,7 +30,10 @@ modules.define(
         _getParams: function(sort, direction) {
             return Object.assign(
                 Location.getUri().queryParams,
-                { sort, direction }
+                {
+                    sort: sort,
+                    direction: direction
+                }
             );
         }
 
