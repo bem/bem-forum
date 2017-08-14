@@ -1,11 +1,19 @@
 .md-body {
     font-size: 16px;
 
+    @media screen and (max-width: 768px) {
+        font-size: 14px;
+    }
+
     p {
         margin-top: 0;
         margin-bottom: 14px;
 
         line-height: 32px;
+
+        @media screen and (max-width: 768px) {
+            line-height: 1.8;
+        }
     }
 
     img {
@@ -14,12 +22,20 @@
 
     li {
         line-height: 32px;
+
+        @media screen and (max-width: 768px) {
+            line-height: 1.8;
+        }
     }
 
     pre {
         background-color: #f7f7f7;
         padding: 10px;
         white-space: pre-wrap;
+
+        @media screen and (max-width: 768px) {
+            padding: 5px;
+        }
     }
 
     a {

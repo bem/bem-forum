@@ -1,15 +1,35 @@
 .page-index {
     display: flex;
 
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+    }
+
     &__sidebar {
+        box-sizing: border-box;
         padding: 20px;
-        width: 180px;
+        min-width: 180px;
         background-color: #f3f1ed;
         border-left: 1px solid rgba(0, 0, 0, .1);
+
+        @media screen and (max-width: 768px) {
+            padding: 15px 15px 10px;
+
+            order: 1;
+            width: 100%;
+
+            border: none;
+        }
     }
 
     &__content {
         flex-grow: 1;
+
         overflow: auto;
+
+        @media screen and (max-width: 768px) {
+            order: 2;
+            width: 100%;
+        }
     }
 }

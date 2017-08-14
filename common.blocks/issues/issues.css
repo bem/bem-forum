@@ -1,19 +1,25 @@
 .issues {
     &__pager {
         margin: auto;
-        padding: 20px 0;
+        padding: 20px 15px;
 
         max-width: 900px;
     }
 
     &__issue {
         padding-top: 50px;
+
+        @media screen and (max-width: 768px) {
+            padding-top: 10px;
+        }
     }
 
     &__message {
-        max-width: 900px;
         margin: auto;
-        padding-top: 30px;
+        padding: 30px 15px 0;
+
+        max-width: 900px;
+
         font-weight: bold;
         font-size: 24px;
     }

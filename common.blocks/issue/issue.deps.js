@@ -13,6 +13,7 @@
         'md-body',
         'button',
         'send-form',
+        'labels-list',
         'input',
         'editor',
         'editing'

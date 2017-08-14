@@ -4,16 +4,28 @@
 
     &__content {
         margin: 40px 0;
+
+        @media screen and (max-width: 768px) {
+            margin: 20px 0;
+        }
     }
 
     &__error-board {
         margin: 40px auto;
+        padding: 0 15px;
 
         max-width: 900px;
+
+        @media screen and (max-width: 768px) {
+            margin: 20px auto;
+        }
     }
 
     &__auth-suggest {
         margin: auto;
+
+        padding: 0 15px;
+
         max-width: 900px;
     }
 }
