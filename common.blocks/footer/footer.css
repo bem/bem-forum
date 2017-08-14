@@ -3,9 +3,20 @@
     text-align: right;
     border-top: 1px solid #e1e1e1;
 
+    @media screen and (max-width: 768px) {
+        padding: 20px 10px 10px;
+    }
+
     &__link {
         margin-left: 10px;
         font-size: 13px;
+
+        @media screen and (max-width: 768px) {
+            display: block;
+            margin-bottom: 10px;
+
+            text-align: center;
+        }
     }
 
     &__icon {

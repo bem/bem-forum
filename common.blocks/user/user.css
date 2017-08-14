@@ -7,11 +7,19 @@
         display: inline-block;
         margin-right: 16px;
         vertical-align: middle;
+
+        @media screen and (max-width: 768px) {
+            margin-right: 10px;
+        }
     }
 
     &__username {
         position: relative;
         top: 3px;
         font-size: 24px;
+
+        @media screen and (max-width: 768px) {
+            font-size: 18px;
+        }
     }
 }

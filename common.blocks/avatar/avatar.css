@@ -3,4 +3,9 @@
     height: 48px;
     border: 1px solid #ececec;
     border-radius: 50%;
+
+    @media screen and (max-width: 768px) {
+        width: 28px;
+        height: 28px;
+    }
 }

@@ -57,7 +57,12 @@ block('issue').content()((node, ctx) => {
                     mix: { block, elem: 'user' },
                     user: issue.user
                 },
-                issue.labels.length ? { block: 'labels-list', mods: { inline: true }, labels: issue.labels } : ''
+                issue.labels.length ? {
+                    block: 'labels-list',
+                    mods: { inline: true },
+                    mix: { block, elem: 'labels-list' },
+                    labels: issue.labels
+                } : ''
             ]
         },
         {

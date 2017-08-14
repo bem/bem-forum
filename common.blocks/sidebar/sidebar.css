@@ -1,6 +1,6 @@
 .sidebar {
     &__header {
-        margin-bottom: 16px;
+        margin-bottom: 8px;
         font-size: 14px;
         color: rgba(0, 0, 0, .5);
     }
@@ -8,5 +8,13 @@
     &__sorting,
     &__labels {
         margin-bottom: 36px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        @media screen and (max-width: 768px) {
+            margin-bottom: 12px;
+        }
     }
 }
