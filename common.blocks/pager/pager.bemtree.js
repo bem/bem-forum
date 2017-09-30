@@ -8,7 +8,7 @@ block('pager').content()(node => {
             elem: 'item',
             mix: { block, elem: 'item' },
             elemMods: { type: type },
-            url: pagination[type] || `${data.exceptPagUrl}&page=${index}`,
+            url: pagination[type] || `${data.exceptPaginationUrl}&page=${index}`,
             number: index
         };
     };

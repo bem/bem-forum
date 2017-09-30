@@ -64,7 +64,7 @@ function getIndex(req, res) {
             pagination: issuesData.pagination,
             labels: labelsData,
             pageCount: paginationData.pageCount,
-            exceptPagUrl: paginationData.exceptPagUrl
+            exceptPaginationUrl: paginationData.exceptPaginationUrl
         });
     }).catch(err => onError(req, res, err));
 }
@@ -82,7 +82,7 @@ function getIssues(req, res) {
                     issues: issuesData.issues,
                     pagination: issuesData.pagination,
                     pageCount: paginationData.pageCount,
-                    exceptPagUrl: paginationData.exceptPagUrl
+                    exceptPaginationUrl: paginationData.exceptPaginationUrl
                 }, {
                     block: 'issues'
                 }
@@ -92,21 +92,18 @@ function getIssues(req, res) {
 }
 
 function getPaginationData(issuesPag) {
-    const querystring = require('querystring');
-
-    const pageCount = issuesPag.last ?
+    const querystring = require('querystring'),
+        pageCount = issuesPag.last ?
         querystring.parse(issuesPag.last).page :
         parseInt(querystring.parse(issuesPag.prev).page) + 1;
 
-    let exceptPagUrl = querystring.parse(issuesPag.last || issuesPag.prev);
-    delete exceptPagUrl.page;
+    let exceptPaginationUrl = querystring.parse(issuesPag.last && issuesPag.last.substr(1) || issuesPag.prev.substr(1));
+    delete exceptPaginationUrl.page;
 
-    exceptPagUrl = Object.keys(exceptPagUrl).reduce((resStr, key) => {
-        return (resStr += '&' + key + '=' + exceptPagUrl[key]);
-    }, '').substr(1);
+    exceptPaginationUrl = '?' + querystring.stringify(exceptPaginationUrl);
 
     return {
-        exceptPagUrl: exceptPagUrl,
+        exceptPaginationUrl: exceptPaginationUrl,
         pageCount: pageCount
     };
 }
@@ -189,13 +186,14 @@ function _getData(req, res, dataType, urlPart) {
             type === 'form' ?
                 render(req, res, {
                     view: 'page-post'
-                },
-                    Object.assign({
-                        block: 'send-form',
-                        mix: { block: dataType, elem: 'send-form' },
-                        formType: dataType,
-                        reqType: 'edit'
-                    }, dataType === 'issue' ? { issue: data } : { comment: data })) :
+                }, {
+                    block: 'send-form',
+                    mix: { block: dataType, elem: 'send-form' },
+                    formType: dataType,
+                    reqType: 'edit',
+                    issue: data,
+                    comment: data
+                }) :
                 res.json(data);
         }).catch(err => onError(req, res, err));
 }
