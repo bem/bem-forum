@@ -30,6 +30,8 @@ router
     .post('/api/:id(\\d+)/comments', checkAuth, controllers.gh.addComment)
     .post('/api/create', checkAuth, controllers.gh.createIssue)
 
+    .post('/api/change-reaction/:id(\\d+)', checkAuth, controllers.gh.changeReactions)
+
     // Auth routes
     .get('/auth/github', passportGitHub.authenticate('github', { scope: ['public_repo'] }))
     .get('/auth/github/callback', passportGitHub.authenticate('github', { failureRedirect: '/error' }), function(req, res) {

@@ -256,6 +256,30 @@ function makeLabelsRequest(labelRequestUrl, opts) {
         .then(labels => labels.body);
 }
 
+function changeReactions(req, res) {
+    var urlPart = (req.body.blockType === 'comment' && 'comments/') || '';
+    const fullUrl = `${requestUrl}/issues/${urlPart}${req.params.id}/reactions`;
+
+    return got.post(fullUrl, {
+        body: {
+            content: req.body.direction
+          },
+        token: getToken(req.user)
+    }).then(response => {
+        if (response.statusCode === 200) return deleteReaction(req, res, response.body.id);
+
+        return response;
+    })
+    .then(response => res.json(response.statusCode))
+    .catch(error => onError(req, res, error));
+}
+
+function deleteReaction(req, res, reactionId) {
+    return got.delete(`${config.ghAPI}/reactions/${reactionId}`, {
+        token: getToken(req.user)
+    }).catch(error => onError(req, res, error));
+}
+
 module.exports = {
     getIndex,
     createIssuePage,
@@ -269,5 +293,6 @@ module.exports = {
     addComment,
     deleteComment,
     updateComment,
-    get404
+    get404,
+    changeReactions
 };

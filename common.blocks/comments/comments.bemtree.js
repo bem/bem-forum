@@ -36,7 +36,9 @@ block('comments')(
                     js: {
                         commentId: comment.id
                     },
-                    userProfileId: data.user ? data.user.id : null
+                    userProfileId: data.user ? data.user.id : null,
+                    reactions: comment.reactions,
+                    commentId: comment.id
                 }))
             },
             data.user ? {

@@ -15,6 +15,7 @@
         'send-form',
         'input',
         'editor',
-        'editing'
+        'editing',
+        'reaction'
     ]
 })

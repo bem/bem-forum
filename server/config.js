@@ -8,8 +8,11 @@ const config = {
     defaultLang: 'ru',
 
     ghAPI: 'https://api.github.com',
-    org: 'bem-site',
-    repo: 'bem-forum-content-en'
+    org: 'LISBON11',
+    repo: 'Lead'
+
+    // org: 'bem-site',
+    // repo: 'bem-forum-content-en'
 };
 
 let secretConfig;
