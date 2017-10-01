@@ -1,11 +1,12 @@
+const env = process.env;
 const config = {
     staticFolder: 'static',
     defaultPort: 3000,
     cacheTTL: 30000,
 
     sessionSecret: 'REPLACE_ME_WITH_RANDOM_STRING',
-    langs: ['ru', 'en'],
-    defaultLang: 'ru',
+    langs: env.BEM_FORUM_LANGS ? env.BEM_FORUM_LANGS.split(',') : ['ru', 'en'],
+    defaultLang: env.BEM_FORUM_DEFAULT_LANG || 'ru',
 
     ghAPI: 'https://api.github.com',
     org: 'bem-site',
