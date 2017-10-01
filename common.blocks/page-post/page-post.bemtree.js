@@ -10,7 +10,7 @@ block('page-post').content()(node => {
                     block: 'link',
                     mix: { block, elem: 'link' },
                     content: i18n(block, 'blog'),
-                    url: '/'
+                    url: data.pathPrefix + '/'
                 },
                 '&nbsp;/'
             ]

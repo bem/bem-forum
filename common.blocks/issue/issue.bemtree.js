@@ -48,7 +48,7 @@ block('issue').content()((node, ctx) => {
                     }, {
                         block: 'link',
                         mix: { block, elem: 'header-link' },
-                        url: '/' + issue.number + '/',
+                        url: data.pathPrefix + '/' + issue.number + '/',
                         content: issue.title
                     }]
                 },

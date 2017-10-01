@@ -17,7 +17,7 @@ block('labels-list').elem('label').content()(function() {
     return {
         block: 'link',
         mix: { block, elem: 'link' },
-        url: '/?labels=' + name,
+        url: this.data.pathPrefix + '/?labels=' + name,
         attrs: {
             style: [
                 `background-color: ${calcBrightness(color, brightness.active)}`,

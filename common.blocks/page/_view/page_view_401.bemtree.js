@@ -23,7 +23,7 @@ block('page').mod('view', '401').content()(node => {
                         mix: { block: block, elem: 'button' },
                         mods: { theme: 'islands', size: 'm', view: 'action', type: 'link' },
                         text: i18n(block, 'loginWithGh'),
-                        url: '/auth/github'
+                        url: node.data.pathPrefix + '/auth/github'
                     }
                 }
             ]

@@ -28,7 +28,7 @@ modules.define('api-request', [
      */
     request.raw = function(apiPath, ajaxSettings, context) {
         var settings = request._prepareSettings(ajaxSettings || {});
-        var url = request._basePath + apiPath;
+        var url = Store.getData().pathPrefix + request._basePath + apiPath;
 
         if (context) {
             settings.context = context;

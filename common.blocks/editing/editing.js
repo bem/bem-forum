@@ -1,6 +1,6 @@
 modules.define('editing', [
-    'i-bem-dom', 'api-request', 'send-form'
-], function(provide, bemDom, request, SendForm) {
+    'i-bem-dom', 'api-request', 'send-form', 'store'
+], function(provide, bemDom, request, SendForm, Store) {
 
     const Editing = bemDom.declBlock(this.name, {
         onSetMod: {
@@ -91,7 +91,7 @@ modules.define('editing', [
                 .then(function(response) { return JSON.parse(response); })
                 .then(function(res) {
                     isIssue ?
-                        window.location = '/' + res.number :
+                        window.location = Store.getData().pathPrefix + '/' + res.number :
                         this._emit('addComment', { commentId: res, html: data.rawBody });
 
                     this.sendForm.delMod('loading').clear();
