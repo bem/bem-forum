@@ -65,7 +65,7 @@ modules.define('editing', [
 
             request.patch(this.params.apiUrls[formType].edit + this.settings.id, {
                 body: data.body,
-                title: data.titleå
+                title: data.title
             })
                 .then(function() {
                     this.sendForm.delMod('loading');
