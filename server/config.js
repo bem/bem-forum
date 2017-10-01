@@ -21,4 +21,12 @@ try {
     console.error('No "secret-config.js" file found...');
 }
 
-module.exports = Object.assign({}, secretConfig, config);
+const resultConfig = Object.assign({}, secretConfig, config);
+
+resultConfig.github || (resultConfig.github = {});
+
+env.BEM_FORUM_TOKENS && (resultConfig.github.tokens = env.BEM_FORUM_TOKENS.split(','));
+env.BEM_FORUM_CLIENT_ID && (resultConfig.github.clientID = env.BEM_FORUM_CLIENT_ID);
+env.BEM_FORUM_CLIENT_SECRET && (resultConfig.github.clientSecret = env.BEM_FORUM_CLIENT_SECRET);
+
+module.exports = resultConfig;

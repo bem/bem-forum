@@ -32,7 +32,9 @@ You may get them on https://github.com/settings/applications/new
 For development use `http://localhost:3000/auth/github/callback` as callback URL.
 
 **Note**: `server/secret-config.js` is not under version control.
-You may prefer ENV variables `BEM_FORUM_CLIENT_ID` and `BEM_FORUM_CLIENT_SECRET` instead.
+You may prefer ENV variables `BEM_FORUM_TOKENS` (comma delimited), `BEM_FORUM_CLIENT_ID` and `BEM_FORUM_CLIENT_SECRET` instead.
+
+Also languages may be set by ENV variables `BEM_FORUM_DEFAULT_LANG` and `BEM_FORUM_LANGS` (comma delimited).
 
 Then just run `npm start` for production mode.
 
