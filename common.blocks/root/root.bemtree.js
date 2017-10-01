@@ -9,17 +9,17 @@ block('root').replace()(function() {
     return {
         block: 'page',
         title: data.title,
-        favicon: '/favicon.ico',
+        favicon: data.pathPrefix + '/favicon.ico',
         styles: [
             {
                 elem: 'css',
-                url: '/index.min.css'
+                url: data.pathPrefix + '/index.min.css'
             }
         ],
         scripts: [
             {
                 elem: 'js',
-                url: '/index.min.js'
+                url: data.pathPrefix + '/index.min.js'
             }
         ],
         head: [

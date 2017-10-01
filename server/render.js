@@ -31,9 +31,11 @@ function render(req, res, data, context) {
         context: context,
         // extend with data needed for all routes
         data: Object.assign({
+            pathPrefix: config.pathPrefix,
             user: user,
             url: req._parsedUrl,
             store: {
+                pathPrefix: config.pathPrefix,
                 csrf: req.csrfToken()
             }
         }, data)

@@ -61,7 +61,7 @@ block('comments')(
                     i18n(block, 'loginWarning'),
                     {
                         block: 'link',
-                        url: '/auth/github',
+                        url: data.pathPrefix + '/auth/github',
                         content: i18n(block, 'authorize')
                     }
                 ]

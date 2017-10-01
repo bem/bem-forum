@@ -3,6 +3,7 @@ const config = {
     staticFolder: 'static',
     defaultPort: 3000,
     cacheTTL: 30000,
+    pathPrefix: env.BEM_FORUM_PATH_PREFIX || '',
 
     sessionSecret: 'REPLACE_ME_WITH_RANDOM_STRING',
     langs: env.BEM_FORUM_LANGS ? env.BEM_FORUM_LANGS.split(',') : ['ru', 'en'],

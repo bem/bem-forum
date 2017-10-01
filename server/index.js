@@ -33,7 +33,7 @@ app
     .enable('trust proxy')
     .use(compression())
     .use(favicon(path.join(staticFolder, 'favicon.ico')))
-    .use(serveStatic(staticFolder))
+    .use(config.pathPrefix, serveStatic(staticFolder))
     .use(morgan('combined'))
     .use(cookieParser())
     .use(bodyParser.json())
@@ -46,7 +46,7 @@ app
 // NOTE: conflicts with livereload
 isDev || app.use(slashes());
 
-app.use(router);
+app.use(config.pathPrefix, router);
 
 isDev && require('./rebuild')(app);
 app.use(controllers.gh.get404);

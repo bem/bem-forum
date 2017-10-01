@@ -1,11 +1,11 @@
 block('header').content()(node => {
-    const { block, i18n } = node;
+    const { block, i18n, data } = node;
     const pathname = node.data.url.pathname;
 
     return [
         {
             block: 'logo',
-            url: pathname !== '/' && '/'
+            url: pathname !== data.pathPrefix && data.pathPrefix
         },
         node.data.user ? [
             {
@@ -18,7 +18,7 @@ block('header').content()(node => {
                 mix: { block: block, elem: 'button' },
                 mods: { theme: 'islands', size: 'm', type: 'link' },
                 text: i18n(block, 'exit'),
-                url: '/logout'
+                url: data.pathPrefix + '/logout'
             },
             {
                 block: 'button',
@@ -28,14 +28,14 @@ block('header').content()(node => {
                 ],
                 mods: { theme: 'islands', size: 'm', view: 'action', type: 'link' },
                 text: i18n(block, 'writePost'),
-                url: '/create'
+                url: data.pathPrefix + '/create'
             }
         ] : {
             block: 'button',
             mix: { block: block, elem: 'button' },
             mods: { theme: 'islands', size: 'm', view: 'action', type: 'link' },
             text: i18n(block, 'loginWithGh'),
-            url: '/auth/github'
+            url: data.pathPrefix + '/auth/github'
         }
     ];
 });
