@@ -1,10 +1,9 @@
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 const githubConfig = require('./config').github;
-const env = process.env;
 
-const clientID = env.BEM_FORUM_CLIENT_ID || githubConfig.clientID;
-const clientSecret = env.BEM_FORUM_CLIENT_SECRET || githubConfig.clientSecret;
+const clientID = githubConfig.clientID;
+const clientSecret = githubConfig.clientSecret;
 
 function verify(req, accessToken, refreshToken, profile, done) {
     profile = JSON.parse(profile._raw);

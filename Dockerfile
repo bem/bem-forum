@@ -32,7 +32,6 @@ COPY . /usr/src/app
 
 RUN YENV=production npm run make \
  && npm prune --production \
- && rm -rf .git \
- && rm -rf *.blocks
+ && rm -rf .git
 
 CMD node server
