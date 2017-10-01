@@ -101,7 +101,7 @@ modules.define('send-form', [
         },
 
         _onKeyDown: function(e) {
-            (e.ctrlKey || e.metaKey)  && e.keyCode === 13 && this._onSubmit();
+            (e.ctrlKey || e.metaKey) && e.keyCode === 13 && this._onSubmit();
         }
     }, {
         lazyInit: true,
