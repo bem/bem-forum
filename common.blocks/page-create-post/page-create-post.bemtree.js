@@ -7,7 +7,11 @@ block('page-create-post').content()(() => {
         content: {
             block: 'send-form',
             formType: 'issue',
-            reqType: 'post'
+            reqType: 'post',
+            js: {
+                formType: 'issue',
+                reqType: 'post'
+            }
         }
     };
 });

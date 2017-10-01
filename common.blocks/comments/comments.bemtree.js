@@ -51,7 +51,8 @@ block('comments')(
                     reqType: 'post',
                     js: {
                         user: node.data.user,
-                        issueId: node.ctx.js.issueId
+                        issueId: node.ctx.js.issueId,
+                        formType: 'comment'
                     }
                 }
             } : {

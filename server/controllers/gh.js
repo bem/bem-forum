@@ -162,7 +162,11 @@ function _getData(req, res, dataType, urlPart) {
                 block: 'send-form',
                 mix: { block: dataType, elem: 'send-form' },
                 formType: dataType,
-                reqType: 'edit'
+                reqType: 'edit',
+                js: {
+                    formType: dataType,
+                    reqType: 'edit'
+                }
             }, dataType === 'issue' ? { issue: data } : { comment: data })) :
             res.json(data);
     }).catch(err => onError(req, res, err));

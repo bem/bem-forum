@@ -81,8 +81,8 @@ modules.define('send-form', [
             return this._editor._elem('preview').domElem.html();
         },
 
-        _onSubmit: function(event) {
-            var formType = event.bemTarget.params.formType;
+        _onSubmit: function() {
+            var formType = this.params.formType;
             var gatheredData = this._gatherData();
             var emptyFields = [];
 
@@ -97,13 +97,19 @@ modules.define('send-form', [
                 return;
             }
 
-            this._emit('submit', Object.assign(gatheredData, { reqType: event.bemTarget.params.reqType }));
+            this._emit('submit', Object.assign(gatheredData, { reqType: this.params.reqType }));
+        },
+
+        _onKeyDown: function(e) {
+            (e.ctrlKey || e.metaKey)  && e.keyCode === 13 && this._onSubmit();
         }
     }, {
         lazyInit: true,
         onInit: function() {
             this._events('submit-btn')
                 .on('submit', this.prototype._onSubmit);
+
+            this._domEvents(bemDom.doc).on('keydown', this.prototype._onKeyDown);
         }
     });
 
