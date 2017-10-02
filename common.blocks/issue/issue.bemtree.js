@@ -69,13 +69,27 @@ block('issue').content()((node, ctx) => {
                     mix: { block, elem: 'content-body' }
                 },
                 {
-                    block: 'button',
-                    mods: {
-                        disabled: isPostPage
-                    },
-                    mix: { block: 'issue', elem: 'comments-button' },
-                    js: { number: issue.number },
-                    text: issue.comments ?  `${i18n('issue', 'comments')}: ${issue.comments}` : i18n('issue', 'leaveComment')
+                    block,
+                    elem: 'bottom-content',
+                    content: [
+                        {
+                            block: 'reaction',
+                            reactions: issue.reactions,
+                            js: {
+                                blockType: block,
+                                entityId: issue.number
+                            }
+                        },
+                        {
+                            block: 'button',
+                            mods: {
+                                disabled: isPostPage
+                            },
+                            mix: { block: 'issue', elem: 'comments-button' },
+                            js: { number: issue.number },
+                            text: issue.comments ?  `${i18n('issue', 'comments')}: ${issue.comments}` : i18n('issue', 'leaveComment')
+                        }
+                    ]
                 }
             ]
         },

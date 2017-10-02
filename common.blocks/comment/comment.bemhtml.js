@@ -3,6 +3,7 @@ block('comment')(
 
     content()(node => {
         const { block, ctx } = node;
+
         return [
             ctx.userProfileId === ctx.user.id && [
                 {
@@ -14,6 +15,15 @@ block('comment')(
                     block: 'button',
                     mix: { block, elem: 'remove-button' },
                     text: 'remove'
+                },
+                {
+                    block: 'reaction',
+                    mix: { block, elem: 'reaction' },
+                    reactions: ctx.reactions,
+                    js: {
+                        blockType: block,
+                        entityId: ctx.commentId
+                    }
                 }
             ],
             {

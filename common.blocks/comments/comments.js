@@ -20,7 +20,12 @@ modules.define('comments', [
                 html: data.html,
                 js: {
                     commentId: data.commentId
-                }
+                },
+                reactions: {
+                    '+1': 0,
+                    '-1': 0
+                },
+                commentId: data.commentId
             }));
         }
     }, {

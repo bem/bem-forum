@@ -17,4 +17,8 @@
     .comment__content pre {
         background-color: #e2e1de;
     }
+
+    &__reaction {
+        float: right;
+    }
 }
