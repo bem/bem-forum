@@ -10,8 +10,8 @@ const config = {
     defaultLang: env.BEM_FORUM_DEFAULT_LANG || 'ru',
 
     ghAPI: 'https://api.github.com',
-    org: 'bem-site',
-    repo: 'bem-forum-content-en'
+    org: env.BEM_FORUM_ORG || 'bem-site',
+    repo: env.BEM_FORUM_CONTENT_PATH || 'bem-forum-content-en'
 };
 
 let secretConfig;
