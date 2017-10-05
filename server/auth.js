@@ -1,6 +1,7 @@
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
-const githubConfig = require('./config').github;
+const config = require('./config');
+const githubConfig = config.github;
 
 const clientID = githubConfig.clientID;
 const clientSecret = githubConfig.clientSecret;
@@ -33,7 +34,7 @@ if (!clientID || !clientSecret) {
 passport.use(new GitHubStrategy({
     clientID,
     clientSecret,
-    callbackURL: '/auth/github/callback',
+    callbackURL: githubConfig.authCallbackSite + config.pathPrefix + '/login_callback',
     passReqToCallback: true
 }, verify));
 

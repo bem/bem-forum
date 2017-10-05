@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
+const config = require('./config');
 const render = require('./render').render;
 const controllers = require('./controllers');
 const passportGitHub = require('./auth');
 
 const isDev = process.env.NODE_ENV === 'development';
-const checkAuth = (req, res, next) => req.user ? next() : res.redirect('/error');
+const checkAuth = (req, res, next) => req.user ? next() : res.redirect(config.pathPrefix + '/error');
 const keepRetpath = (req, res, next) => {
     req.session.retpath = req.path;
     return next();
@@ -32,12 +33,15 @@ router
 
     // Auth routes
     .get('/auth/github', passportGitHub.authenticate('github', { scope: ['public_repo'] }))
-    .get('/auth/github/callback', passportGitHub.authenticate('github', { failureRedirect: '/error' }), function(req, res) {
-        res.redirect(req.session.retpath || '/');
-    })
+    .get('/login_callback',
+        passportGitHub.authenticate('github', { failureRedirect: config.pathPrefix + '/error' }),
+        function(req, res) {
+            res.redirect(req.session.retpath || config.pathPrefix + '/');
+        }
+    )
     .get('/logout', (req, res) => {
         req.logout();
-        res.redirect('/');
+        res.redirect(config.pathPrefix + '/');
     })
     .get('/error', (req, res) => {
         res.status(401);

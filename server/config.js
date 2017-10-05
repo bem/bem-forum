@@ -29,5 +29,6 @@ resultConfig.github || (resultConfig.github = {});
 env.BEM_FORUM_TOKENS && (resultConfig.github.tokens = env.BEM_FORUM_TOKENS.split(','));
 env.BEM_FORUM_CLIENT_ID && (resultConfig.github.clientID = env.BEM_FORUM_CLIENT_ID);
 env.BEM_FORUM_CLIENT_SECRET && (resultConfig.github.clientSecret = env.BEM_FORUM_CLIENT_SECRET);
+resultConfig.github.authCallbackSite = env.BEM_FORUM_AUTH_CALLBACK_SITE || '';
 
 module.exports = resultConfig;
