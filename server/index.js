@@ -31,6 +31,7 @@ require('debug-http')();
 app
     .disable('x-powered-by')
     .enable('trust proxy')
+    .set('trust proxy', true)
     .use(compression())
     .use(favicon(path.join(staticFolder, 'favicon.ico')))
     .use(config.pathPrefix, serveStatic(staticFolder))
