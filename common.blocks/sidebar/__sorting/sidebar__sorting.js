@@ -21,14 +21,19 @@ modules.define(
                 direction = 'asc';
             }
 
-            Location.change({ params: this._getParams(sortType, direction) });
+            var params =  this._getParams(sortType, direction);
+            delete params.page;
+
+            Location.change({ params: params });
         },
 
         _getParams: function(sort, direction) {
             return Object.assign(
                 Location.getUri().queryParams,
-                { sort, direction },
-                { pagination: undefined }
+                {
+                    sort: sort,
+                    direction: direction
+                }
             );
         }
 

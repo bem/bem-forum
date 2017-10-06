@@ -56,11 +56,15 @@ function getIndex(req, res) {
         const issuesData = responses[0];
         const labelsData = responses[1];
 
+        const paginationData = getPaginationData(issuesData.pagination);
+
         render(req, res, {
             view: 'page-index',
             issues: issuesData.issues,
             pagination: issuesData.pagination,
-            labels: labelsData
+            labels: labelsData,
+            pageCount: paginationData.pageCount,
+            exceptPaginationUrl: paginationData.exceptPaginationUrl
         });
     }).catch(err => onError(req, res, err));
 }
@@ -69,14 +73,39 @@ function getIssues(req, res) {
     logger.log('getIssues');
 
     makeIssueRequest(issuesRequestUrl, { query: req.query, token: getToken(req.user) })
-        .then(issuesData => render(req, res, {
-            view: 'page-index',
-            issues: issuesData.issues,
-            pagination: issuesData.pagination
-        }, {
-            block: 'issues'
-        }))
+        .then(issuesData => {
+            const paginationData = getPaginationData(issuesData.pagination);
+
+            render(req, res,
+                {
+                    view: 'page-index',
+                    issues: issuesData.issues,
+                    pagination: issuesData.pagination,
+                    pageCount: paginationData.pageCount,
+                    exceptPaginationUrl: paginationData.exceptPaginationUrl
+                }, {
+                    block: 'issues'
+                }
+            );
+        })
         .catch(err => onError(req, res, err));
+}
+
+function getPaginationData(issuesPag) {
+    const querystring = require('querystring'),
+        pageCount = issuesPag.last ?
+        querystring.parse(issuesPag.last).page :
+        parseInt(querystring.parse(issuesPag.prev).page) + 1;
+
+    let exceptPaginationUrl = querystring.parse(issuesPag.last && issuesPag.last.substr(1) || issuesPag.prev.substr(1));
+    delete exceptPaginationUrl.page;
+
+    exceptPaginationUrl = '?' + querystring.stringify(exceptPaginationUrl);
+
+    return {
+        exceptPaginationUrl: exceptPaginationUrl,
+        pageCount: pageCount
+    };
 }
 
 function getComplexIssue(req, res) {
@@ -127,8 +156,8 @@ function getComments(req, res) {
             comments,
             issueId: req.params.id
         }, {
-            block: 'comments'
-        }))
+                block: 'comments'
+            }))
         .catch(err => onError(req, res, err));
 }
 
@@ -152,24 +181,21 @@ function _getData(req, res, dataType, urlPart) {
         makeCommentRequest(requestPath, { token })
     )
         .then(response => {
-        const data = dataType === 'issue' ? response.issues[0] : response;
+            const data = dataType === 'issue' ? response.issues[0] : response;
 
-        type === 'form' ?
-            render(req, res, {
-                view: 'page-post'
-            },
-            Object.assign({
-                block: 'send-form',
-                mix: { block: dataType, elem: 'send-form' },
-                formType: dataType,
-                reqType: 'edit',
-                js: {
+            type === 'form' ?
+                render(req, res, {
+                    view: 'page-post'
+                }, {
+                    block: 'send-form',
+                    mix: { block: dataType, elem: 'send-form' },
                     formType: dataType,
-                    reqType: 'edit'
-                }
-            }, dataType === 'issue' ? { issue: data } : { comment: data })) :
-            res.json(data);
-    }).catch(err => onError(req, res, err));
+                    reqType: 'edit',
+                    issue: data,
+                    comment: data
+                }) :
+                res.json(data);
+        }).catch(err => onError(req, res, err));
 }
 
 function addComment(req, res) {

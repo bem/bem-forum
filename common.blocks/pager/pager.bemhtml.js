@@ -1,4 +1,7 @@
-block('pager').elem('item').match(function() { return this.ctx.url !== true; }).replace()(function() {
+block('pager')
+.elem('item')
+.match(node => node.ctx.url !== true)
+.replace()(node => {
     const type2caption = {
         first: '<<',
         prev: '<',
@@ -7,14 +10,14 @@ block('pager').elem('item').match(function() { return this.ctx.url !== true; }).
         last: '>>'
     };
 
-    const elemMods = this.elemMods;
+    const elemMods = node.elemMods;
     const type = elemMods.type;
 
     return {
         block: 'button',
         mods: { theme: 'islands', size: 'm', type: 'link', disabled: type === 'current' },
-        mix: { block: this.block, elem: this.elem, elemMods },
-        url: this.ctx.url,
-        text: type2caption[type]
+        mix: { block: node.block, elem: node.elem, elemMods },
+        url: node.ctx.url,
+        text: type2caption[type] || node.ctx.number
     };
 });
