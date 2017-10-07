@@ -15,21 +15,21 @@ const keepRetpath = (req, res, next) => {
 
 router
     .get('/ping/', (req, res) => res.send('ok'))
-    .get('/', keepRetpath, controllers.gh.getIndex)
+    .get('/', keepRetpath, controllers.forum.getIndex)
 
     // Issue routes
-    .get('/create', checkAuth, keepRetpath, controllers.gh.createIssuePage)
-    .get('/:id(\\d+)', keepRetpath, controllers.gh.getComplexIssue)
-    .get('/api/form/:id(\\d+)', keepRetpath, controllers.gh.getIssue)
-    .patch('/api/:id(\\d+)', checkAuth, controllers.gh.updateIssue)
-    .patch('/api/issues/comments/:id(\\d+)', checkAuth, controllers.gh.updateComment)
-    .delete('/api/issues/comments/:id(\\d+)', checkAuth, controllers.gh.deleteComment)
+    .get('/create', checkAuth, keepRetpath, controllers.forum.createIssuePage)
+    .get('/:id(-?\\d+)', keepRetpath, controllers.forum.getComplexIssue)
+    .get('/api/form/:id(-?\\d+)', keepRetpath, controllers.forum.getIssue)
+    .patch('/api/:id(\\d+)', checkAuth, controllers.forum.updateIssue)
+    .patch('/api/issues/comments/:id(\\d+)', checkAuth, controllers.forum.updateComment)
+    .delete('/api/issues/comments/:id(\\d+)', checkAuth, controllers.forum.deleteComment)
 
-    .get('/api/issues', keepRetpath, controllers.gh.getIssues)
-    .get('/api/:id(\\d+)/comments', controllers.gh.getComments)
-    .get('/api/issues/comments/:id(\\d+)', controllers.gh.getComment)
-    .post('/api/:id(\\d+)/comments', checkAuth, controllers.gh.addComment)
-    .post('/api/create', checkAuth, controllers.gh.createIssue)
+    .get('/api/issues', keepRetpath, controllers.forum.getIssues)
+    .get('/api/:id(-?\\d+)/comments', controllers.forum.getComments)
+    .get('/api/issues/comments/:id(-?\\d+)', controllers.forum.getComment)
+    .post('/api/:id(\\d+)/comments', checkAuth, controllers.forum.addComment)
+    .post('/api/create', checkAuth, controllers.forum.createIssue)
 
     // Auth routes
     .get('/auth/github', passportGitHub.authenticate('github', { scope: ['public_repo'] }))

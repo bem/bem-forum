@@ -50,7 +50,7 @@ isDev || app.use(slashes());
 app.use(config.pathPrefix, router);
 
 isDev && require('./rebuild')(app);
-app.use(controllers.gh.get404);
+app.use(controllers.forum.get404);
 
 /* eslint-disable no-unused-vars */
 app.use(function errorHandler(err, req, res, next) {
