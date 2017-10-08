@@ -30,6 +30,15 @@ module.exports = {
         'eol-last': 2,
         'func-call-spacing': 2,
         'guard-for-in': 2,
+        'valid-jsdoc': ['error', {
+            requireReturnDescription: false,
+            preferType: {
+                'Boolean': 'boolean',
+                'Number': 'number',
+                'Object': 'object',
+                'String': 'string'
+            }
+        }],
         'key-spacing': [2, {
             beforeColon: false,
             afterColon: true
@@ -82,9 +91,11 @@ module.exports = {
             nonwords: false
         }],
         'spaced-comment': [2, 'always', { block: { balanced: true } }],
+        'newline-before-return': 2,
+        'newline-after-var': 2,
         'wrap-iife': [2, 'any'],
         'no-nested-ternary': 'error',
         'no-unneeded-ternary': 'error',
-        // 'indent': ['error', 4, { 'SwitchCase': 1 }] TODO: make a decision about spaces in js
+        'indent': ['error', 4, { 'SwitchCase': 1 }]
     }
 };

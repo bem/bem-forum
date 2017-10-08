@@ -94,6 +94,7 @@ modules.define('send-form', [
 
             if (emptyFields.length) {
                 this.showErrorMessage(this.info[formType].errorMessage);
+
                 return;
             }
 

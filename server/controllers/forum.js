@@ -15,6 +15,7 @@ function onError(req, res, err) {
     if (err.statusCode === 404) return get404(req, res);
 
     res.status(500);
+
     return render(req, res, { view: '500' });
 }
 
@@ -75,18 +76,20 @@ function getComplexIssue(req, res) {
 
     logger.log('getComplexIssue', id);
 
-    return (id > 0 ? Promise.all([
-        gh.getIssue(id, token),
-        gh.getIssueComments(id, { token })
-    ]) : Promise.all([
-        archive.getIssue(id),
-        archive.getIssueComments(id)
-    ]))
+    return Promise.all(
+        id > 0 ?
+        [
+            gh.getIssue(id, token),
+            gh.getIssueComments(id, { token })
+        ] :
+        [
+            archive.getIssue(id),
+            archive.getIssueComments(id)
+        ]
+    )
         .then(responses => {
             const issue = responses[0].issues[0];
             const comments = responses[1];
-
-            console.log('comments ---> ', comments);
 
             render(req, res, {
                 view: 'page-post',

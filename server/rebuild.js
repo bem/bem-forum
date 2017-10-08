@@ -25,6 +25,7 @@ function rebuild(event, file) {
     // NOTE: use `[path.join('desktop.bundles', 'index')]` to build specific target
 
     console.time('Rebuild: ' + file);
+
     return make()
         .then(function() {
             console.timeEnd('Rebuild: ' + file);

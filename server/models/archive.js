@@ -28,32 +28,36 @@ const isEmpty = !archiveData.issues.length;
  * 2. Sort by type and direction
  * 3. Filter by page and limit per page
  *
- * @param {Object} options - options for pull issues
+ * @param {object} options - options for pull issues
  *
- * @returns {Array}
+ * @returns {Array.<object>}
  */
-const getIssues = isEmpty ? () => Promise.resolve([]) : function(options) {
-    let issues = archiveData.issues;
+const getIssues = isEmpty ?
+    () => Promise.resolve([]) :
+    options => {
+        let issues = archiveData.issues;
 
-    issues = filterIssuesByLabels(issues, options.labels);
-    issues = sortIssues(issues, options.sort, options.direction);
-    issues = filterByPage(issues, options.page, options['per_page']);
+        issues = filterIssuesByLabels(issues, options.labels);
+        issues = sortIssues(issues, options.sort, options.direction);
+        issues = filterByPage(issues, options.page, options['per_page']);
 
-    return Promise.resolve(issues);
-};
+        return Promise.resolve(issues);
+    };
 
 /**
  * Get a single archived issue
  *
  * @param {number} id - issue number
  *
- * @returns {Object}
+ * @returns {object}
  */
 const getIssue = isEmpty ?
     () => Promise.reject(createError(404, 'Not found')) :
     id => {
         const result = archiveData.issues.find(item => item.number === id);
+
         if (!result) return Promise.reject(createError(404, 'Not found'));
+
         return Promise.resolve({ issues: [result] });
     };
 
@@ -61,9 +65,9 @@ const getIssue = isEmpty ?
  * Get the list of archived comments
  * Filtered by creation date in descending order, new in the end
  *
- * @param {Object} id - comments issue id
+ * @param {object} id - comments issue id
  *
- * @returns {Array}
+ * @returns {Array.<object>}
  */
 const getIssueComments = isEmpty ?
     () => Promise.resolve([]) :
@@ -92,10 +96,10 @@ function readArchiveFile(filepath) {
 
 /**
  * Filter by labels
- * @param {Array} issues - list of issues
- * @param {Array<object|string>} labels - labels to filter with
+ * @param {Array.<object>} issues - list of issues
+ * @param {Array.<object>} labels - labels to filter with
  *
- * @returns {Array} - array of filtered issues
+ * @returns {Array.<object>} - array of filtered issues
  * @private
  */
 function filterIssuesByLabels(issues, labels) {
@@ -115,11 +119,11 @@ function filterIssuesByLabels(issues, labels) {
 /**
  * Sort by type and direction
  *
- * @param {Array} issues - issues list
- * @param {String} field - field to sort with ('updated'|'created'|'comments')
- * @param {String} direction - 'desc'|'asc'
+ * @param {Array.<object>} issues - issues list
+ * @param {string} field - field to sort with ('updated'|'created'|'comments')
+ * @param {string} direction - 'desc'|'asc'
  *
- * @returns {Array} - array of filtered issues
+ * @returns {Array.<object>} - array of filtered issues
  * @private
  */
 function sortIssues(issues, field, direction) {
@@ -140,9 +144,9 @@ function sortIssues(issues, field, direction) {
  * Get correct sort field
  * Fallback in case the option is not specified sort field
  *
- * @param {String} field - the test sort field
+ * @param {string} field - the test sort field
  *
- * @returns {String} - type of sort
+ * @returns {string} - type of sort
  * @private
  */
 function getSortField(field) {
@@ -152,7 +156,7 @@ function getSortField(field) {
 /**
  * Get a numeric sort order relative to the direction value
  *
- * @param {String} direction - 'desc'|'asc'
+ * @param {string} direction - 'desc'|'asc'
  *
  * @returns {number}
  * @private
@@ -165,9 +169,9 @@ function getSortOrder(direction) {
  * Get correct sort direction
  * Fallback in case the option is not specified sort direction
  *
- * @param {String} direction - the test sort field
+ * @param {string} direction - the test sort field
  *
- * @returns {String} - direction
+ * @returns {string} - direction
  * @private
  */
 function getSortDirection(direction) {
@@ -177,11 +181,11 @@ function getSortDirection(direction) {
 /**
  * Filter by page and limit per page
  *
- * @param {Array} issues - issues list
- * @param {Number} currentPage - cuurent page number
+ * @param {Array.<object>} issues - issues list
+ * @param {number} currentPage - cuurent page number
  * @param {number} perPage - number of issues per page
  *
- * @returns {Array} - array of filtered issues
+ * @returns {Array.<object>} - array of filtered issues
  * @private
  */
 function filterByPage(issues, currentPage, perPage) {

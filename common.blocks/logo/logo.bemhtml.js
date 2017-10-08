@@ -4,7 +4,9 @@ block('logo')(
     }),
     attrs()(function() {
         var attrs = applyNext() || {};
+
         attrs.href = this.ctx.url;
+
         return attrs;
     }),
     content()(function() {

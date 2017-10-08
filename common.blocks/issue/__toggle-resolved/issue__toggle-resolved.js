@@ -19,10 +19,12 @@ modules.define('issue__toggle-resolved', [
             }).then(function(result) {
                 this._emit('toggle-resolved-success');
                 buttonStatusIcon.toggleMod('bg', 'question-circle', 'check-circle');
+
                 return result;
             }.bind(this)).catch(function(error) {
                 console.error(error);
                 this._emit('toggle-resolved-fail');
+
                 return error;
             }.bind(this)).then(function() {
                 toggleButton.delMod('disabled');

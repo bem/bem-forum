@@ -10,6 +10,7 @@ const isDev = process.env.NODE_ENV === 'development';
 const checkAuth = (req, res, next) => req.user ? next() : res.redirect(config.pathPrefix + '/error');
 const keepRetpath = (req, res, next) => {
     req.session.retpath = req.path;
+
     return next();
 };
 

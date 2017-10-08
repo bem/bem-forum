@@ -1,8 +1,6 @@
-modules.define(
-    'labels-list',
-    ['i-bem-dom', 'location', 'link', 'labels-list__label'],
-    function(provide, bemDom, Location, Link, Label) {
-
+modules.define('labels-list', [
+    'i-bem-dom', 'location', 'link', 'labels-list__label'
+], function(provide, bemDom, Location, Link, Label) {
     var LabelsList = bemDom.declBlock(this.name, {
         onSetMod: {
             js: {

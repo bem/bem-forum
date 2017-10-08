@@ -7,10 +7,12 @@ modules.define('api-request', [
 
     /**
      * Make fetch request to the API
-     * @param {String} apiPath - API path whithout '/'
-     * @param {Object} ajaxSettings - fetch AjaxSettings
+     *
+     * @param {string} apiPath - API path whithout '/'
+     * @param {object} ajaxSettings - fetch AjaxSettings
      * @param {*} context - execution context
-     * @returns {Promise<string>} - response text
+     *
+     * @returns {Promise.<string>} - response text
      */
     function request(apiPath, ajaxSettings, context) {
         return request.raw(apiPath, ajaxSettings, context)
@@ -21,9 +23,11 @@ modules.define('api-request', [
 
     /**
      * Make raw fetch request to the API
-     * @param {String} apiPath - API path whithout '/'
-     * @param {Object} ajaxSettings - fetch AjaxSettings
+     *
+     * @param {string} apiPath - API path whithout '/'
+     * @param {object} ajaxSettings - fetch AjaxSettings
      * @param {*} context - execution context
+     *
      * @returns {Request}
      */
     request.raw = function(apiPath, ajaxSettings, context) {
@@ -47,9 +51,11 @@ modules.define('api-request', [
 
     /**
      * POST request sugar
-     * @param {String} apiPath - API path without '/'
-     * @param {Object} data - JSON-serializable object, for transfering to server
+     *
+     * @param {string} apiPath - API path without '/'
+     * @param {object} data - JSON-serializable object, for transfering to server
      * @param {*} [context] - execution context
+     *
      * @returns {Request}
      */
     request.post = function(apiPath, data, context) {
@@ -68,9 +74,11 @@ modules.define('api-request', [
 
     /**
      * PATCH request sugar
-     * @param {String} apiPath - API path without '/'
-     * @param {Object} data - JSON-serializable object, for transfering to server
+     *
+     * @param {string} apiPath - API path without '/'
+     * @param {object} data - JSON-serializable object, for transfering to server
      * @param {*} [context] - execution context
+     *
      * @returns {Request}
      */
     request.patch = function(apiPath, data, context) {
@@ -82,9 +90,11 @@ modules.define('api-request', [
 
     /**
      * POST request sugar
-     * @param {String} apiPath - API path without '/'
-     * @param {Object} data - JSON-serializable object, for transfering to server
+     *
+     * @param {string} apiPath - API path without '/'
+     * @param {object} data - JSON-serializable object, for transfering to server
      * @param {*} [context] - execution context
+     *
      * @returns {Request}
      */
     request.put = function(apiPath, data, context) {
@@ -96,9 +106,11 @@ modules.define('api-request', [
 
     /**
      * DELETE request sugar
-     * @param {String} apiPath - API path without '/'
-     * @param {Object} data - JSON-serializable object, for transfering to server
+     *
+     * @param {string} apiPath - API path without '/'
+     * @param {object} data - JSON-serializable object, for transfering to server
      * @param {*} [context] - execution context
+     *
      * @returns {Request}
      */
     request.delete = function(apiPath, data, context) {
@@ -111,8 +123,10 @@ modules.define('api-request', [
     /**
      * Request setting tweak:
      *  - if body is an object, it adds contentType and serializes an object.
-     * @param {Object} settings - fetch AjaxSettings
-     * @returns {Object}
+     *
+     * @param {object} settings - fetch AjaxSettings
+     *
+     * @returns {object}
      * @private
      */
     request._prepareSettings = function(settings = {}) {
@@ -144,14 +158,18 @@ modules.define('api-request', [
 
     /**
      * API prefix
+     *
      * @type {string}
+     *
      * @private
      */
     request._basePath = '/api/';
 
     /**
      * Check success of the response by code.
+     *
      * @param {Response} response - fetch response @see @link https://developer.mozilla.org/en-US/docs/Web/API/Response
+     *
      * @return {Response|Error}
      */
     function checkStatus(response) {

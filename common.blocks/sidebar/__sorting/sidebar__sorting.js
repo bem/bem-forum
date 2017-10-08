@@ -1,8 +1,6 @@
-modules.define(
-    'sidebar__sorting',
-    ['i-bem-dom', 'select', 'location'],
-    function(provide, bemDom, Select, Location) {
-
+modules.define('sidebar__sorting', [
+    'i-bem-dom', 'select', 'location'
+], function(provide, bemDom, Select, Location) {
     var Sorting = bemDom.declElem('sidebar', 'sorting', {
         onSetMod: {
             js: {

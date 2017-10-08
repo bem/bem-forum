@@ -74,6 +74,7 @@ function getIssueComments(issueId, opts) {
 
 function makeIssueRequest(issueId, opts) {
     const issueRequestUrl = issueId ? `${issuesRequestUrl}/${issueId}` : issuesRequestUrl;
+
     logger.log('API request to', issueRequestUrl);
 
     return got(issueRequestUrl, Object.assign(
@@ -86,6 +87,7 @@ function makeIssueRequest(issueId, opts) {
         // E.g. { next: 'url-query-page-value', last: 'some-url-query-page-value', first: 'some-url-query-page-value', prev: 'some-url-query-page-value' }
         const pagination = paginationString.split(', ').reduce((acc, str) => {
             const match = /<(.*?)>; rel="(.*?)"/.exec(str);
+
             if (match) {
                 acc[match[2]] = '?' + url.parse(match[1]).query;
             }
