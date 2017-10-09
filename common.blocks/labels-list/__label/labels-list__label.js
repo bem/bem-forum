@@ -1,8 +1,6 @@
-modules.define(
-    'labels-list__label',
-    ['i-bem-dom', 'location', 'link'],
-    function(provide, bemDom, Location, Link) {
-
+modules.define('labels-list__label', [
+    'i-bem-dom', 'location', 'link'
+], function(provide, bemDom, Location, Link) {
     var Label = bemDom.declElem('labels-list', 'label', {
         onSetMod: {
             active: function(modName, modVal) {

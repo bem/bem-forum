@@ -3,6 +3,7 @@ block('comment')(
 
     content()(node => {
         const { block, ctx } = node;
+
         return [
             ctx.userProfileId === ctx.user.id && [
                 {

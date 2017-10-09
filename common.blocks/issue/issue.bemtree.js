@@ -2,7 +2,8 @@ block('issue').content()((node, ctx) => {
     const { block, i18n, data } = node;
     const issue = ctx.issue;
     const user = data.user || {};
-    const isPostPage = data.url.pathname.match(/\/\d+/);
+    const isPostPage = data.isPostPage;
+    const isArchive = issue.labels.some(label => label.name === 'archive');
 
     return [
         {
@@ -10,7 +11,7 @@ block('issue').content()((node, ctx) => {
             content: [
                 // TODO: maybe better to avoid element for one
                 //       action and resolve it on actions level
-                issue.user.id === user.id && {
+                issue.user.id === user.id && !isArchive && {
                     elem: 'actions',
                     content: [
                         {

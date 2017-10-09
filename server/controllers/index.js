@@ -1,3 +1,3 @@
 module.exports = {
-    gh: require('./gh')
+    forum: require('./forum')
 };

@@ -9,6 +9,8 @@ const config = {
     langs: env.BEM_FORUM_LANGS ? env.BEM_FORUM_LANGS.split(',') : ['ru', 'en'],
     defaultLang: env.BEM_FORUM_DEFAULT_LANG || 'ru',
 
+    archives: env.BEM_FORUM_ARCHIVE ? env.BEM_FORUM_ARCHIVE.split(',') : [],
+
     ghAPI: 'https://api.github.com',
     org: env.BEM_FORUM_ORG || 'bem-site',
     repo: env.BEM_FORUM_CONTENT_PATH || 'bem-forum-content-en'

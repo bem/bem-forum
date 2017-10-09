@@ -24,13 +24,13 @@ modules.define('comments', [
             }));
         }
     }, {
-            lazyInit: true,
+        lazyInit: true,
 
-            onInit: function() {
-                this._events(editing)
-                    .on('addComment', this.prototype._onAddComment);
-            }
-        });
+        onInit: function() {
+            this._events(editing)
+                .on('addComment', this.prototype._onAddComment);
+        }
+    });
 
     provide(Comments);
 });

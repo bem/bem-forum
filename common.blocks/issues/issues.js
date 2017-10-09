@@ -1,9 +1,14 @@
-modules.define('issues', ['i-bem-dom', 'sidebar', 'api-request', 'location'], function(provide, bemDom, Sidebar, request, Location) {
+modules.define('issues', [
+    'i-bem-dom', 'sidebar', 'api-request', 'location'
+], function(provide, bemDom, Sidebar, request, Location) {
     provide(bemDom.declBlock(this.name, {
         onSetMod: {
             js: {
                 inited: function() {
                     Location.on('change', this._onSorting, this);
+                },
+                ''() {
+                    Location.un('change', this._onSorting, this);
                 }
             }
         },

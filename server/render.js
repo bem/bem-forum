@@ -48,6 +48,7 @@ function render(req, res, data, context) {
     } catch (err) {
         console.error('BEMTREE error', err.stack);
         console.trace('server stack');
+
         return res.sendStatus(500);
     }
 
@@ -57,6 +58,7 @@ function render(req, res, data, context) {
         var html = templates.BEMHTML.apply(bemjson);
     } catch (err) {
         console.error('BEMHTML error', err.stack);
+
         return res.sendStatus(500);
     }
 
@@ -80,6 +82,7 @@ function getTemplates() {
     return {
         BEMTREE: langs.reduce(function(acc, lang) {
             acc[lang] = evalFile(path.join(pathToBundle, bundleName + '.' + lang + '.bemtree.js')).BEMTREE;
+
             return acc;
         }, {}),
         BEMHTML: evalFile(path.join(pathToBundle, bundleName + '.bemhtml.js')).BEMHTML

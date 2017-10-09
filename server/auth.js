@@ -28,6 +28,7 @@ passport.deserializeUser((user, done) => {
 
 if (!clientID || !clientSecret) {
     console.error('Please provide clientID and clientSecret');
+
     return;
 }
 
