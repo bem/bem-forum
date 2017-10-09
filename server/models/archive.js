@@ -20,6 +20,15 @@ const archiveData = (config.archives || []).reduce((acc, fileName) => {
     return acc;
 }, { issues: [], comments: [] });
 
+archiveData.issues.forEach(issue => {
+    issue.isArchived = true;
+    if ((issue.labels || (issue.labels = [])).find(label => label.name === 'archive')) return;
+    issue.labels.push({
+        name: 'archive',
+        color: ''
+    });
+}, this);
+
 const isEmpty = !archiveData.issues.length;
 
 /**
