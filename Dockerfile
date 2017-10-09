@@ -1,25 +1,19 @@
-FROM node:6
+FROM mhart/alpine-node:6
 
 EXPOSE 80
 
-RUN apt-get update && apt-get install -y \
-    python-software-properties \
-    python \
-    g++ \
-    make \
-    git \
-    bzip2 \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
-
-RUN echo "Europe/Moscow" > /etc/timezone \
- && dpkg-reconfigure -f noninteractive tzdata
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache bash git
 
 ARG YENV=production
 ARG YANDEX_ENVIRONMENT=production
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
+
+ADD https://github.com/bem-site/bem-forum-content-ru/raw/master/archive.json ./archive_ru.json
+ADD https://github.com/bem-site/bem-forum-content-en/raw/master/archive.json ./archive_en.json
 
 # install dependencies
 COPY package.json /usr/src/app/
