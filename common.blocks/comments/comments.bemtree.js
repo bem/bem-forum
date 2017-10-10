@@ -13,7 +13,7 @@ block('comments')(
     }),
 
     content()(node => {
-        const { block, i18n, data } = node;
+        const { block, data } = node;
 
         return [
             {
@@ -39,11 +39,22 @@ block('comments')(
                     userProfileId: data.user ? data.user.id : null
                 }))
             },
-            data.user ? {
+            {
+                elem: 'editing'
+            }
+        ];
+    }),
+
+    elem('editing').replace()((node, ctx) => {
+        const { data, i18n, block } = node;
+
+        if (data.issue && data.issue.isArchived) return '';
+        if (data.user) {
+            return {
                 block: 'editing',
                 js: {
                     formType: 'comment',
-                    entityId: node.ctx.js.issueId
+                    entityId: ctx.js.issueId
                 },
                 content: {
                     block: 'send-form',
@@ -51,21 +62,23 @@ block('comments')(
                     reqType: 'post',
                     js: {
                         user: node.data.user,
-                        issueId: node.ctx.js.issueId,
+                        issueId: ctx.js.issueId,
                         formType: 'comment'
                     }
                 }
-            } : {
-                elem: 'auth-suggest',
-                content: [
-                    i18n(block, 'loginWarning'),
-                    {
-                        block: 'link',
-                        url: data.pathPrefix + '/auth/github',
-                        content: i18n(block, 'authorize')
-                    }
-                ]
-            }
-        ];
+            };
+        }
+
+        return {
+            elem: 'auth-suggest',
+            content: [
+                i18n(block, 'loginWarning'),
+                {
+                    block: 'link',
+                    url: data.pathPrefix + '/auth/github',
+                    content: i18n(block, 'authorize')
+                }
+            ]
+        };
     })
 );

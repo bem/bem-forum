@@ -3,7 +3,7 @@ block('issue').content()((node, ctx) => {
     const issue = ctx.issue;
     const user = data.user || {};
     const isPostPage = data.isPostPage;
-    const isArchive = issue.labels.some(label => label.name === 'archive');
+    const isArchived = issue.isArchived;
 
     return [
         {
@@ -11,7 +11,7 @@ block('issue').content()((node, ctx) => {
             content: [
                 // TODO: maybe better to avoid element for one
                 //       action and resolve it on actions level
-                issue.user.id === user.id && !isArchive && {
+                issue.user.id === user.id && !isArchived && {
                     elem: 'actions',
                     content: [
                         {
@@ -74,7 +74,7 @@ block('issue').content()((node, ctx) => {
                     content: issue.html,
                     mix: { block, elem: 'content-body' }
                 },
-                {
+                isArchived && !issue.comments ? '' : {
                     block: 'button',
                     mods: {
                         disabled: isPostPage
@@ -87,7 +87,7 @@ block('issue').content()((node, ctx) => {
         },
         {
             elem: 'footer',
-            content: !isPostPage ? '' : {
+            content: !isPostPage || (isArchived && !issue.comments) ? '' : {
                 block: 'comments',
                 issueId: issue.number
             }
