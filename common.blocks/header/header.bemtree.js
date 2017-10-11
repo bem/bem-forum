@@ -1,11 +1,10 @@
 block('header').content()(node => {
     const { block, i18n, data } = node;
-    const pathname = node.data.url.pathname;
 
     return [
         {
             block: 'logo',
-            url: pathname !== data.pathPrefix && data.pathPrefix
+            url: '/'
         },
         node.data.user ? [
             {
