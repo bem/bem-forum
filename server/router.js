@@ -9,7 +9,7 @@ const passportGitHub = require('./auth');
 const isDev = process.env.NODE_ENV === 'development';
 const checkAuth = (req, res, next) => req.user ? next() : res.redirect(config.pathPrefix + '/error');
 const keepRetpath = (req, res, next) => {
-    req.session.retpath = req.path;
+    req.session.retpath = config.pathPrefix + req.path;
 
     return next();
 };
