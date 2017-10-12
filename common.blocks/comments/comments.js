@@ -1,6 +1,6 @@
 modules.define('comments', [
-    'i-bem-dom', 'BEMHTML', 'editing'
-], function(provide, bemDom, BEMHTML, editing) {
+    'i-bem-dom', 'BEMHTML', 'editing', 'syntax-highlighter'
+], function(provide, bemDom, BEMHTML, editing, SyntaxHighlighter) {
     var Comments = bemDom.declBlock(this.name, {
         _onAddComment: function(event, data) {
             bemDom.append(this._elem('list').domElem, BEMHTML.apply({
@@ -17,7 +17,7 @@ modules.define('comments', [
                 ],
                 user: Object.assign({ html_url: 'https://github.com/' + this.params.user.login }, this.params.user),
                 created_from_now: 'Только что', // TODO: i18n
-                html: data.html,
+                html: SyntaxHighlighter.highlight(data.html),
                 js: {
                     commentId: data.commentId
                 }

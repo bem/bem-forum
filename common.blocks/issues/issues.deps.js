@@ -3,6 +3,7 @@
     shouldDeps: [
         'issue',
         'pager',
-        'editing'
+        'editing',
+        'syntax-highlighter'
     ]
 })

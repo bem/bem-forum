@@ -14,6 +14,7 @@ block('issue').content()((node, ctx) => {
                 issue.user.id === user.id && !isArchived && {
                     elem: 'actions',
                     content: [
+                        // TODO: move this logic to element
                         {
                             block: 'button',
                             text: 'edit',
@@ -39,19 +40,22 @@ block('issue').content()((node, ctx) => {
                 },
                 {
                     elem: 'title',
-                    content: [{
-                        block: 'icon',
-                        mods: { bg: 'check-circle' },
-                        mix: [
-                            { block, elem: 'icon-resolved' },
-                            { block, elem: 'title-icon' }
-                        ]
-                    }, {
-                        block: 'link',
-                        mix: { block, elem: 'header-link' },
-                        url: data.pathPrefix + '/' + issue.number + '/',
-                        content: issue.title
-                    }]
+                    content: [
+                        {
+                            block: 'icon',
+                            mods: { bg: 'check-circle' },
+                            mix: [
+                                { block, elem: 'icon-resolved' },
+                                { block, elem: 'title-icon' }
+                            ]
+                        },
+                        {
+                            block: 'link',
+                            mix: { block, elem: 'header-link' },
+                            url: data.pathPrefix + '/' + issue.number + '/',
+                            content: issue.title
+                        }
+                    ]
                 },
                 {
                     block: 'user',
@@ -81,7 +85,7 @@ block('issue').content()((node, ctx) => {
                     },
                     mix: { block: 'issue', elem: 'comments-button' },
                     js: { number: issue.number },
-                    text: issue.comments ?  `${i18n('issue', 'comments')}: ${issue.comments}` : i18n('issue', 'leaveComment')
+                    text: issue.comments ? `${i18n('issue', 'comments')}: ${issue.comments}` : i18n('issue', 'leaveComment')
                 }
             ]
         },

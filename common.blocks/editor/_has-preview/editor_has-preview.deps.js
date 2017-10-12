@@ -1,0 +1,3 @@
+({
+    shouldDeps: ['syntax-highlighter']
+});
