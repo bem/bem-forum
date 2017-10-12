@@ -29,7 +29,8 @@ block('comments')(
                                 formType: 'comment',
                                 entityId: comment.id
                             }
-                        }],
+                        }
+                    ],
                     user: comment.user,
                     created_from_now: comment.created_from_now,
                     html: comment.html,
@@ -40,7 +41,8 @@ block('comments')(
                 }))
             },
             {
-                elem: 'editing'
+                elem: 'editing',
+                issueId: node.ctx.js.issueId
             }
         ];
     }),
@@ -54,7 +56,7 @@ block('comments')(
                 block: 'editing',
                 js: {
                     formType: 'comment',
-                    entityId: ctx.js.issueId
+                    entityId: ctx.issueId
                 },
                 content: {
                     block: 'send-form',
@@ -62,7 +64,7 @@ block('comments')(
                     reqType: 'post',
                     js: {
                         user: node.data.user,
-                        issueId: ctx.js.issueId,
+                        issueId: ctx.issueId,
                         formType: 'comment'
                     }
                 }
