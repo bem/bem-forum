@@ -5,6 +5,7 @@
         'user',
         'button',
         'send-form',
-        'editing'
+        'editing',
+        'syntax-highlighter'
     ]
 });

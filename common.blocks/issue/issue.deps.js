@@ -16,6 +16,8 @@
         'labels-list',
         'input',
         'editor',
-        'editing'
+        'editing',
+        'syntax-highlighter',
+        { elem: ['toggle-resolved', 'actions'] }
     ]
 })

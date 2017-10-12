@@ -1,10 +1,14 @@
 modules.define('comment', [
-    'i-bem-dom', 'button', 'editing', 'api-request'
-], function(provide, bemDom, Button, Editing, request) {
+    'i-bem-dom', 'button', 'editing', 'api-request', 'syntax-highlighter'
+], function(provide, bemDom, Button, Editing, request, SyntaxHighlighter) {
     provide(bemDom.declBlock(this.name, {
         onSetMod: {
             js: {
                 inited: function() {
+                    this._elem('content').domElem.html(
+                        SyntaxHighlighter.highlight(this._elem('content').domElem.html())
+                    );
+
                     this._editButton = this._elem('edit-button') && this._elem('edit-button').findMixedBlock(Button);
                     this._removeButton = this._elem('remove-button') && this._elem('remove-button').findMixedBlock(Button);
 
@@ -27,8 +31,8 @@ modules.define('comment', [
                     this._removeButton.delMod('disabled');
                 }.bind(this));
         },
-        _onUpdateCommentCompleated: function(e, data) {
-            this._elem('content').domElem.html(data.rawBody);
+        _onUpdateCommentCompleted: function(e, data) {
+            this._elem('content').domElem.html(SyntaxHighlighter.highlight(data.rawBody));
         },
         _onGetForm: function(e, formHtml) {
             bemDom.append(this._elem('user').domElem, formHtml);
@@ -39,7 +43,7 @@ modules.define('comment', [
 
         onInit: function() {
             this._events(Editing)
-                .on('updateComment', this.prototype._onUpdateCommentCompleated)
+                .on('updateComment', this.prototype._onUpdateCommentCompleted)
                 .on('insertCommentForm', this.prototype._onGetForm);
         }
     }));

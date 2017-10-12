@@ -1,4 +1,4 @@
-[
+([
     {
         mustDeps: ['i-bem-dom'],
         shouldDeps: [
@@ -6,7 +6,8 @@
             'comment',
             'link',
             'send-form',
-            'editing'
+            'editing',
+            'syntax-highlighter'
         ]
     },
     {
@@ -16,4 +17,4 @@
             block: 'comment'
         }
     }
-];
+]);
