@@ -1,5 +1,5 @@
 module.exports = {
     'page-post': {
-        blog: 'Блог'
+        blog: 'Форум'
     }
 };
