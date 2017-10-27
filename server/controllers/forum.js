@@ -95,6 +95,7 @@ function getComplexIssue(req, res) {
                 view: 'page-post',
                 issue,
                 comments,
+                title: issue.title,
                 isPostPage: true
             });
         }).catch(err => onError(req, res, err));

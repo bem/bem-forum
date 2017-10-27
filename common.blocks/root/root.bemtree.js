@@ -1,14 +1,14 @@
-block('root').replace()(function() {
-    var ctx = this.ctx,
-        data = this.data = ctx.data,
-        meta = data.meta || {},
-        og = meta.og || {};
+block('root').replace()((node, ctx) => {
+    const { block, i18n } = node;
+    const data = node.data = ctx.data;
+    const meta = data.meta || {};
+    const og = meta.og || {};
 
     if (ctx.context) return ctx.context;
 
     return {
         block: 'page',
-        title: data.title,
+        title: data.title || i18n(block, 'title'), // БЭМ - Форум
         favicon: data.pathPrefix + '/favicon.ico',
         styles: [
             {
