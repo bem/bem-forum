@@ -1,5 +1,5 @@
 module.exports = {
     root: {
-        title: 'BEM - Форум'
+        title: 'BEM - Forum'
     }
 };
