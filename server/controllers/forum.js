@@ -30,7 +30,7 @@ function createIssuePage(req, res) {
 function createIssue(req, res) {
     logger.log('createIssue api');
 
-    return gh.createIssue(req.body, req.user)
+    return gh.createIssue(req.body, getToken(req.user))
         .then(postData => res.status(200).send(postData.body))
         .catch(err => onError(req, res, err));
 }
