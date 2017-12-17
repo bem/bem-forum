@@ -36,7 +36,7 @@ function updateComment(reqId, data, token) {
 }
 
 function updateIssue(reqId, data, token) {
-    got.patch(`${issuesRequestUrl}/${reqId}`, {
+    return got.patch(`${issuesRequestUrl}/${reqId}`, {
         body: data,
         token
     });

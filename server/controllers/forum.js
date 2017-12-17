@@ -145,7 +145,7 @@ function _getData(req, res, dataType) {
     const type = req.query.type;
 
     return (dataType === 'issue' ?
-        gh.getIssue(id, { token }) :
+        gh.getIssue(id, token) :
         gh.getComment(id, { token })
     )
         .then(response => {
