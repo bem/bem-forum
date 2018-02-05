@@ -1,0 +1,37 @@
+.header {
+    &__breadcrumbs {
+        display: inline-block;
+
+        font-size: 18px;
+
+        height: 70px;
+
+        color: #fff;
+    }
+
+    &__breadcrumb {
+        margin-right: 10px;
+
+        &::before {
+            margin-right: 11px;
+
+            content: '/';
+
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        &:first-child::before {
+            display: none;
+        }
+    }
+
+    &__breadcrumb-link {
+        transition: color .3s;
+
+        color: rgba(255, 255, 255, .8);
+
+        &:hover {
+            color: #fff;
+        }
+    }
+}

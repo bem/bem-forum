@@ -1,6 +1,6 @@
 .issue__actions {
     .icon {
-        opacity: 0.25;
+        opacity: .25;
 
         &:hover {
             opacity: 1;
@@ -8,6 +8,8 @@
     }
 
     &-controls {
+        float: right;
+
         display: flex;
         justify-content: space-between;
     }

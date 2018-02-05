@@ -2,9 +2,9 @@
     display: inline-block;
 
     width: 30px;
-    margin: 8px 0 0;
-}
+    height: 25px;
 
-.logo__logo {
-    transition: fill .3s;
+    &__logo {
+        transition: fill .3s;
+    }
 }

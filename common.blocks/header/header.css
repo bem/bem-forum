@@ -1,21 +1,36 @@
 .header {
-    min-height: 40px;
-    padding: 5px 15px;
+    min-height: 70px;
 
-    border-bottom: 1px solid #e1e1e1;
-    background-color: #fff;
+    background: #052433;
 
-    .avatar {
+    white-space: nowrap;
+
+    &__logo {
+        padding: 23px 20px 22px 30px;
+
+        fill: #17a1e6;
+
+        &:hover {
+            fill: #fff;
+        }
+    }
+
+    &__button-group {
         float: right;
-        margin-left: 10px;
+
+        margin: 21px 0;
+    }
+
+    &__button&__button {
+        margin: 0 7px;
+    }
+
+    &__avatar&__avatar {
+        float: right;
+
+        margin: 14px 10px;
 
         height: 40px;
         width: 40px;
     }
-}
-
-.header__button.header__button {
-    float: right;
-
-    margin: 7px 5px;
 }
