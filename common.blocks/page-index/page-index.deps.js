@@ -1,5 +1,6 @@
 ({
     shouldDeps: [
-        'sidebar'
+        'sidebar',
+        'issues'
     ]
 });
