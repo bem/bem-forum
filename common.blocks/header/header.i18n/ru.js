@@ -2,6 +2,7 @@ module.exports = {
     header: {
         writePost: 'Написать пост',
         exit: 'Выйти',
-        loginWithGh: 'Войти с помощью github'
+        loginWithGh: 'Войти с помощью github',
+        forum: 'Форум'
     }
 };

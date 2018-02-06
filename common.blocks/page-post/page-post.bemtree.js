@@ -1,20 +1,8 @@
 block('page-post').content()(node => {
-    const { block, data, i18n } = node;
+    const { block, data } = node;
     const issue = data.issue;
 
     return [
-        {
-            elem: 'header',
-            content: [
-                {
-                    block: 'link',
-                    mix: { block, elem: 'link' },
-                    content: i18n(block, 'blog'),
-                    url: data.pathPrefix + '/'
-                },
-                '&nbsp;/'
-            ]
-        },
         {
             block: 'issue',
             mix: [

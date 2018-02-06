@@ -14,8 +14,8 @@ block('header').content()(node => {
                     elem: 'breadcrumbs',
                     items: [
                         {
-                            text: 'pisya',
-                            url: '/'
+                            text: i18n(block, 'forum'),
+                            url: data.pathPrefix + '/'
                         },
                         data.issue && data.issue.title && {
                             text: data.issue.title

@@ -1,16 +1,7 @@
-.page-post__header {
-    margin: auto;
-    padding: 50px 15px;
-
-    max-width: 900px;
-
-    font-size: 48px;
-    line-height: 60px;
+.page-post {
+    padding-top: 50px;
 
     @media screen and (max-width: 768px) {
-        padding: 20px 15px;
-
-        font-size: 32px;
-        line-height: 1.5;
+        padding-top: 20px;
     }
 }
