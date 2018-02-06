@@ -32,4 +32,10 @@
             color: #fff;
         }
     }
+
+    @media screen and (max-width: 768px) {
+        &__breadcrumbs {
+            display: none;
+        }
+    }
 }
