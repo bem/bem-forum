@@ -1,12 +1,10 @@
 .header {
     &__breadcrumbs {
-        display: inline-block;
-
         font-size: 18px;
 
-        height: 70px;
-
         color: #fff;
+
+        margin-left: 20px;
     }
 
     &__breadcrumb {
@@ -17,7 +15,7 @@
 
             content: '/';
 
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, .8);
         }
 
         &:first-child::before {

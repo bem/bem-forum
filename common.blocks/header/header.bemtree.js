@@ -3,57 +3,59 @@ block('header').content()(node => {
 
     return [
         {
-            block: 'logo',
-            mix: { block: block, elem: 'logo' },
-            url: '/'
-        },
-        {
-            elem: 'breadcrumbs',
-            items: [
+            elem: 'left-column',
+            content: [
                 {
-                    text: 'pisya',
+                    block: 'logo',
+                    mix: { block: block, elem: 'logo' },
                     url: '/'
                 },
-                data.issue && data.issue.title && {
-                    text: data.issue.title
+                {
+                    elem: 'breadcrumbs',
+                    items: [
+                        {
+                            text: 'pisya',
+                            url: '/'
+                        },
+                        data.issue && data.issue.title && {
+                            text: data.issue.title
+                        }
+                    ]
                 }
             ]
         },
-        node.data.user ? [
-            {
-                block: 'avatar',
-                mix: { block: block, elem: 'avatar' },
-                url: node.data.user.avatar
-            },
-            {
-                block: block,
-                elem: 'button-group',
-                content: [
-                    {
-                        block: 'button',
-                        mix: [
-                            { block: block, elem: 'post' },
-                            { block: block, elem: 'button' }
-                        ],
-                        mods: { theme: 'islands', size: 'm', view: 'action', type: 'link' },
-                        text: i18n(block, 'writePost'),
-                        url: data.pathPrefix + '/create'
-                    },
-                    {
-                        block: 'button',
-                        mix: { block: block, elem: 'button' },
-                        mods: { theme: 'islands', size: 'm', type: 'link' },
-                        text: i18n(block, 'exit'),
-                        url: data.pathPrefix + '/logout'
-                    }
-                ]
+        {
+            elem: 'right-column',
+            content: node.data.user ? [
+                {
+                    block: 'button',
+                    mix: [
+                        { block: block, elem: 'post' },
+                        { block: block, elem: 'button' }
+                    ],
+                    mods: { theme: 'islands', size: 'm', view: 'action', type: 'link' },
+                    text: i18n(block, 'writePost'),
+                    url: data.pathPrefix + '/create'
+                },
+                {
+                    block: 'button',
+                    mix: { block: block, elem: 'button' },
+                    mods: { theme: 'islands', size: 'm', type: 'link' },
+                    text: i18n(block, 'exit'),
+                    url: data.pathPrefix + '/logout'
+                },
+                {
+                    block: 'avatar',
+                    mix: { block: block, elem: 'avatar' },
+                    url: node.data.user.avatar
+                }
+            ] : {
+                block: 'button',
+                mix: { block: block, elem: 'button' },
+                mods: { theme: 'islands', size: 'm', view: 'action', type: 'link' },
+                text: i18n(block, 'loginWithGh'),
+                url: data.pathPrefix + '/auth/github'
             }
-        ] : {
-            block: 'button',
-            mix: { block: block, elem: 'button' },
-            mods: { theme: 'islands', size: 'm', view: 'action', type: 'link' },
-            text: i18n(block, 'loginWithGh'),
-            url: data.pathPrefix + '/auth/github'
         }
     ];
 });

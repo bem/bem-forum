@@ -4,8 +4,8 @@ block('header')(
 
         if (!Array.isArray(items)) return;
 
-        return items.map((item, idx) => {
-            return item.url || idx < items.length - 1 ?
+        return items.filter(Boolean).map((item, idx) => {
+            return item.url && idx < items.length - 1 ?
             {
                 block: 'link',
                 mix: [

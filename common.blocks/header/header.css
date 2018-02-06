@@ -5,8 +5,20 @@
 
     white-space: nowrap;
 
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    &__right-column,
+    &__left-column {
+        display: flex;
+
+        align-items: center;
+    }
+
     &__logo {
-        padding: 23px 20px 22px 30px;
+        padding: 0 20px 0 30px;
 
         fill: #17a1e6;
 
@@ -15,22 +27,14 @@
         }
     }
 
-    &__button-group {
-        float: right;
-
-        margin: 21px 0;
-    }
-
     &__button&__button {
         margin: 0 7px;
     }
 
     &__avatar&__avatar {
-        float: right;
-
-        margin: 14px 10px;
-
         height: 40px;
         width: 40px;
+
+        margin: 0 15px 0 10px;
     }
 }
