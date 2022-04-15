@@ -1,4 +1,13 @@
 .issues {
+    flex-grow: 1;
+
+    overflow: auto;
+
+    @media screen and (max-width: 768px) {
+        order: 2;
+        width: 100%;
+    }
+
     &__pager {
         margin: auto;
         padding: 20px 15px;

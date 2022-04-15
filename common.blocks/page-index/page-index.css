@@ -1,8 +1,10 @@
 .page-index {
-    display: flex;
+    &__content {
+        display: flex;
 
-    @media screen and (max-width: 768px) {
-        flex-direction: column;
+        @media screen and (max-width: 768px) {
+            flex-direction: column;
+        }
     }
 
     &__sidebar {
@@ -19,17 +21,6 @@
             width: 100%;
 
             border: none;
-        }
-    }
-
-    &__content {
-        flex-grow: 1;
-
-        overflow: auto;
-
-        @media screen and (max-width: 768px) {
-            order: 2;
-            width: 100%;
         }
     }
 }
