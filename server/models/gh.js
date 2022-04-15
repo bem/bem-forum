@@ -98,7 +98,7 @@ function makeIssueRequest(issueId, opts) {
         return {
             pagination,
             issues: [].concat(data.body)
-                .filter(issue => !issue.pull_request)
+                .filter(issue => !issue.pull_request && !(issue.labels.length && issue.labels.some(l => l.name === 'removed')))
                 .map(issue => {
                     issue.created_from_now = moment(issue.created_at).fromNow();
                     issue.html = marked(issue.body || '');

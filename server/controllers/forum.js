@@ -91,6 +91,10 @@ function getComplexIssue(req, res) {
             const issue = responses[0].issues[0];
             const comments = responses[1];
 
+            if (!issue) {
+                return get404(req, res);
+            }
+
             render(req, res, {
                 view: 'page-post',
                 issue,
