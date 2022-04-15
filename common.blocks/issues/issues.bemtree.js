@@ -2,10 +2,12 @@ block('issues').content()(function() {
     const { data, block, i18n } = this;
     const pagination = data.pagination || {};
 
+    const issuesWithoutRemoved = data.issues.filter(i => !i.labels.length || !i.labels.some(l => l.name === 'removed'));
+
     return [
         {
             elem: 'content',
-            content: data.issues.length ? data.issues.map(issue => ({
+            content: issuesWithoutRemoved.length ? issuesWithoutRemoved.map(issue => ({
                 block: 'issue',
                 mix: [
                     { block, elem: 'issue' },
@@ -17,7 +19,7 @@ block('issues').content()(function() {
                         }
                     }
                 ],
-                mods: { state: issue.state, counts: this.data.issues.length === 1 },
+                mods: { state: issue.state, counts: issuesWithoutRemoved.length === 1 },
                 issue: issue,
                 userLogin: data.userLogin
             })) : {
