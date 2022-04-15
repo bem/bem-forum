@@ -88,7 +88,8 @@
   "scripts": {
     "start": "node server",
     "postinstall": "npm run make",
-    "docker-build": "docker build . -t bem-forum:$npm_package_gitHead",
+    "docker-build": "docker build . -t syngularity/bem-forum:latest",
+    "docker-push": "docker push syngularity/bem-forum:latest",
     "make": "enb make",
     "tmpl-specs": "enb make tmpl-specs",
     "dev": "npm run make && nodemon",
