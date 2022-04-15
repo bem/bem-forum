@@ -1,10 +1,10 @@
-FROM mhart/alpine-node:6
+FROM --platform=linux/amd64 node:12
 
 EXPOSE 80
 
-RUN apk update && \
-    apk upgrade && \
-    apk add --no-cache bash git
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y bash git
 
 ARG YENV=production
 ARG YANDEX_ENVIRONMENT=production
